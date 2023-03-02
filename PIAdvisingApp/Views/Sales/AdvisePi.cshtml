@@ -4,9 +4,9 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        .tbody,td,th {
-            padding : 2px !important;
-            font-size : 11px !important;
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
         }
     </style>
 }
@@ -38,12 +38,22 @@
                         </td>
                         <td style="min-width:120px"> Product Category: </td>
                         <td>
-                            <select  class="form-control td-form-control" name="category" id="is_customer">
-                                <option value="1">General Packaging</option>
-                                <option value="2">Poly</option>
-                                <option value="3">Thread</option>
-                                <option value="4">Button</option>
-                                <option value="5">Narrow Fabric Label</option>
+                            <select class="form-control td-form-control" name="category" id="is_customer">
+                                <option value="1">GENERAL PACKAGING</option>
+                                <option value="2">POLY</option>
+                                <option value="3">THREAD</option>
+                                <option value="4">BUTTON</option>
+                                <option value="5">HANGER</option>
+                                <option value="6">WOVEN LABEL</option>
+                                <option value="7">APPAREL OFFSET PRINTING</option>
+                                <option value="8">NON-APPAREL OFFSET PRINTING</option>
+                                <option value="9">PRINTED FABRIC LABEL</option>
+                                <option value="10">HEAT TRANSFER</option>
+                                <option value="11">NARROW FABRIC LABEL</option>
+                                <option value="12">TRIMS</option>
+                                <option value="13">SCREEN PRINTING</option>
+                                <option value="14">GUM TAPE</option>
+
                             </select>
                         </td>
                         <td> <button id="advise_btn" class="btn btn-sm btn-success">Advise PI</button></td>
@@ -149,11 +159,38 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    @*<script>
+                $(document).ready(function () {
+                    $('#datatable').DataTable();
+                    $('#advise_btn').on('click', function () {
+                        window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');
+                    });
+                });</script>
+        }*@
+    <script>
+    $(document).ready(function () {
+        $('#datatable').DataTable();
+        $('#advise_btn').on('click', function () {
+            var selectedRows = $('#datatable').DataTable().rows({ selected: true }).data().toArray();
+            var url = '@Url.Action("BondApprovedPi", "Sales")';
+            var win = window.open(url, '_blank');
+            win.selectedRows = selectedRows;
+        });
+    });</script>
+
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable();
-            $('#advise_btn').on('click', function () {
-                window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');
+            var selectedRows = window.opener.selectedRows;
+            var list = $('#selected_list');
+            selectedRows.forEach(function (row) {
+                var item = $('<li>').text(row[0]); // assuming the first column contains the row label
+                var input = $('<input>').attr('type', 'text').attr('name', 'remarks[]');
+                item.append(input);
+                list.append(item);
             });
-        });</script>
+        }); // <-- add closing brace for $(document).ready()
+    </script>
+
+    <ul id="selected_list"></ul>
+
 }
