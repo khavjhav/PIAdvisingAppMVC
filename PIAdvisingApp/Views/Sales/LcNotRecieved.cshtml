@@ -1,0 +1,191 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+    </style>
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                LC Not Recerived
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 mb-1 p-0">
+        <div class="main-card mb-6 card">
+            <div class="card-body">
+                <table id="datatable" class="mb-0 table table-bordered table-hover">
+                    <thead class="th-top">
+                        @*<tr class="th-top">
+                                <th class="text-center th-top" colspan="19">LC Not Received</th>
+                            </tr>*@
+                        <tr>
+                            <th>SL</th>
+                            <th class="text-center">Booking No</th>
+                            <th class="text-center">Booking Date</th>
+                            <th class="text-center">Representative Name</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Customer Ref</th>
+                            <th class="text-center">RNNo</th>
+                            <th class="text-center">Booking Qty</th>
+                            <th class="text-center">Booking Value</th>
+                            <th class="text-center">Cancel Qty</th>
+                            <th class="text-center">Cancel Value</th>
+                            <th class="text-center">Invoice Qty</th>
+                            <th class="text-center">Del Value</th>
+                            <th class="text-center">LCrcv Value</th>
+                            <th class="text-center">LC Balance</th>
+                            <th class="text-center">IS Pi Send</th>
+                            <th class="text-center">Retailer Name</th>
+                            <th class="text-center">Delivery (%)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int rowNo = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-left td-green"><b>@rowNo</b></td>
+                                <td class="text-left td-green">@item.BookingNo</td>
+                                <td class="text-left td-green">@item.BookingDate</td>
+                                <td class="text-left td-green">@item.RepresentativeName</td>
+                                <td class="text-left td-green">@item.CustomerName</td>
+                                <td class="text-left td-green">@item.CustomerRef</td>
+                                @*<td class="text-left td-green"></td>*@
+                                <td class="text-left td-green">@item.RNNo</td>
+                                <td class="text-left td-green">@item.BookingQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
+                                @*<td class="text-left td-green">@item.BookingValue</td>*@
+                                <td class="text-left td-green">@item.CancelQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.CancelValue, "td-green")
+                                <td class="text-left td-green">@item.InvoiceQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
+                                @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
+                                @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
+                                <td class="text-left td-green">@item.ISPISEND</td>
+                                <td class="text-left td-green">@item.RetailerName</td>
+                                @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
+                                <td class="td-yellow"></td>
+                            </tr>
+                            rowNo++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Modal {
+    <div class="modal fade salary-budget-forward-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Forward Salary</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div id="salary-budget-forward-modal-body" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+            $('.select2').select2();
+            $('#view-expense-head-btn').on('click', function () {
+                var id = $('#cost_center_id').val();
+                var url = 'SalaryEntry?costCenterId=' + id;
+                $(location).attr("href", url);
+            });
+            $('#new-entry-btn').on('click', function () {
+                var id = $('#cost_center_id').val();
+                var url = 'SalaryEntryDetails?costCenterId=' + id;
+                $(location).attr("href", url);
+            });
+            $('#see_more_btn').on('click', function () {
+                var seeMoreAnchor = $(this).find('a');
+                var hiddenRows = $('.hidden_rows').toArray();
+                if (seeMoreAnchor.text() === 'See More') {
+                    Swal.fire({
+                        title: "Warning!",
+                        text: "Are you sure? You want to add more expense head?",
+                        type: "warning",
+                        showCancelButton: true,
+                        //useRejections: true,
+                        confirmButtonText: "Add More",
+                        cancelButtonText: "Cancel"
+                    }).then(function (result) {
+                        if (result.value) {
+                            seeMoreAnchor.text('View Less');
+                            $.each(hiddenRows, function (index, hiddenRow) {
+                                if ($(hiddenRow).hasClass('d-none')) {
+                                    $(hiddenRow).removeClass('d-none');
+                                }
+                            });
+                        } else if (result.dismiss === 'cancel') {
+                            //$(location).attr("href", '/purchases');
+                        }
+                    });
+                } else {
+                    $.each(hiddenRows, function (index, hiddenRow) {
+                        $(hiddenRow).addClass('d-none');
+                    });
+                    seeMoreAnchor.text('See More');
+                }
+            });
+            $('.approve-or-revise-btn').click(function () {
+                var costCenterId = $(this).attr("data-costCenterId");
+                var budgetYear = $(this).attr("data-budgetYear");
+                var versionNo = $(this).attr("data-revisionNo");
+                var budgetStatusId = $(this).attr("data-budgetStatusId");
+                var comments = $(this).closest('tr').find('.comments').val();
+                if (comments == "") {
+                    Swal.fire(
+                        'Warning!',
+                        'Please enter a comment',
+                        'error'
+                    );
+                    return;
+                }
+                $.post("@Url.Action("SaveOpexExpenseApproval", "Opex")", { costCenterId, budgetYear, versionNo, comments, budgetStatusId }, function (data) {
+                    if (data) {
+                        Swal.fire(
+                            'Success!',
+                            'Successfully Saved',
+                            'success'
+                        );
+                        location.reload();
+                    } else {
+                        Swal.fire(
+                            'Success!',
+                            'Successfully Saved',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });</script>
+}

@@ -1,0 +1,65 @@
+﻿@helper FinancialNumberTd(decimal? value, string className = "", string prefix = "", string suffix = "")
+{
+    if (value == 0)
+    {
+        <td class="@className">-</td>
+    }
+    else if (value < 0)
+    {
+        <td class="text-right text-danger @className">(@( prefix + Math.Abs(Convert.ToDecimal(value)).ToString("#,##0.00") + suffix))</td>
+
+    }
+    else
+    {
+        <td class="text-right @className">@(prefix + value.Value.ToString("#,##0.00") + suffix)</td>
+
+    }
+}
+@helper FinancialNumberRoundedTd(decimal? value, string className = "", string prefix = "", string suffix = "")
+{
+    if (value == 0 || value == null)
+    {
+        <td class="@className">-</td>
+    }
+    else if (value < 0)
+    {
+        <td class="text-right text-danger @className">(@(prefix + Math.Abs(Convert.ToDecimal(value)).ToString("#,##0") + suffix))</td>
+
+    }
+    else
+    {
+        <td class="text-right @className">@(prefix + value.Value.ToString("#,##0") + suffix)</td>
+
+    }
+}
+@helper FinancialNumberTd(decimal? value, int? round, string className = "", string prefix = "", string suffix = "")
+{
+    if (value == 0 || value == null)
+    {
+        <td class="@className">-</td>
+    }
+    else if (value < 0)
+    {
+        if (round == 1)
+        {
+            <td class="text-right text-danger @className">(@(prefix + (Math.Abs(Math.Round(Convert.ToDecimal(value), 0)).ToString("#,##0")) + suffix))</td>
+        }
+        else
+        {
+            <td class="text-right text-danger @className">(@(prefix + (Math.Abs(Convert.ToDecimal(value)).ToString("#,##0.00")) + suffix))</td>
+        }
+
+    }
+    else
+    {
+        if (round == 1)
+        {
+            <td class="text-right @className">@(prefix + value.Value.ToString("#,##0") + suffix)</td>
+        }
+        else
+        {
+            <td class="text-right @className">@(prefix + value.Value.ToString("#,##0.00") + suffix)</td>
+        }
+
+    }
+}

@@ -1,0 +1,114 @@
+﻿.select2-container {
+    min-width: 300px;
+}
+
+.table tbody tr {
+    font-size: 12px !important;
+    color: #000202 !important;
+}
+
+    .table tbody tr td {
+        padding: 1px;
+        /*background-color: #E8F1C3;*/
+        /* border-bottom: 1px solid #111; */
+        border: 1px solid #17670c21;
+        /*border-right: 1px solid #BBD94C;
+        border-bottom: 1px solid #BBD94C;*/
+    }
+
+.headOfExpentiture {
+    text-decoration: none;
+}
+
+.card-body {
+    padding: 0.0rem;
+}
+
+.table thead th {
+    background-color: #459E00;
+    color: #ffffff;
+    vertical-align: middle !important;
+    /*border: 1px solid #BBD94C;*/
+    padding: 2px !important;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card-rounded {
+    border-radius: 15px !important; /*TL TR BR BL*/
+    overflow: hidden;
+}
+
+.main-card {
+    padding: 0rem;
+    border: 1px solid #BBD94C;
+}
+
+.table-caption {
+    background: #BBD94C;
+    color: #ffffff;
+    padding: 2px 10px 2px 10px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.table_total_row td {
+    background-color: #c6e9b470 !important;
+}
+.total_green td {
+    background-color: #d2ed6f !important;
+}
+
+total_td {
+    background-color: #d2ed6f !important;
+}
+
+div.vertical {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg); /* Safari/Chrome */
+    -moz-transform: rotate(-90deg); /* Firefox */
+    -o-transform: rotate(-90deg); /* Opera */
+    -ms-transform: rotate(-90deg); /* IE 9 */
+}
+
+th.vertical {
+    height: 100px;
+    line-height: 14px;
+    font-size: 10px !important;
+    text-align: left;
+}
+
+.td-red {
+    background-color: #dfc8bd;
+}
+
+.td-green {
+    background-color: #c6e9b470;
+}
+.td-yellow {
+    background-color: #f3f6d582;
+}
+.td-pink {
+    background-color: #f6e9f2;
+}
+
+.table-caption {
+    color: maroon;
+}
+.th-top {
+    border-radius: 15px 15px 0px 0px;
+}
+.text-yellow {
+    color: yellow
+}
+
+.tableFixHead {
+    overflow: auto;
+    height: 550px;
+}
+
+    .tableFixHead thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
