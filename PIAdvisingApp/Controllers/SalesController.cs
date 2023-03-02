@@ -34,5 +34,11 @@ namespace PIAdvisingApp.Controllers
             var advicePi = _salesService.AdvisePI();
             return View(advicePi);
         }
+        [HttpPost]
+        public ActionResult LoadPiAdvisingDataPartial(List<string> bookings)
+        {
+            ViewBag.AdviseNumber = "API-001234/50/23";
+            return PartialView("_PiAdvisingDataPartial", bookings);
+        }
     }
 }

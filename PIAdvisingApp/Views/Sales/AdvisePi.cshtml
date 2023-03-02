@@ -4,9 +4,13 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        .tbody,td,th {
-            padding : 2px !important;
-            font-size : 11px !important;
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+
+        .modal-backdrop {
+            z-index: 10 !important
         }
     </style>
 }
@@ -38,7 +42,7 @@
                         </td>
                         <td style="min-width:120px"> Product Category: </td>
                         <td>
-                            <select  class="form-control td-form-control" name="category" id="is_customer">
+                            <select class="form-control td-form-control" name="category" id="is_customer">
                                 <option value="1">General Packaging</option>
                                 <option value="2">Poly</option>
                                 <option value="3">Thread</option>
@@ -93,7 +97,7 @@
                             <tr>
                                 <td class="text-left td-green"><b>@rowNo</b></td>
                                 <td class="text-center td-green">
-                                    <input type="checkbox" class="selected" value="" />
+                                    <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                 </td>
                                 <td class="text-left td-green">@item.BookingNo</td>
                                 <td class="text-left td-green">@item.BookingDate</td>
@@ -126,19 +130,9 @@
 </div>
 
 @section Modal {
-    <div class="modal fade salary-budget-forward-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Forward Salary</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="salary-budget-forward-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+            <div class="modal-content pi-modal-content">
             </div>
         </div>
     </div>
@@ -153,7 +147,29 @@
         $(document).ready(function () {
             $('#datatable').DataTable();
             $('#advise_btn').on('click', function () {
-                window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');
+                @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
+                let bookings = []
+                $('input[type=checkbox]').each(function () {
+                    if ($(this).is(":checked")) {
+                        bookings.push($(this).attr('data-booking-no'));
+                    }
+                });
+                $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                    if (result) {
+                        console.log(result)
+                            //console.log(result);
+                            $('.pi-modal-content').empty();
+                            $('.pi-modal-content').html(result);
+                            $('.pi-advise-modal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+
             });
         });</script>
 }
