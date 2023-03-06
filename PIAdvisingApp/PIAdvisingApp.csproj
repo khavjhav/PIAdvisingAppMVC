@@ -170,9 +170,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Sales\LcNotRecieved.cshtml" />
+    <Content Include="Views\Sales\LcNotReceived.cshtml" />
     <Content Include="Views\Sales\AdvisePi.cshtml" />
     <Content Include="Views\Sales\BondApprovedPi.cshtml" />
+    <Content Include="Views\Sales\_PiAdvisingDataPartial.cshtml" />
+    <Content Include="Views\Sales\AdvisePiUpdate.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

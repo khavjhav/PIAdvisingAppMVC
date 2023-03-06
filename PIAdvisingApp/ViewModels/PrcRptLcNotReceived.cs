@@ -11,6 +11,7 @@ namespace PIAdvisingApp.ViewModels
         public DateTime BookingDate { get; set; }
         public string RepresentativeName { get; set; }
         public string CustomerName { get; set; }
+        public string CategoryName { get; set; }
         public string CustomerRef { get; set; }
         public string RNNo { get; set; }
         public decimal BookingQty { get; set; }

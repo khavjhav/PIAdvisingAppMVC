@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+
 @section Css {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -14,16 +15,75 @@
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                LC Not Recerived
+                LC Not Received
             </div>
         </div>
     </div>
 </div>
+
+@*<div class="container">
+    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+    {
+        <label for="fromDate">From Date:</label>
+        @Html.TextBox("fromDate", null, new { type = "date" })
+
+        <label for="toDate">To Date:</label>
+        @Html.TextBox("toDate", null, new { type = "date" })
+
+        <input type="submit" value="Submit" />
+    }
+</div>*@
+
+<div class="container">
+    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
+                    </div>
+
+                    <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBox("customerName", null, new { @class = "form-control" })
+                    </div>
+
+                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="representativeName" class="col-sm-2 col-form-label">Representative Name:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBox("representativeName", null, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
 <div class="row">
     <div class="col-12 mb-1 p-0">
         <div class="main-card mb-6 card">
             <div class="card-body">
-                <table id="datatable" class="mb-0 table table-bordered table-hover">
+                <table id="datatable" class="cell-border" style="width:100%">
                     <thead class="th-top">
                         @*<tr class="th-top">
                                 <th class="text-center th-top" colspan="19">LC Not Received</th>
@@ -34,17 +94,17 @@
                             <th class="text-center">Booking Date</th>
                             <th class="text-center">Representative Name</th>
                             <th class="text-center">Customer Name</th>
-                            <th class="text-center">Customer Ref</th>
-                            <th class="text-center">RNNo</th>
+                            @*<th class="text-center">Customer Ref</th>*@
+                            @*<th class="text-center">RNNo</th>*@
                             <th class="text-center">Booking Qty</th>
                             <th class="text-center">Booking Value</th>
-                            <th class="text-center">Cancel Qty</th>
-                            <th class="text-center">Cancel Value</th>
+                            @*<th class="text-center">Cancel Qty</th>
+                            <th class="text-center">Cancel Value</th>*@
                             <th class="text-center">Invoice Qty</th>
-                            <th class="text-center">Del Value</th>
+                            <th class="text-center">Invoice Value</th>
                             <th class="text-center">LCrcv Value</th>
                             <th class="text-center">LC Balance</th>
-                            <th class="text-center">IS Pi Send</th>
+                            <th class="text-center">PI Status</th>
                             <th class="text-center">Retailer Name</th>
                             <th class="text-center">Delivery (%)</th>
                             <th class="text-center">Actions</th>
@@ -55,26 +115,26 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-left td-green"><b>@rowNo</b></td>
-                                <td class="text-left td-green">@item.BookingNo</td>
-                                <td class="text-left td-green">@item.BookingDate</td>
-                                <td class="text-left td-green">@item.RepresentativeName</td>
-                                <td class="text-left td-green">@item.CustomerName</td>
-                                <td class="text-left td-green">@item.CustomerRef</td>
+                                <td class="text-center td-green"><b>@rowNo</b></td>
+                                <td class="text-center td-green">@item.BookingNo</td>
+                                <td class="text-center td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
+                                <td class="text-center td-green">@item.RepresentativeName</td>
+                                <td class="text-center td-green">@item.CustomerName</td>
+                                <!--<td class="text-left td-green">@item.CustomerRef</td>-->
                                 @*<td class="text-left td-green"></td>*@
-                                <td class="text-left td-green">@item.RNNo</td>
-                                <td class="text-left td-green">@item.BookingQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
+                                <!--<td class="text-left td-green">@item.RNNo</td>-->
+                                <td class="text-center td-green">@item.BookingQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "text-center td-green")
                                 @*<td class="text-left td-green">@item.BookingValue</td>*@
-                                <td class="text-left td-green">@item.CancelQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.CancelValue, "td-green")
-                                <td class="text-left td-green">@item.InvoiceQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
-                                @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
-                                <td class="text-left td-green">@item.ISPISEND</td>
-                                <td class="text-left td-green">@item.RetailerName</td>
-                                @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
+                                @*<td class="text-left td-green">@item.CancelQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.CancelValue, "td-green")*@
+                                <td class="text-center td-green">@item.InvoiceQty</td>
+                                @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "text-center td-green")
+                                @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "text-center td-green")
+                                @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "text-center td-green")
+                                <td class="text-center td-green">@item.ISPISEND</td>
+                                <td class="text-center td-green">@item.RetailerName</td>
+                                @MyHelpers.FinancialNumberTd(item.DlvPer, "text-center td-pink", "", "%")
                                 <td class="td-yellow"></td>
                             </tr>
                             rowNo++;
@@ -125,6 +185,27 @@
                 var url = 'SalaryEntryDetails?costCenterId=' + id;
                 $(location).attr("href", url);
             });
+            //changes for search
+            var table = $('#datatable').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[1, "desc"]]
+            });
+
+            // Add search functionality for Customer Name
+            $('#customerName').on('keyup', function () {
+                table.column(4).search(this.value).draw();
+            });
+
+            // Add search functionality for Representative Name
+            $('#representativeName').on('keyup', function () {
+                table.column(3).search(this.value).draw();
+            });
+
+              // Add search functionality for retailer Name
+            $('#retailerName').on('keyup', function () {
+                table.column(12).search(this.value).draw();
+            });
+
             $('#see_more_btn').on('click', function () {
                 var seeMoreAnchor = $(this).find('a');
                 var hiddenRows = $('.hidden_rows').toArray();

@@ -1,4 +1,6 @@
-﻿using PIAdvisingApp.Service;
+﻿using BudgetCubeApp.Models;
+using PIAdvisingApp.Service;
+using PIAdvisingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +19,72 @@ namespace PIAdvisingApp.Controllers
             _salesService = new SalesService();
         }
         // GET: Sales
-        public ActionResult LcNotRecieved()
+     
+        [HttpGet]
+        public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate)
         {
-            var lcNotReceived = _salesService.LcNotReceived();
+            if (!fromDate.HasValue)
+            {
+                fromDate = new DateTime(2022, 1, 1);
+            }
+
+            if (!toDate.HasValue)
+            {
+                toDate = new DateTime(2023, 12, 31);
+            }
+
+            var lcNotReceived = _salesService.LcNotReceived(fromDate.Value, toDate.Value);
             return View(lcNotReceived);
         }
 
+        //public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate, string customerName, string retailerName, string representativeName)
+        //{
+        //    var result = _salesService.LcNotReceived(fromDate,toDate);
+
+
+        //    if (fromDate == null || toDate == null)
+        //    {
+        //        fromDate = DateTime.Today.AddMonths(-1);
+        //        toDate = DateTime.Today;
+        //    }
+
+        //    var model = new List<PrcRptLcNotReceived>();
+
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var query = ctx.PrcRptLcNotReceived
+        //            .Where(x => x.BookingDate >= fromDate && x.BookingDate <= toDate);
+
+        //        if (!string.IsNullOrEmpty(customerName))
+        //        {
+        //            query = query.Where(x => x.CustomerName.Contains(customerName));
+        //        }
+
+        //        if (!string.IsNullOrEmpty(retailerName))
+        //        {
+        //            query = query.Where(x => x.RetailerName.Contains(retailerName));
+        //        }
+
+        //        if (!string.IsNullOrEmpty(representativeName))
+        //        {
+        //            query = query.Where(x => x.RepresentativeName.Contains(representativeName));
+        //        }
+
+        //        model = query.ToList();
+        //    }
+
+        //    return View(model);
+        //}
+
+
+
         public ActionResult AdvisePi()
+        {
+            var advicePi = _salesService.AdvisePI();
+            return View(advicePi);
+        }
+
+        public ActionResult AdvisePiUpdate()
         {
             var advicePi = _salesService.AdvisePI();
             return View(advicePi);
@@ -33,6 +94,12 @@ namespace PIAdvisingApp.Controllers
         {
             var advicePi = _salesService.AdvisePI();
             return View(advicePi);
+        }
+        [HttpPost]
+        public ActionResult LoadPiAdvisingDataPartial(List<string> bookings)
+        {
+            ViewBag.AdviseNumber = "API-001234/50/23";
+            return PartialView("_PiAdvisingDataPartial", bookings);
         }
     }
 }

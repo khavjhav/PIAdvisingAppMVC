@@ -8,6 +8,10 @@
             padding: 2px !important;
             font-size: 11px !important;
         }
+
+        .modal-backdrop {
+            z-index: 10 !important
+        }
     </style>
 }
 <div class="app-page-title">
@@ -36,24 +40,15 @@
                                 }
                             </select>
                         </td>
+
                         <td style="min-width:120px"> Product Category: </td>
                         <td>
                             <select class="form-control td-form-control" name="category" id="is_customer">
-                                <option value="1">GENERAL PACKAGING</option>
-                                <option value="2">POLY</option>
-                                <option value="3">THREAD</option>
-                                <option value="4">BUTTON</option>
-                                <option value="5">HANGER</option>
-                                <option value="6">WOVEN LABEL</option>
-                                <option value="7">APPAREL OFFSET PRINTING</option>
-                                <option value="8">NON-APPAREL OFFSET PRINTING</option>
-                                <option value="9">PRINTED FABRIC LABEL</option>
-                                <option value="10">HEAT TRANSFER</option>
-                                <option value="11">NARROW FABRIC LABEL</option>
-                                <option value="12">TRIMS</option>
-                                <option value="13">SCREEN PRINTING</option>
-                                <option value="14">GUM TAPE</option>
-
+                                <option value="1">General Packaging</option>
+                                <option value="2">Poly</option>
+                                <option value="3">Thread</option>
+                                <option value="4">Button</option>
+                                <option value="5">Narrow Fabric Label</option>
                             </select>
                         </td>
                         <td> <button id="advise_btn" class="btn btn-sm btn-success">Advise PI</button></td>
@@ -80,17 +75,13 @@
                             <th class="text-center">Booking Date</th>
                             <th class="text-center">Representative Name</th>
                             <th class="text-center">Customer Name</th>
-                            @*<th class="text-center">Customer Ref</th>*@
-                            @*<th class="text-center">RNNo</th>*@
                             <th class="text-center">Booking Qty</th>
                             <th class="text-center">Booking Value</th>
-                            <th class="text-center">Cancel Qty</th>
-                            <th class="text-center">Cancel Value</th>
                             <th class="text-center">Invoice Qty</th>
-                            <th class="text-center">Del Value</th>
+                            <th class="text-center">Invoice Value</th>
                             <th class="text-center">LC Rcv Value</th>
                             <th class="text-center">LC Balance</th>
-                            <th class="text-center">IS Pi Send</th>
+                            <th class="text-center">PI Status</th>
                             <th class="text-center">Retailer Name</th>
                             <th class="text-center">Delivery (%)</th>
                             <th class="text-center">Actions</th>
@@ -103,19 +94,14 @@
                             <tr>
                                 <td class="text-left td-green"><b>@rowNo</b></td>
                                 <td class="text-center td-green">
-                                    <input type="checkbox" class="selected" value="" />
+                                    <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                 </td>
                                 <td class="text-left td-green">@item.BookingNo</td>
-                                <td class="text-left td-green">@item.BookingDate</td>
+                                <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
                                 <td class="text-left td-green">@item.RepresentativeName</td>
                                 <td class="text-left td-green">@item.CustomerName</td>
-                                @*<td class="text-left td-green">@item.CustomerRef</td>
-                                    <td class="text-left td-green">@item.RNNo</td>*@
                                 <td class="text-left td-green">@item.BookingQty</td>
                                 @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                @*<td class="text-left td-green">@item.BookingValue</td>*@
-                                <td class="text-left td-green">@item.CancelQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.CancelValue, "td-green")
                                 <td class="text-left td-green">@item.InvoiceQty</td>
                                 @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
                                 @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
@@ -136,19 +122,9 @@
 </div>
 
 @section Modal {
-    <div class="modal fade salary-budget-forward-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Forward Salary</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="salary-budget-forward-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+            <div class="modal-content pi-modal-content">
             </div>
         </div>
     </div>
@@ -159,38 +135,33 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    @*<script>
-                $(document).ready(function () {
-                    $('#datatable').DataTable();
-                    $('#advise_btn').on('click', function () {
-                        window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');
-                    });
-                });</script>
-        }*@
-    <script>
-    $(document).ready(function () {
-        $('#datatable').DataTable();
-        $('#advise_btn').on('click', function () {
-            var selectedRows = $('#datatable').DataTable().rows({ selected: true }).data().toArray();
-            var url = '@Url.Action("BondApprovedPi", "Sales")';
-            var win = window.open(url, '_blank');
-            win.selectedRows = selectedRows;
-        });
-    });</script>
-
     <script>
         $(document).ready(function () {
-            var selectedRows = window.opener.selectedRows;
-            var list = $('#selected_list');
-            selectedRows.forEach(function (row) {
-                var item = $('<li>').text(row[0]); // assuming the first column contains the row label
-                var input = $('<input>').attr('type', 'text').attr('name', 'remarks[]');
-                item.append(input);
-                list.append(item);
+            $('#datatable').DataTable();
+            $('#advise_btn').on('click', function () {
+                @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
+                let bookings = []
+                $('input[type=checkbox]').each(function () {
+                    if ($(this).is(":checked")) {
+                        bookings.push($(this).attr('data-booking-no'));
+                    }
+                });
+                $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                    if (result) {
+                        console.log(result)
+                            //console.log(result);
+                            $('.pi-modal-content').empty();
+                            $('.pi-modal-content').html(result);
+                            $('.pi-advise-modal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+
             });
-        }); // <-- add closing brace for $(document).ready()
-    </script>
-
-    <ul id="selected_list"></ul>
-
+        });</script>
 }
