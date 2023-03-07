@@ -141,15 +141,53 @@
                 <table class="mb-0 table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Booking No</th>
-                            <th>Product</th>
-                            <th>Value</th>
-                            <th>Specification</th>
+                            <th>SL</th>
+                            <th>Select</th>
+                            <th class="text-center">Booking No</th>
+                            <th class="text-center">Booking Date</th>
+                            <th class="text-center">Representative Name</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Category Name</th>
+                            <th class="text-center">Booking Qty</th>
+                            <th class="text-center">Booking Value</th>
+                            <th class="text-center">Invoice Qty</th>
+                            <th class="text-center">Invoice Value</th>
+                            @*<th class="text-center">LC Rcv Value</th>*@
+                            <th class="text-center">LC Balance</th>
+                            @*<th class="text-center">PI Status</th>*@
+                            <th class="text-center">Retailer Name</th>
+                            <th class="text-center">Delivery (%)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-right">Total Value:</th>
+                            <th class="text-left"><b id="total-value"></b></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td><b id="total-value-footer"></b></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -219,5 +257,42 @@
             $('#categoryName').on('keyup', function () {
                 table.column(6).search(this.value).draw();
             });
+
+            // Listen for change event on checkboxes in Table A
+            $('#datatable').on('change', '.selected', function () {
+                var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+                if ($(this).is(':checked')) {
+                    // Add the row to Table B
+                    $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
+                } else {
+                    // Remove the row from Table B
+                    var bookingNo = $row.find('.selected').data('booking-no');
+                    $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
+                }
+            });
+            $('#datatable tbody').on('click', 'tr', function () {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                var bookingNo = $(this).find('td:eq(2)').text();
+                var product = $(this).find('td:eq(3)').text();
+                var value = $(this).find('td:eq(4)').text();
+                var specification = $(this).find('td:eq(5)').text();
+                if (checkbox.prop('checked')) {
+                    $('#added-bookings-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                } else {
+                    $('#added-bookings-table tbody tr').each(function () {
+                        if ($(this).find('td:eq(1)').text() == bookingNo) {
+                            $(this).remove();
+                        }
+                    });
+                }
+                // Update the summary of the Values column in Table B footer
+                var totalValue = 0;
+                $('#added-bookings-table tbody tr').each(function () {
+                    totalValue += parseFloat($(this).find('.value').text());
+                });
+                $('#added-bookings-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+            });
+            
+            
         });</script>
 }
