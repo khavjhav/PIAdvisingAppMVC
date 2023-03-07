@@ -1,4 +1,4 @@
-﻿using BudgetCubeApp.Models;
+﻿using PIAdvisingApp.Models;
 using PIAdvisingApp.Service;
 using PIAdvisingApp.ViewModels;
 using System;
@@ -19,7 +19,7 @@ namespace PIAdvisingApp.Controllers
             _salesService = new SalesService();
         }
         // GET: Sales
-     
+
         [HttpGet]
         public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate)
         {
@@ -101,5 +101,35 @@ namespace PIAdvisingApp.Controllers
             ViewBag.AdviseNumber = "API-001234/50/23";
             return PartialView("_PiAdvisingDataPartial", bookings);
         }
+
+        [HttpPost]
+        public JsonResult SaveApiData(List<ApiData> apiDataList)
+        {
+            // generate a unique API number
+            var apiNumber = "API-" + DateTime.Now.Ticks.ToString();
+
+            // save each row to the database
+            foreach (var apiData in apiDataList)
+            {
+                // create a new PiAdvisingBondMain object
+                var bondMain = new PiAdvisingBondMain()
+                {
+                    ApiNumber = apiNumber,
+                    BookingNo = apiData.BookingNo,
+                    InvoiceQty = apiData.InvoiceQty,
+                    Value = apiData.DelValue,
+                    BookingDate = apiData.BookingDate,
+                    Specification = apiData.Specification,
+                    Size = apiData.Size,
+                    BondName = apiData.BondName,
+                    Category = apiData.Category
+                };
+                _salesService.SavePiAdvisingBondMain(bondMain);
+            }
+
+            return Json(true); 
+        }
+
+
     }
 }

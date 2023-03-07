@@ -45,4 +45,32 @@ namespace PIAdvisingApp.ViewModels
         //    DECIMAL(38, 6)
 
     }
+
+    public class ApiData
+    {
+        public int Id { get; set; }
+        public string ApiNumber { get; set; }
+        public string BookingNo { get; set; }
+        public decimal InvoiceQty { get; set; }
+        public decimal DelValue { get; set; }
+        public DateTime BookingDate { get; set; }
+        public string Specification { get; set; }
+        public string Size { get; set; }
+        public string BondName { get; set; }
+        public string Category { get; set; }
+    }
+
+    public class PiAdvisingBondMainVM
+    {
+        public int Id { get; set; }
+        public string ApiNumber { get; set; }
+        public string BookingNo { get; set; }
+        public int InvoiceQty { get; set; }
+        public decimal Value { get; set; }
+        public DateTime BookingDate { get; set; }
+        public string Specification { get; set; }
+        public string Size { get; set; }
+        public string BondName { get; set; }
+        public string Category { get; set; }
+    }
 }

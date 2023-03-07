@@ -1,8 +1,9 @@
-﻿using BudgetCubeApp.Models;
+﻿using PIAdvisingApp.Models;
 using PIAdvisingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -65,7 +66,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-dec-2022','01-feb-2023',0,0,0,0,0,null,1,0")
+                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-dec-2022','01-Jan-2023',0,0,0,50,0,null,1,0")
                    .ToList();
 
                 return result;
@@ -77,8 +78,31 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-dec-2022','01-feb-2023',0,0,0,0,0,null,1,0")
+                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-dec-2022','01-jan-2023',0,0,0,50,0,null,1,0")
                    .ToList();
+
+                return result;
+            }
+        }
+
+        public List<PrcRptLcNotReceived> SavePiAdvisingBondMain(PiAdvisingBondMain piAdvisingBondMain)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = "INSERT INTO dbo.PiAdvisingBondMain VALUES (@BookingNo, @InvoiceQty, @InvoiceValue, @BookingDate, @Specification, @Size, @BondName, @Category, @ApiNumber)";
+                var result = ctx.Database
+                    .SqlQuery<PrcRptLcNotReceived>(query,
+                        new SqlParameter("BookingNo", piAdvisingBondMain.BookingNo),
+                        new SqlParameter("InvoiceQty", piAdvisingBondMain.InvoiceQty),
+                        new SqlParameter("InvoiceValue", piAdvisingBondMain.Value),
+                        new SqlParameter("BookingDate", piAdvisingBondMain.BookingDate),
+                        new SqlParameter("Specification", piAdvisingBondMain.Specification),
+                        new SqlParameter("Size", piAdvisingBondMain.Size),
+                        new SqlParameter("BondName", piAdvisingBondMain.BondName),
+                        new SqlParameter("Category", piAdvisingBondMain.Category),
+                        new SqlParameter("ApiNumber", piAdvisingBondMain.ApiNumber)
+                        )
+                    .ToList();
 
                 return result;
             }

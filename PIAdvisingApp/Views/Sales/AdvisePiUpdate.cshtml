@@ -40,16 +40,16 @@
                         <div class="row">
                             <div class="col-md-12">
                                 @*<div class="form-group row">
-                                    <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
-                                    </div>
+                                        <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
+                                        <div class="col-sm-4">
+                                            @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
+                                        </div>
 
-                                    <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
-                                    </div>
-                                </div>*@
+                                        <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
+                                        <div class="col-sm-4">
+                                            @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
+                                        </div>
+                                    </div>*@
 
                                 <div class="form-group row">
                                     <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
@@ -80,8 +80,8 @@
                     <table id="datatable" class="mb-0 table table-bordered table-hover">
                         <thead class="th-top">
                             @*<tr class="th-top">
-                    <th class="text-center th-top" colspan="19">LC Not Received</th>
-                </tr>*@
+                                    <th class="text-center th-top" colspan="19">LC Not Received</th>
+                                </tr>*@
                             <tr>
                                 <th>SL</th>
                                 <th>Select</th>
@@ -107,6 +107,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
+                                    <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
+                                    <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
                                     <td class="text-left td-green"><b>@rowNo</b></td>
                                     <td class="text-center td-green">
                                         <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
@@ -136,48 +139,34 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h2>Added Bookings</h2>
-            <form id="added-bookings-form" method="post">
-                <table class="mb-0 table table-bordered table-hover">
+            <h2 class="d-flex justify-content-between align-items-center">
+                <span>Added Bookings</span>
+                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
+            </h2>
+
+            @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
+                <table class="mb-0 table table-bordered table-hover" id="added-table">
                     <thead>
                         <tr>
                             <th>SL</th>
                             <th>Select</th>
                             <th class="text-center">Booking No</th>
-                            <th class="text-center">Booking Date</th>
-                            <th class="text-center">Representative Name</th>
-                            <th class="text-center">Customer Name</th>
-                            <th class="text-center">Category Name</th>
-                            <th class="text-center">Booking Qty</th>
-                            <th class="text-center">Booking Value</th>
+                            @*<th class="text-center">Booking Date</th>*@
+                            @*<th class="text-center">Representative Name</th>
+                            <th class="text-center">Customer Name</th>*@
+                            @*<th class="text-center">Category Name</th>*@
+                            @*<th class="text-center">Booking Qty</th>*@
+                            @*<th class="text-center">Booking Value</th>*@
                             <th class="text-center">Invoice Qty</th>
                             <th class="text-center">Invoice Value</th>
                             @*<th class="text-center">LC Rcv Value</th>*@
-                            <th class="text-center">LC Balance</th>
+                            @*<th class="text-center">LC Balance</th>*@
                             @*<th class="text-center">PI Status</th>*@
-                            <th class="text-center">Retailer Name</th>
+                            @*<th class="text-center">Retailer Name</th>
                             <th class="text-center">Delivery (%)</th>
-                            <th class="text-center">Actions</th>
+                            <th class="text-center">Actions</th>*@
                         </tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th class="text-right">Total Value:</th>
-                            <th class="text-left"><b id="total-value"></b></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
+
                     </thead>
                     <tbody>
                     </tbody>
@@ -189,8 +178,8 @@
                         </tr>
                     </tfoot>
                 </table>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+            @*</form>*@
         </div>
     </div>
 </div>
@@ -209,9 +198,33 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <script>
         $(document).ready(function () {
+            var apiDataList = [];
+            function updateTotalValue() {
+                var totalValue = 0.00;
+                $(apiDataList).each(function () {
+                    totalValue += Number(this.DelValue);
+                });
+                $('#total-value').html(totalValue.toFixed(2));
+                console.log('totalValue',totalValue);
+            }
             $('#datatable').DataTable();
+            $('#submit-btn').on('click', function () {
+                $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
+                    if (result) {
+                        console.log(result)
+                            console.log(result);
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+            });
             $('#advise_btn').on('click', function () {
                 @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
                 let bookings = []
@@ -222,7 +235,7 @@
                 });
                 $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
                     if (result) {
-                        console.log(result)
+                        //console.log(result)
                             //console.log(result);
                             $('.pi-modal-content').empty();
                             $('.pi-modal-content').html(result);
@@ -263,13 +276,22 @@
                 var $row = $(this).closest('tr');  // Get the parent row of the checkbox
                 if ($(this).is(':checked')) {
                     // Add the row to Table B
+                    apiDataList.push({
+                        'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
+                        'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
+                        'DelValue': $(this).closest('tr').find('.DelValue').val()
+                    });
+                    //console.log(apiDataList);
+                    updateTotalValue();
                     $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
                 } else {
                     // Remove the row from Table B
+                    let noJohn = apiDataList.filter(el => el.name !== "John"); 
                     var bookingNo = $row.find('.selected').data('booking-no');
                     $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
                 }
             });
+
             $('#datatable tbody').on('click', 'tr', function () {
                 var checkbox = $(this).find('input[type="checkbox"]');
                 var bookingNo = $(this).find('td:eq(2)').text();
@@ -277,9 +299,9 @@
                 var value = $(this).find('td:eq(4)').text();
                 var specification = $(this).find('td:eq(5)').text();
                 if (checkbox.prop('checked')) {
-                    $('#added-bookings-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
                 } else {
-                    $('#added-bookings-table tbody tr').each(function () {
+                    $('#added-table tbody tr').each(function () {
                         if ($(this).find('td:eq(1)').text() == bookingNo) {
                             $(this).remove();
                         }
@@ -287,12 +309,14 @@
                 }
                 // Update the summary of the Values column in Table B footer
                 var totalValue = 0;
-                $('#added-bookings-table tbody tr').each(function () {
+                $('#added-table tbody tr').each(function () {
                     totalValue += parseFloat($(this).find('.value').text());
                 });
-                $('#added-bookings-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
             });
-            
-            
+            updateTotalValue();
+            $('#added-bookings-table').on('change', '.booking-select', function () {
+                updateTotalValue();
+            });
         });</script>
 }
