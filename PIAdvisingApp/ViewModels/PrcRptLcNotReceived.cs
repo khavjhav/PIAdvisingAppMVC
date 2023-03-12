@@ -78,11 +78,7 @@ namespace PIAdvisingApp.ViewModels
         public string BookingNo { get; set; }
         public decimal InvoiceQty { get; set; }
         public decimal DelValue { get; set; }
-        public DateTime BookingDate { get; set; }
-        public string Specification { get; set; }
-        public string Size { get; set; }
-        public string BondName { get; set; }
-        public string Category { get; set; }
+
     }
 
     public class PiAdvisingBondMainVM

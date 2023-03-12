@@ -97,27 +97,23 @@ namespace PIAdvisingApp.Service
             }
         }
 
-        public List<PrcRptLcNotReceived> SavePiAdvisingBondMain(PiAdvisingBondMain piAdvisingBondMain)
+        public int SavePiAdvisingBondMain(ApiData apiData)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = "INSERT INTO dbo.PiAdvisingBondMain VALUES (@BookingNo, @InvoiceQty, @InvoiceValue, @BookingDate, @Specification, @Size, @BondName, @Category, @ApiNumber)";
+                var query = "INSERT INTO dbo.PiAdvisingBondMain VALUES (@BookingNo, @InvoiceQty, @InvoiceValue, @ApiNumber, @ApiDate)";
                 var result = ctx.Database
-                    .SqlQuery<PrcRptLcNotReceived>(query,
-                        new SqlParameter("BookingNo", piAdvisingBondMain.BookingNo),
-                        new SqlParameter("InvoiceQty", piAdvisingBondMain.InvoiceQty),
-                        new SqlParameter("InvoiceValue", piAdvisingBondMain.Value),
-                        new SqlParameter("BookingDate", piAdvisingBondMain.BookingDate),
-                        new SqlParameter("Specification", piAdvisingBondMain.Specification),
-                        new SqlParameter("Size", piAdvisingBondMain.Size),
-                        new SqlParameter("BondName", piAdvisingBondMain.BondName),
-                        new SqlParameter("Category", piAdvisingBondMain.Category),
-                        new SqlParameter("ApiNumber", piAdvisingBondMain.ApiNumber)
-                        )
-                    .ToList();
+                    .ExecuteSqlCommand(query,
+                        new SqlParameter("BookingNo", apiData.BookingNo),
+                        new SqlParameter("InvoiceQty", apiData.InvoiceQty),
+                        new SqlParameter("InvoiceValue", apiData.DelValue),
+                        new SqlParameter("ApiNumber", apiData.ApiNumber),
+                        new SqlParameter("ApiDate", DateTime.Now)
+                        );
 
                 return result;
             }
+           
         }
     }
 }

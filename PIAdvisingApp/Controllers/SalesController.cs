@@ -137,24 +137,13 @@ namespace PIAdvisingApp.Controllers
         {
             // generate a unique API number
             var apiNumber = "API-" + DateTime.Now.Ticks.ToString();
-
+            int rowAffected = 0;
             // save each row to the database
             foreach (var apiData in apiDataList)
             {
                 // create a new PiAdvisingBondMain object
-                var bondMain = new PiAdvisingBondMain()
-                {
-                    ApiNumber = apiNumber,
-                    BookingNo = apiData.BookingNo,
-                    InvoiceQty = apiData.InvoiceQty,
-                    Value = apiData.DelValue,
-                    BookingDate = apiData.BookingDate,
-                    Specification = apiData.Specification,
-                    Size = apiData.Size,
-                    BondName = apiData.BondName,
-                    Category = apiData.Category
-                };
-                _salesService.SavePiAdvisingBondMain(bondMain);
+                apiData.ApiNumber = apiNumber;
+                rowAffected += _salesService.SavePiAdvisingBondMain(apiData);
             }
 
             return Json(true); 
