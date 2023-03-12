@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure;
+using System.Collections.Generic;
 
 namespace PIAdvisingApp.Models
 {
@@ -12,6 +13,8 @@ namespace PIAdvisingApp.Models
 
     public class ApplicationDbContext : DbContext
     {
+        internal readonly IEnumerable<object> PrcRptLcNotReceived;
+
         public ApplicationDbContext()
             : base("PiAdvisingDbContext")
         {

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace PIAdvisingApp.Service
 {
@@ -73,13 +74,24 @@ namespace PIAdvisingApp.Service
             }
         }
 
-        public List<PrcRptLcNotReceived> BondApprovedPi()
+        public List<PrcRptLcNotReceived> BondApprovedPi(DateTime? fromDate, DateTime? toDate, int productCatId = 0, int locationId = 0, int customerId = 0, int repId = 0, int teamId = 0, string contractName = "", int userID = 1, int retailerId = 0)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-dec-2022','01-jan-2023',0,0,0,50,0,null,1,0")
-                   .ToList();
+                      .SqlQuery<PrcRptLcNotReceived>("EXEC PrcRptLCNotRecevd @fromDate, @toDate, @productCatId, @locationId, @customerId, @repId, @teamId, @contractName, @userID, @retailerId ",
+                          new SqlParameter("fromDate", fromDate),
+                          new SqlParameter("toDate", toDate),
+                          new SqlParameter("productCatId", productCatId),
+                          new SqlParameter("locationId", locationId),
+                          new SqlParameter("customerId", customerId),
+                          new SqlParameter("repId", repId),
+                          new SqlParameter("teamId", teamId),
+                          new SqlParameter("contractName", contractName),
+                          new SqlParameter("userID", userID),
+                          new SqlParameter("retailerId", retailerId)
+                          )
+                      .ToList();
 
                 return result;
             }

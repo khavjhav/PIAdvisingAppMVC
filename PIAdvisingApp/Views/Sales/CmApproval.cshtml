@@ -35,35 +35,13 @@
             <div class="main-card mb-6 card">
                 <div class="card-body">
 
-                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
-                    {
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" id="customerName" class="form-control" />
-                                    </div>
-                                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Submit" class="btn btn-primary" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                <div class="table-responsive">
+                  
+
                     <table id="datatable" class="mb-0 table table-bordered table-hover">
                         <thead class="th-top">
+                            @*<tr class="th-top">
+                                    <th class="text-center th-top" colspan="19">LC Not Received</th>
+                                </tr>*@
                             <tr>
                                 <th>SL</th>
                                 <th>Select</th>
@@ -85,39 +63,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{ int rowNo = 1;}
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
-                                    <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
-                                    <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
-                                    <td class="text-left td-green"><b>@rowNo</b></td>
-                                    <td class="text-center td-green">
-                                        <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
-                                    </td>
-                                    <td class="text-left td-green">@item.BookingNo</td>
-                                    <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                    <td class="text-left td-green">@item.RepresentativeName</td>
-                                    <td class="text-left td-green">@item.CustomerName</td>
-                                    <td class="text-left td-green">@item.CategoryName</td>
-                                    <td class="text-left t  d-green">@item.BookingQty</td>
-                                    @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                    <td class="text-left td-green">@item.InvoiceQty</td>
-                                    @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                    @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")*@
-                                    @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
-                                    @*<td class="text-left td-green">@item.ISPISEND</td>*@
-                                    <td class="text-left td-green">@item.RetailerName</td>
-                                    @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
-                                    <td class="td-yellow"></td>
-                                </tr>
-                                rowNo++;
-                            }
+                           
 
                         </tbody>
                     </table>
-                </div>
                 </div>
             </div>
         </div>
@@ -128,28 +77,40 @@
             </h2>
 
             @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
-                <table class="mb-0 table table-bordered table-hover" id="added-table">
-                    <thead>
-                        <tr>
-                            <th>SL</th>
-                            <th>class="text-center">Booking No.</th>
-                            <th class="text-center">Booking Date</th>
-                            <th class="text-center">Invoice Qty</th>
-                            <th class="text-center">Invoice Value</th>
-                        </tr>
+            <table class="mb-0 table table-bordered table-hover" id="added-table">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Select</th>
+                        <th class="text-center">Booking No</th>
+                        @*<th class="text-center">Booking Date</th>*@
+                        @*<th class="text-center">Representative Name</th>
+                            <th class="text-center">Customer Name</th>*@
+                        @*<th class="text-center">Category Name</th>*@
+                        @*<th class="text-center">Booking Qty</th>*@
+                        @*<th class="text-center">Booking Value</th>*@
+                        <th class="text-center">Invoice Qty</th>
+                        <th class="text-center">Invoice Value</th>
+                        @*<th class="text-center">LC Rcv Value</th>*@
+                        @*<th class="text-center">LC Balance</th>*@
+                        @*<th class="text-center">PI Status</th>*@
+                        @*<th class="text-center">Retailer Name</th>
+                            <th class="text-center">Delivery (%)</th>
+                            <th class="text-center">Actions</th>*@
+                    </tr>
 
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3"></td>
-                            <td><b id="total-value-footer"></b></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td><b id="total-value-footer"></b></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
             @*</form>*@
         </div>
     </div>
@@ -232,14 +193,29 @@
                 table.column(5).search(this.value).draw();
             });
 
-         
+            //$('#customerName').autocomplete({
+            //    source: function (request, response) {
+            //        $.ajax({
+            //            url: $('#customerName').data('autocomplete-url'),
+            //            data: { searchterm: request.term },
+            //            success: function (data) {
+            //                response(data);
+            //            }
+            //        });
+            //    },
+            //    minLength: 1,
+            //    select: function (event, ui) {
+            //        table.column(5).search(ui.item.value).draw();
+            //    }
+            //});
+
 
             // Add search functionality for Retailer Name
             $('#retailerName').on('keyup', function () {
                 table.column(12).search(this.value).draw();
             });
 
-            // Add search functionality for Category Name
+            // Add search functionality for retailer Name
             $('#categoryName').on('keyup', function () {
                 table.column(6).search(this.value).draw();
             });
@@ -259,7 +235,7 @@
                     $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
                 } else {
                     // Remove the row from Table B
-                    let noJohn = apiDataList.filter(el => el.name !== "John"); 
+                    let noJohn = apiDataList.filter(el => el.name !== "John");
                     var bookingNo = $row.find('.selected').data('booking-no');
                     $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
                 }
@@ -269,8 +245,8 @@
                 var checkbox = $(this).find('input[type="checkbox"]');
                 var bookingNo = $(this).find('td:eq(2)').text();
                 var product = $(this).find('td:eq(3)').text();
-                var value = $(this).find('td:eq(9)').text();
-                var specification = $(this).find('td:eq(10)').text();
+                var value = $(this).find('td:eq(4)').text();
+                var specification = $(this).find('td:eq(5)').text();
                 if (checkbox.prop('checked')) {
                     $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
                 } else {

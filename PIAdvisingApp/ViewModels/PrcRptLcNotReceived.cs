@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PIAdvisingApp.ViewModels
 {
-    public class PrcRptLcNotReceived
+    public class PrcRptLcNotReceived 
     {
         public string BookingNo { get; set; }
         public DateTime BookingDate { get; set; }
@@ -25,6 +25,11 @@ namespace PIAdvisingApp.ViewModels
         public string ISPISEND { get; set; }
         public string RetailerName { get; set; }
         public decimal DlvPer { get; set; }
+
+        //public static implicit operator PrcRptLcNotReceived(List<PrcRptLcNotReceived> v)
+        //{
+        //    throw new NotImplementedException();
+        //}
         //[BookingNo] VARCHAR(18),
         //[BookingDate] SMALLDATETIME,
         //[RepresentativeName] VARCHAR(150),
@@ -46,6 +51,26 @@ namespace PIAdvisingApp.ViewModels
 
     }
 
+    //public class BondApprovedPiUpdateViewModel
+    //{
+    //    public List<ParentModel> ParentList { get; set; }
+    //    public PrcRptLcNotReceived AdvicePi { get; set; }
+    //}
+
+    //public class ParentModel : ChildModel
+    //{
+    //    public string ParentColumn1 { get; set; }
+    //    public string ParentColumn2 { get; set; }
+    //    public string ParentColumn3 { get; set; }
+    //    public List<ChildModel> Children { get; set; }
+    //}
+
+    //public class ChildModel
+    //{
+    //    public string ChildColumn1 { get; set; }
+    //    public string ChildColumn2 { get; set; }
+    //    public string ChildColumn3 { get; set; }
+    //}
     public class ApiData
     {
         public int Id { get; set; }

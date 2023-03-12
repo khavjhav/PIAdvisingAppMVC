@@ -1,0 +1,67 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+
+    <style>
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+
+        .modal-backdrop {
+            z-index: 10 !important
+        }
+    </style>
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Advise PI Update
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+
+</div>
+
+@section Modal {
+    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content pi-modal-content">
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            var apiDataList = [];
+            function updateTotalValue() {
+                var totalValue = 0.00;
+                $(apiDataList).each(function () {
+                    totalValue += Number(this.DelValue);
+                });
+                $('#total-value').html(totalValue.toFixed(2));
+                console.log('totalValue', totalValue);
+            }
+            $('#datatable').DataTable();
+        });</script>
+
+
+}

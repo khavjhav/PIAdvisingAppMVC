@@ -183,6 +183,8 @@
     <Content Include="Views\Sales\BondApprovedPi.cshtml" />
     <Content Include="Views\Sales\_PiAdvisingDataPartial.cshtml" />
     <Content Include="Views\Sales\AdvisePiUpdate.cshtml" />
+    <Content Include="Views\Sales\BondApprovedPiUpdate.cshtml" />
+    <Content Include="Views\Sales\CmApproval.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -192,6 +194,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Views\ParentChildVm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -90,6 +90,36 @@ namespace PIAdvisingApp.Controllers
             return View(advicePi);
         }
 
+
+        public ActionResult CmApproval()
+        {
+            var advicePi = _salesService.AdvisePI();
+            return View(advicePi);
+        }
+
+        public ActionResult BondApprovedPiUpdate()
+        {
+            var advicePi = _salesService.AdvisePI();
+            return View(advicePi);
+
+        }
+
+        //public ActionResult BondApprovedPiUpdate()
+        //{
+        //    var advicePi = _salesService.AdvisePI();
+        //    List<ParentModel> parentList = new List<ParentModel>();
+        //    // Populate parentList with data
+
+        //    var viewModel = new BondApprovedPiUpdateViewModel
+        //    {
+        //        AdvicePi = advicePi,
+        //        ParentList = parentList
+        //    };
+
+        //    return View(viewModel);
+        //}
+
+
         public ActionResult BondApprovedPi()
         {
             var advicePi = _salesService.AdvisePI();
@@ -129,7 +159,5 @@ namespace PIAdvisingApp.Controllers
 
             return Json(true); 
         }
-
-
     }
 }

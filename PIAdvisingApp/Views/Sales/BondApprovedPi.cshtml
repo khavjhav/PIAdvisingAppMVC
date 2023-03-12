@@ -3,10 +3,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+   @* <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />*@
     <style>
-        .tbody,td,th {
-            padding : 2px !important;
-            font-size : 11px !important;
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
         }
     </style>
 }
@@ -19,6 +20,63 @@
         </div>
     </div>
 </div>
+
+@*filter options*@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 mb-3 mb-md-2">
+            <div class="card w-100 bg-white p-3 my-2">
+
+                @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+                {
+                    <div class="form-group row">
+                        <label for="fromDate" class="col-sm-4 col-form-label">From Date:</label>
+                        <div class="col-sm-8">
+                            @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="toDate" class="col-sm-4 col-form-label">To Date:</label>
+                        <div class="col-sm-8">
+                            @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                        <div class="col-sm-8">
+                            @Html.TextBox("customerName", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="retailerName" class="col-sm-4 col-form-label">Retailer Name:</label>
+                        <div class="col-sm-8">
+                            @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="representativeName" class="col-sm-4 col-form-label">Representative Name:</label>
+                        <div class="col-sm-8">
+                            @Html.TextBox("representativeName", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12 text-center">
+                            <input type="submit" value="Submit" class="btn btn-primary" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 <div class="text-center col-md-12">
     <div class="main-card card table-responsive-sm mb-2">
         <div class="card-body mb-0">
@@ -26,16 +84,29 @@
                 <tbody>
                     <tr>
                         <td style="min-width:120px"> Rep Name: </td>
-                        <td>
-                            <select class="form-control td-form-control" id="is_customer">
-                                @{ int rowNo1 = 1;}
-                                @foreach (var item in Model)
+                        @*<td>
+                                <select class="form-control td-form-control" id="is_customer">
+                                    @{ int rowNo1 = 1;}
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@rowNo1">@item.RepresentativeName</option>
+                                        rowNo1++;
+                                    }
+                                </select>
+                            </td>*@
+
+                    <td>
+                        <select class="form-control td-form-control" id="is_customer">
+                            <option value="">All</option>
+                            @{
+                                var uniqueNames = Model.Select(item => item.RepresentativeName).Distinct().ToList();
+                                foreach (var name in uniqueNames)
                                 {
-                                    <option value="@rowNo1">@item.RepresentativeName</option>
-                                    rowNo1++;
+                                    <option value="@name">@name</option>
                                 }
-                            </select>
-                        </td>
+                            }
+                        </select>
+                    </td>
                         <td style="min-width:120px"> Product Category: </td>
                         <td>
                             <select class="form-control td-form-control" name="category" id="is_customer">
@@ -158,11 +229,46 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable();
             $('#advise_btn').on('click', function () {
                 window.open('http://www.example.com?ReportID=1', '_blank');
+            });
+
+            $("#is_customer").select2({
+                placeholder: "Search for a name",
+                allowClear: true,
+                minimumInputLength: 1,
+                dropdownAutoWidth: true,
+                width: '100%',
+                matcher: function (term, text, option) {
+                    // Case-insensitive search
+                    return text.toUpperCase().indexOf(term.toUpperCase()) >= 0;
+                }
+            });
+
+             //changes for search
+            var table = $('#datatable').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[1, "desc"]]
+            });
+
+            // Add search functionality for Customer Name
+            $('#customerName').on('keyup', function () {
+                table.column(5).search(this.value).draw();
+            });
+
+            // Add search functionality for Representative Name
+            $('#representativeName').on('keyup', function () {
+                table.column(3).search(this.value).draw();
+            });
+
+              // Add search functionality for retailer Name
+            $('#retailerName').on('keyup', function () {
+                table.column(15).search(this.value).draw();
             });
         });</script>
 }
