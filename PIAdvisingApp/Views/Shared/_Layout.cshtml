@@ -28,6 +28,7 @@
     <link rel="shortcut icon" type="image/jpg" href="~/Content/assets/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="~/Content/assets/fonts/web-fonts/font-stylesheet.css" />
 
+
     @Styles.Render("~/Content/main.css")
     @RenderSection("Css", required: false)
 </head>
@@ -159,8 +160,9 @@
                                 <i class="nav-link-icon fa fa-edit"></i> Sales
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("LcNotRecieved", "Sales")">LC Not Received</a>
+                                <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>
                                 <a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>
+                                <a class="dropdown-item" href="@Url.Action("AdvisePiUpdate", "Sales")">Advise PI Updated</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -168,7 +170,8 @@
                                 <i class="nav-link-icon fa fa-edit"></i> Bond
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("LcNotRecieved", "Sales")">PI Approval</a>
+                                <a class="dropdown-item" href="@Url.Action("BondApprovedPi", "Sales")">PI Approval</a>
+                                <a class="dropdown-item" href="@Url.Action("PiAdvisingBond", "Sales")">PI Approval Update</a>
                                 <a class="dropdown-item" href="#">Report</a>
                             </div>
                         </li>
@@ -177,7 +180,7 @@
                                 <i class="nav-link-icon fa fa-edit"></i> CM
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">PI Approval</a>
+                                <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">CM Approval</a>
                                 <a class="dropdown-item" href="#">Report</a>
                             </div>
                         </li>
@@ -300,7 +303,7 @@
             }
 
         }); // jquery end
-    </script>
+    </script>   
     @RenderSection("Modal", required: false)
 </body>
 </html>

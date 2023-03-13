@@ -40,6 +40,7 @@
                                 }
                             </select>
                         </td>
+
                         <td style="min-width:120px"> Product Category: </td>
                         <td>
                             <select class="form-control td-form-control" name="category" id="is_customer">
@@ -74,17 +75,13 @@
                             <th class="text-center">Booking Date</th>
                             <th class="text-center">Representative Name</th>
                             <th class="text-center">Customer Name</th>
-                            @*<th class="text-center">Customer Ref</th>*@
-                            @*<th class="text-center">RNNo</th>*@
                             <th class="text-center">Booking Qty</th>
                             <th class="text-center">Booking Value</th>
-                            <th class="text-center">Cancel Qty</th>
-                            <th class="text-center">Cancel Value</th>
                             <th class="text-center">Invoice Qty</th>
-                            <th class="text-center">Del Value</th>
+                            <th class="text-center">Invoice Value</th>
                             <th class="text-center">LC Rcv Value</th>
                             <th class="text-center">LC Balance</th>
-                            <th class="text-center">IS Pi Send</th>
+                            <th class="text-center">PI Status</th>
                             <th class="text-center">Retailer Name</th>
                             <th class="text-center">Delivery (%)</th>
                             <th class="text-center">Actions</th>
@@ -100,16 +97,11 @@
                                     <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                 </td>
                                 <td class="text-left td-green">@item.BookingNo</td>
-                                <td class="text-left td-green">@item.BookingDate</td>
+                                <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
                                 <td class="text-left td-green">@item.RepresentativeName</td>
                                 <td class="text-left td-green">@item.CustomerName</td>
-                                @*<td class="text-left td-green">@item.CustomerRef</td>
-                                    <td class="text-left td-green">@item.RNNo</td>*@
                                 <td class="text-left td-green">@item.BookingQty</td>
                                 @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                @*<td class="text-left td-green">@item.BookingValue</td>*@
-                                <td class="text-left td-green">@item.CancelQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.CancelValue, "td-green")
                                 <td class="text-left td-green">@item.InvoiceQty</td>
                                 @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
                                 @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")

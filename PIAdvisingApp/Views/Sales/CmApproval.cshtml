@@ -1,0 +1,271 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+
+    <style>
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+
+        .modal-backdrop {
+            z-index: 10 !important
+        }
+    </style>
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Advise PI Update
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Existing Bookings</h2>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+
+                  
+
+                    <table id="datatable" class="mb-0 table table-bordered table-hover">
+                        <thead class="th-top">
+                            @*<tr class="th-top">
+                                    <th class="text-center th-top" colspan="19">LC Not Received</th>
+                                </tr>*@
+                            <tr>
+                                <th>SL</th>
+                                <th>Select</th>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Booking Date</th>
+                                <th class="text-center">Representative Name</th>
+                                <th class="text-center">Customer Name</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Invoice Qty</th>
+                                <th class="text-center">Invoice Value</th>
+                                @*<th class="text-center">LC Rcv Value</th>*@
+                                <th class="text-center">LC Balance</th>
+                                @*<th class="text-center">PI Status</th>*@
+                                <th class="text-center">Retailer Name</th>
+                                <th class="text-center">Delivery (%)</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="d-flex justify-content-between align-items-center">
+                <span>Added Bookings</span>
+                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
+            </h2>
+
+            @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
+            <table class="mb-0 table table-bordered table-hover" id="added-table">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Select</th>
+                        <th class="text-center">Booking No</th>
+                        @*<th class="text-center">Booking Date</th>*@
+                        @*<th class="text-center">Representative Name</th>
+                            <th class="text-center">Customer Name</th>*@
+                        @*<th class="text-center">Category Name</th>*@
+                        @*<th class="text-center">Booking Qty</th>*@
+                        @*<th class="text-center">Booking Value</th>*@
+                        <th class="text-center">Invoice Qty</th>
+                        <th class="text-center">Invoice Value</th>
+                        @*<th class="text-center">LC Rcv Value</th>*@
+                        @*<th class="text-center">LC Balance</th>*@
+                        @*<th class="text-center">PI Status</th>*@
+                        @*<th class="text-center">Retailer Name</th>
+                            <th class="text-center">Delivery (%)</th>
+                            <th class="text-center">Actions</th>*@
+                    </tr>
+
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td><b id="total-value-footer"></b></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+            @*</form>*@
+        </div>
+    </div>
+</div>
+
+@section Modal {
+    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content pi-modal-content">
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script>
+        $(document).ready(function () {
+            var apiDataList = [];
+            function updateTotalValue() {
+                var totalValue = 0.00;
+                $(apiDataList).each(function () {
+                    totalValue += Number(this.DelValue);
+                });
+                $('#total-value').html(totalValue.toFixed(2));
+                console.log('totalValue',totalValue);
+            }
+            $('#datatable').DataTable();
+            $('#submit-btn').on('click', function () {
+                $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
+                    if (result) {
+                        console.log(result)
+                            console.log(result);
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+            });
+            $('#advise_btn').on('click', function () {
+                @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
+                let bookings = []
+                $('input[type=checkbox]').each(function () {
+                    if ($(this).is(":checked")) {
+                        bookings.push($(this).attr('data-booking-no'));
+                    }
+                });
+                $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                    if (result) {
+                        //console.log(result)
+                            //console.log(result);
+                            $('.pi-modal-content').empty();
+                            $('.pi-modal-content').html(result);
+                            $('.pi-advise-modal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+
+            });
+            //changes for search
+            var table = $('#datatable').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[1, "desc"]]
+            });
+
+            // Add search functionality for Customer Name
+            $('#customerName').on('keyup', function () {
+                table.column(5).search(this.value).draw();
+            });
+
+            //$('#customerName').autocomplete({
+            //    source: function (request, response) {
+            //        $.ajax({
+            //            url: $('#customerName').data('autocomplete-url'),
+            //            data: { searchterm: request.term },
+            //            success: function (data) {
+            //                response(data);
+            //            }
+            //        });
+            //    },
+            //    minLength: 1,
+            //    select: function (event, ui) {
+            //        table.column(5).search(ui.item.value).draw();
+            //    }
+            //});
+
+
+            // Add search functionality for Retailer Name
+            $('#retailerName').on('keyup', function () {
+                table.column(12).search(this.value).draw();
+            });
+
+            // Add search functionality for retailer Name
+            $('#categoryName').on('keyup', function () {
+                table.column(6).search(this.value).draw();
+            });
+
+            // Listen for change event on checkboxes in Table A
+            $('#datatable').on('change', '.selected', function () {
+                var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+                if ($(this).is(':checked')) {
+                    // Add the row to Table B
+                    apiDataList.push({
+                        'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
+                        'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
+                        'DelValue': $(this).closest('tr').find('.DelValue').val()
+                    });
+                    //console.log(apiDataList);
+                    updateTotalValue();
+                    $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
+                } else {
+                    // Remove the row from Table B
+                    let noJohn = apiDataList.filter(el => el.name !== "John");
+                    var bookingNo = $row.find('.selected').data('booking-no');
+                    $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
+                }
+            });
+
+            $('#datatable tbody').on('click', 'tr', function () {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                var bookingNo = $(this).find('td:eq(2)').text();
+                var product = $(this).find('td:eq(3)').text();
+                var value = $(this).find('td:eq(4)').text();
+                var specification = $(this).find('td:eq(5)').text();
+                if (checkbox.prop('checked')) {
+                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                } else {
+                    $('#added-table tbody tr').each(function () {
+                        if ($(this).find('td:eq(1)').text() == bookingNo) {
+                            $(this).remove();
+                        }
+                    });
+                }
+                // Update the summary of the Values column in Table B footer
+                var totalValue = 0;
+                $('#added-table tbody tr').each(function () {
+                    totalValue += parseFloat($(this).find('.value').text());
+                });
+                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+            });
+            updateTotalValue();
+            $('#added-bookings-table').on('change', '.booking-select', function () {
+                updateTotalValue();
+            });
+        });</script>
+}
