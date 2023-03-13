@@ -185,6 +185,7 @@
     <Content Include="Views\Sales\AdvisePiUpdate.cshtml" />
     <Content Include="Views\Sales\PiAdvisingBond.cshtml" />
     <Content Include="Views\Sales\CmApproval.cshtml" />
+    <Content Include="Views\Sales\_GetPamModalBondPartial.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

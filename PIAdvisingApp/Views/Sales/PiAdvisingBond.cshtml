@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondMainViewModel>
 @section Css {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -34,34 +34,20 @@
             <table class="mb-0 table table-bordered table-hover" id="added-table">
                 <thead>
                     <tr>
-                        <th>ApiNumber</th>
-                        <th>BookingNo</th>
-                        <th>InvoiceQty</th>
-                        <th>QuantityUnit</th>
-                        <th>Measurement</th>
-                        <th>MeasureUnit</th>
-                        <th>CategoryName</th>
-                        <th>ProductName</th>
-                        <th>BondName</th>
-                        <th>HSCode</th>
-                        <th>CustomerName</th>
-                        <th>ShortName</th>
+                        <th>Api Number</th>
+                        <th>Invoice Qty</th>
+                        <th>Invoice Qty</th>
+                        <th>Customer Name</th>
+                        <th>Rep Name</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.ApiNumber</td>
-                            <td>@item.BookingNo</td>
+                            <td><span class="apiNumber">@item.ApiNumber</span></td>
                             <td>@item.InvoiceQty</td>
-                            <td>@item.QuantityUnit</td>
-                            <td>@item.Measurement</td>
-                            <td>@item.MeasureUnit</td>
-                            <td>@item.CategoryName</td>
-                            <td>@item.ProductName</td>
-                            <td>@item.BondName</td>
-                            <td>@item.HSCode</td>
+                            <td>@item.InvoiceValue</td>
                             <td>@item.CustomerName</td>
                             <td>@item.RepName</td>
                         </tr>
@@ -76,9 +62,20 @@
 </div>
 
 @section Modal {
-    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="approved-pi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content pi-modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">CM API Approval - <span id="api-number-heading"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div id="approved-pi-modal-body" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -94,6 +91,18 @@
 
     <script>
         $(document).ready(function () {
+            $('.apiNumber').click(function () {
+                $('#approved-pi-modal-body').html(null);
+                let apiNumber = $(this).text();
+                $('#api-number-heading').text(apiNumber);
+                $.post("@Url.Action("GetPamModalBondPartial", "Sales")", { apiNumber }, function (result) {
+                    $('#approved-pi-modal-body').html(result);
+                });
+                $('#approved-pi').modal({
+                    show: true,
+                    backdrop: false
+                });
+            });
             var apiDataList = [];
             function updateTotalValue() {
                 var totalValue = 0.00;

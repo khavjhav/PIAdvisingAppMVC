@@ -111,6 +111,13 @@ namespace PIAdvisingApp.Controllers
             var advicePi = _salesService.GetPiAdvisingBondData();
             return View(advicePi);
 
+        }  
+        
+        public ActionResult GetPamModalBondPartial(string apiNumber)
+        {
+            var result = _salesService.GetPamModalBond(apiNumber);
+            return PartialView("_GetPamModalBondPartial", result);
+
         }
 
 

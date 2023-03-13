@@ -42,6 +42,16 @@ namespace PIAdvisingApp.ViewModels
         public string CustomerName { get; set; }
         public string RepName { get; set; }
     }
+
+    public class PiAdvisingBondMainViewModel
+    {
+        public string ApiNumber { get; set; }
+        public string CustomerName { get; set; }
+        public string RepName { get; set; }
+        public decimal InvoiceQty { get; set; }
+        public decimal InvoiceValue { get; set; }
+       
+    }
     //public class BondApprovedPiUpdateViewModel
     //{
     //    public List<ParentModel> ParentList { get; set; }
