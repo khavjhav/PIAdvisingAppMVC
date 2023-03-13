@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
 @section Css {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -28,7 +28,50 @@
 </div>
 
 <div class="container-fluid">
-
+    <div class="main-card mb-6 card">
+        <div class="card-body">
+            @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
+            <table class="mb-0 table table-bordered table-hover" id="added-table">
+                <thead>
+                    <tr>
+                        <th>ApiNumber</th>
+                        <th>BookingNo</th>
+                        <th>InvoiceQty</th>
+                        <th>QuantityUnit</th>
+                        <th>Measurement</th>
+                        <th>MeasureUnit</th>
+                        <th>CategoryName</th>
+                        <th>ProductName</th>
+                        <th>BondName</th>
+                        <th>HSCode</th>
+                        <th>CustomerName</th>
+                        <th>ShortName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ApiNumber</td>
+                            <td>@item.BookingNo</td>
+                            <td>@item.InvoiceQty</td>
+                            <td>@item.QuantityUnit</td>
+                            <td>@item.Measurement</td>
+                            <td>@item.MeasureUnit</td>
+                            <td>@item.CategoryName</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.BondName</td>
+                            <td>@item.HSCode</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.RepName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+            @*</form>*@
+        </div>
+    </div>
 
 </div>
 

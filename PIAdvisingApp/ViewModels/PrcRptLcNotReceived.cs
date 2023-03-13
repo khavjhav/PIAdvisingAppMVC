@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PIAdvisingApp.ViewModels
 {
-    public class PrcRptLcNotReceived 
+    public class PrcRptLcNotReceived  
     {
         public string BookingNo { get; set; }
         public DateTime BookingDate { get; set; }
@@ -26,31 +26,22 @@ namespace PIAdvisingApp.ViewModels
         public string RetailerName { get; set; }
         public decimal DlvPer { get; set; }
 
-        //public static implicit operator PrcRptLcNotReceived(List<PrcRptLcNotReceived> v)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //[BookingNo] VARCHAR(18),
-        //[BookingDate] SMALLDATETIME,
-        //[RepresentativeName] VARCHAR(150),
-        //[CustomerName] VARCHAR(150),
-        //[CustomerRef] VARCHAR(1129),
-        //[RNNo] VARCHAR(500),
-        //[BookingQty] MONEY,
-        //[BookingValue] DECIMAL(38, 8),
-        //[CancelQty] MONEY,
-        //[CancelValue] DECIMAL(38, 8),
-        //[InvoiceQty] MONEY,
-        //[DelValue] DECIMAL(38, 8),
-        //[LCrcvValue] DECIMAL(38, 6),
-        //[LCBalance] DECIMAL(38, 6),
-        //[ISPISEND] NVARCHAR(MAX),
-        //[RetailerName] VARCHAR(150),
-        //[DlvPer]
-        //    DECIMAL(38, 6)
-
     }
-
+    public class PiAdvisingBondViewModel
+    {
+        public string ApiNumber { get; set; }
+        public string BookingNo { get; set; }
+        public decimal InvoiceQty { get; set; }
+        public string QuantityUnit { get; set; }
+        public string Measurement { get; set; }
+        public string MeasureUnit { get; set; }
+        public string CategoryName { get; set; }
+        public string ProductName { get; set; }
+        public string BondName { get; set; }
+        public string HSCode { get; set; }
+        public string CustomerName { get; set; }
+        public string RepName { get; set; }
+    }
     //public class BondApprovedPiUpdateViewModel
     //{
     //    public List<ParentModel> ParentList { get; set; }
@@ -80,6 +71,8 @@ namespace PIAdvisingApp.ViewModels
         public decimal DelValue { get; set; }
 
     }
+
+    
 
     public class PiAdvisingBondMainVM
     {

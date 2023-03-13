@@ -96,6 +96,30 @@ namespace PIAdvisingApp.Service
                 return result;
             }
         }
+       
+            public List<PiAdvisingBondViewModel> GetPiAdvisingBondData()
+            {
+                using (var ctx = new ApplicationDbContext())
+                {
+                    var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"
+                SELECT pam.ApiNumber, pam.BookingNo, pam.InvoiceQty, vq.QuantityUnit, ps.Measurement, vm.MeasureUnit, pc.CategoryName,pd.ProductName, pd.BondName, pd.HSCode, cgi.CustomerName, rp.RepresentativeName 
+                FROM dbo.PiAdvisingBondMain AS pam
+                LEFT JOIN dbo.PIMain AS pm ON pm.BookingNo = pam.BookingNo
+                LEFT JOIN dbo.PISub AS ps ON ps.PIId = pm.PIId
+                LEFT JOIN dbo.Product AS pd ON pd.ProductId = ps.ProductId
+                LEFT JOIN dbo.ProductCategory AS pc ON pc.CategoryId = pd.CategoryId
+                LEFT JOIN dbo.viewMeasurementUnit AS vm ON vm.MeasureUnitId = ps.MeasureUnitId
+                LEFT JOIN dbo.viewQuantityUnit AS vq ON vq.QuantityUnitId = ps.QuantityUnitId
+                LEFT JOIN dbo.CompanyInfo AS ci ON ci.CompanyId = pm.CompanyId
+                LEFT JOIN dbo.CustomerGenInfo AS cgi ON cgi.CustomerId = pm.CustomerId
+                LEFT JOIN dbo.Representative AS rp ON rp.RepresentativeId = pm.RepresentativeId
+            ").ToList();
+
+                    return result;
+                }
+            }
+        
+
 
         public int SavePiAdvisingBondMain(ApiData apiData)
         {
@@ -115,5 +139,7 @@ namespace PIAdvisingApp.Service
             }
            
         }
+
+
     }
 }
