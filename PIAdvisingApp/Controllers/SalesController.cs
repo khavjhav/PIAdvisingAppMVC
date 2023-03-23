@@ -88,7 +88,9 @@ namespace PIAdvisingApp.Controllers
 
         public ActionResult AdvisePiUpdate()
         {
-            var advicePi = _salesService.AdvisePI();
+                advicePi = (List<PrcRptLcNotReceived>)advicePi.Where(x => x.CustomerName == customerName);
+            }
+
             return View(advicePi);
         }
 
