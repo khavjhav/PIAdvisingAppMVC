@@ -1,0 +1,114 @@
+﻿
+
+@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridView";
+    settings.CallbackRouteValues = new { Controller = "NewAdvisePI", Action = "NewAdvisePI" }; // Replace "MyController" with the actual name of your controller
+    settings.KeyFieldName = "BookingNo";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.SettingsPager.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRow = true;
+    settings.SettingsBehavior.FilterRowMode = GridViewFilterRowMode.Auto;
+    settings.SettingsBehavior.AllowFocusedRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsText.SearchPanelPlaceholder = "Search...";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookingNo";
+        column.Caption = "Booking No";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookingDate";
+        column.Caption = "Booking Date";
+        column.PropertiesEdit.DisplayFormatString = "MM/dd/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RepresentativeName";
+        column.Caption = "Representative Name";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CustomerName";
+        column.Caption = "Customer Name";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CategoryName";
+        column.Caption = "Category Name";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CustomerRef";
+        column.Caption = "Customer Ref";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RNNo";
+        column.Caption = "RN No";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookingQty";
+        column.Caption = "Booking Qty";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookingValue";
+        column.Caption = "Booking Value";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CancelQty";
+        column.Caption = "Cancel Qty";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CancelValue";
+        column.Caption = "Cancel Value";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "InvoiceQty";
+        column.Caption = "Invoice Qty";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DelValue";
+        column.Caption = "Del Value";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LCrcvValue";
+        column.Caption = "LC Receive Value";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LCBalance";
+        column.Caption = "LC Balance";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ISPISEND";
+        column.Caption = "Is PI Send";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RetailerName";
+        column.Caption = "Retailer Name";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DlvPer";
+        column.Caption = "Delivery Percentage";
+    });
+}).Bind(Model).GetHtml()

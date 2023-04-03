@@ -31,6 +31,8 @@
 
     @Styles.Render("~/Content/main.css")
     @RenderSection("Css", required: false)
+	@Styles.Render("~/Content/DevExtremeBundle")
+	@Scripts.Render("~/Scripts/DevExtremeBundle")
 </head>
 <body onload="loadingAjax('myDiv');">
     <style type="text/css">
@@ -161,7 +163,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>
-                                @*<a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>*@
+                                <a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>
                                 <a class="dropdown-item" href="@Url.Action("AdvisePiUpdate", "Sales")">Advise PI Updated</a>
                             </div>
                         </li>
@@ -184,6 +186,16 @@
                                 <a class="dropdown-item" href="#">Report</a>
                             </div>
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="nav-link-icon fa fa-edit"></i> Experimental
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">CM Approval</a>
+                                <a class="dropdown-item" href="#">Report</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="app-header-right">
@@ -194,7 +206,7 @@
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
                                             @*<img style=" max-height: 40px;border-radius: 50% !important;" alt="Image placeholder" src="http://192.168.0.47/hris/Content/HRMImage/EmpImages/@(user.EmpId).jpg">*@
-                                            <img style=" max-height: 40px;border-radius: 50% !important;" alt="Image placeholder" src="https://hris.kdsxs.app/Content/HRMImage/EmpImages/XHQ06615-22.jpg">
+                                            
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">

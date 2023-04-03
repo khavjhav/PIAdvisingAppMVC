@@ -1,39 +1,36 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
-<table class="mb-0 table table-bordered table-hover" id="added-table">
-    <thead>
-        <tr>
-            @*<th>ApiNumber</th>*@
-            <th>BookingNo</th>
-            <th>CategoryName</th>
-            <th>ProductName</th>
-            <th>BondName</th>
-            <th>InvoiceQty</th>
-            <th>QuantityUnit</th>
-            <th>Measurement</th>
-            <th>MeasureUnit</th>
-            <th>HSCode</th>
-            <th>CustomerName</th>
-            @*<th>ShortName</th>*@
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div style="height: 400px; overflow-y: scroll;">
+    <table class="mb-0 table table-bordered table-hover" id="added-table">
+        <thead style="position: sticky; top: 0; background-color: #fff;">
             <tr>
-                @*<td>@item.ApiNumber</td>*@
-                <td>@item.BookingNo</td>
-                <td>@item.CategoryName</td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.ProductName" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.BondName" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.InvoiceQty" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.QuantityUnit" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.Measurement" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.MeasureUnit" /></td>
-                <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.HSCode" /></td>
-                <td>@item.CustomerName</td>
-                @*<td>@item.RepName</td>*@
+                <th>BookingNo</th>
+                <th>CategoryName</th>
+                <th>ProductName</th>
+                <th>BondName</th>
+                <th>InvoiceQty</th>
+                <th>QuantityUnit</th>
+                <th>Measurement</th>
+                <th>MeasureUnit</th>
+                <th>HSCode</th>
+                <th>CustomerName</th>
             </tr>
-        }
-        @*<tr><td colspan="12" class="text-right"> <button type="button" id="submit-btn" class="btn btn-primary">Submit</button></td></tr>*@
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BookingNo</td>
+                    <td>@item.CategoryName</td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.ProductName" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.BondName" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.InvoiceQty" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.QuantityUnit" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.Measurement" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.MeasureUnit" /></td>
+                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.HSCode" /></td>
+                    <td>@item.CustomerName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

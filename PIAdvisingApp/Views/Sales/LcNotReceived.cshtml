@@ -34,59 +34,110 @@
         }
     </div>*@
 
+@*<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 mb-3 mb-md-2">
+                <div class="card w-100 bg-white p-3 my-2">
+
+                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+                    {
+                        <div class="form-group row">
+                            <label for="fromDate" class="col-sm-4 col-form-label">From Date:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="toDate" class="col-sm-4 col-form-label">To Date:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBox("customerName", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="retailerName" class="col-sm-4 col-form-label">Retailer Name:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="representativeName" class="col-sm-4 col-form-label">Representative Name:</label>
+                            <div class="col-sm-8">
+                                @Html.TextBox("representativeName", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12 text-center">
+                                <input type="submit" value="Submit" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 mb-3 mb-md-2">
+        <div class="col-md-12 mb-3 mb-md-2">
             <div class="card w-100 bg-white p-3 my-2">
 
                 @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
                 {
-                    <div class="form-group row">
-                        <label for="fromDate" class="col-sm-4 col-form-label">From Date:</label>
-                        <div class="col-sm-8">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="fromDate" class="col-form-label">From Date:</label>
                             @Html.TextBox("fromDate", null, new { type = "date", @class = "form-control" })
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="toDate" class="col-sm-4 col-form-label">To Date:</label>
-                        <div class="col-sm-8">
+                        <div class="form-group col-md-2">
+                            <label for="toDate" class="col-form-label">To Date:</label>
                             @Html.TextBox("toDate", null, new { type = "date", @class = "form-control" })
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
-                        <div class="col-sm-8">
+                        <div class="form-group col-md-2">
+                            <label for="customerName" class="col-form-label">Customer Name:</label>
                             @Html.TextBox("customerName", null, new { @class = "form-control" })
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="retailerName" class="col-sm-4 col-form-label">Retailer Name:</label>
-                        <div class="col-sm-8">
+                        @*<div class="form-group col-md-2">
+                            <label for="customerName" class="col-form-label">Customer Name:</label>
+                            @Html.DropDownList("customerId", new SelectList(ViewBag.Customers, "CustomerId", "Name"), "Select a customer", new { @class = "form-control" })
+                        </div>*@
+
+                        <div class="form-group col-md-2">
+                            <label for="retailerName" class="col-form-label">Retailer Name:</label>
                             @Html.TextBox("retailerName", null, new { @class = "form-control" })
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="representativeName" class="col-sm-4 col-form-label">Representative Name:</label>
-                        <div class="col-sm-8">
+
+
+                        <div class="form-group col-md-2">
+                            <label for="representativeName" class="col-form-label">Representative Name:</label>
                             @Html.TextBox("representativeName", null, new { @class = "form-control" })
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-12 text-center">
+                        <div class="form-group col-md-2 align-self-end">
                             <input type="submit" value="Submit" class="btn btn-primary" />
                         </div>
                     </div>
                 }
             </div>
         </div>
-      
     </div>
 </div>
+
 
 <div class="row mb-5">
     <div class="col-12 mb-1 p-0">
@@ -205,6 +256,26 @@
             $('#customerName').on('keyup', function () {
                 table.column(4).search(this.value).draw();
             });
+
+            // Populate Customer Name dropdown
+            $.getJSON("/Sales/GetCustomers", function (data) {
+                $.each(data, function (key, value) {
+                    $("#customerNameSelect").append("<option value='" + value.Id + "'>" + value.Name + "</option>");
+                });
+            });
+
+            // Add search functionality for Customer Name
+            $('#customerNameSelect').on('change', function () {
+                var customerId = this.value;
+                table.column(4).search(customerId).draw();
+            });
+
+            // Reset search when ALL is selected
+            $('#customerNameSelect').on('focus', function () {
+                $('#customerNameSelect').val('');
+                table.column(4).search('').draw();
+            });
+
 
             // Add search functionality for Representative Name
             $('#representativeName').on('keyup', function () {

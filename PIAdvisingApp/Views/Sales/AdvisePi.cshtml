@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+
     <style>
         .tbody, td, th {
             padding: 2px !important;
@@ -18,104 +21,134 @@
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                Advise PI
+                Advise PI Update
             </div>
         </div>
     </div>
 </div>
-<div class="text-center col-md-12">
-    <div class="main-card card table-responsive-sm mb-2">
-        <div class="card-body mb-0">
-            <table style="font-size:10px" id="datatable1" class="table table-sm table-striped table-bordered text-center mb-0">
-                <tbody>
-                    <tr>
-                        <td style="min-width:120px"> Customer Name: </td>
-                        <td>
-                            <select class="form-control td-form-control" id="is_customer">
-                                @{ int rowNo1 = 1;}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Existing Bookings</h2>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+
+                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" id="customerName" class="form-control" />
+                                    </div>
+                                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Submit" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="table-responsive">
+                        <table id="datatable" class="mb-0 table table-bordered table-hover">
+                            <thead class="th-top">
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Select</th>
+                                    <th class="text-center">Booking No</th>
+                                    <th class="text-center">Booking Date</th>
+                                    <th class="text-center">Representative Name</th>
+                                    <th class="text-center">Customer Name</th>
+                                    <th class="text-center">Category Name</th>
+                                    <th class="text-center">Booking Qty</th>
+                                    <th class="text-center">Booking Value</th>
+                                    <th class="text-center">Invoice Qty</th>
+                                    <th class="text-center">Invoice Value</th>
+                                    <th class="text-center">LC Balance</th>
+                                    <th class="text-center">Retailer Name</th>
+                                    <th class="text-center">Delivery (%)</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int rowNo = 1;}
                                 @foreach (var item in Model)
                                 {
-                                    <option value="@rowNo1">@item.CustomerName</option>
-                                    rowNo1++;
+                                    <tr>
+                                        <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
+                                        <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
+                                        <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
+                                        <td class="text-left td-green"><b>@rowNo</b></td>
+                                        <td class="text-center td-green">
+                                            <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
+                                        </td>
+                                        <td class="text-left td-green">@item.BookingNo</td>
+                                        <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
+                                        <td class="text-left td-green">@item.RepresentativeName</td>
+                                        <td class="text-left td-green">@item.CustomerName</td>
+                                        <td class="text-left td-green">@item.CategoryName</td>
+                                        <td class="text-left t  d-green">@item.BookingQty</td>
+                                        @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
+                                        <td class="text-left td-green">@item.InvoiceQty</td>
+                                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
+                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
+                                        <td class="text-left td-green">@item.RetailerName</td>
+                                        @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
+                                      
+                                    </tr>
+                                    rowNo++;
                                 }
-                            </select>
-                        </td>
 
-                        <td style="min-width:120px"> Product Category: </td>
-                        <td>
-                            <select class="form-control td-form-control" name="category" id="is_customer">
-                                <option value="1">General Packaging</option>
-                                <option value="2">Poly</option>
-                                <option value="3">Thread</option>
-                                <option value="4">Button</option>
-                                <option value="5">Narrow Fabric Label</option>
-                            </select>
-                        </td>
-                        <td> <button id="advise_btn" class="btn btn-sm btn-success">Advise PI</button></td>
-                    </tr>
-
-                </tbody>
-            </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12 mb-1 p-0">
-        <div class="main-card mb-6 card">
-            <div class="card-body">
-                <table id="datatable" class="mb-0 table table-bordered table-hover">
-                    <thead class="th-top">
-                        @*<tr class="th-top">
-                                <th class="text-center th-top" colspan="19">LC Not Received</th>
-                            </tr>*@
-                        <tr>
-                            <th>SL</th>
-                            <th>Select</th>
-                            <th class="text-center">Booking No</th>
-                            <th class="text-center">Booking Date</th>
-                            <th class="text-center">Representative Name</th>
-                            <th class="text-center">Customer Name</th>
-                            <th class="text-center">Booking Qty</th>
-                            <th class="text-center">Booking Value</th>
-                            <th class="text-center">Invoice Qty</th>
-                            <th class="text-center">Invoice Value</th>
-                            <th class="text-center">LC Rcv Value</th>
-                            <th class="text-center">LC Balance</th>
-                            <th class="text-center">PI Status</th>
-                            <th class="text-center">Retailer Name</th>
-                            <th class="text-center">Delivery (%)</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{ int rowNo = 1;}
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td class="text-left td-green"><b>@rowNo</b></td>
-                                <td class="text-center td-green">
-                                    <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
-                                </td>
-                                <td class="text-left td-green">@item.BookingNo</td>
-                                <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                <td class="text-left td-green">@item.RepresentativeName</td>
-                                <td class="text-left td-green">@item.CustomerName</td>
-                                <td class="text-left td-green">@item.BookingQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                <td class="text-left td-green">@item.InvoiceQty</td>
-                                @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                @MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
-                                @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
-                                <td class="text-left td-green">@item.ISPISEND</td>
-                                <td class="text-left td-green">@item.RetailerName</td>
-                                @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
-                                <td class="td-yellow"></td>
-                            </tr>
-                            rowNo++;
-                        }
+        <div class="col-md-6">
+            <h2 class="d-flex justify-content-between align-items-center">
+                <span>Added Bookings</span>
+                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
+            </h2>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
 
-                    </tbody>
-                </table>
+                    <table class="mb-0 table table-bordered table-hover" id="added-table">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th class="text-center">Booking No.</th>
+                                <th class="text-center">Booking Date</th>
+                                <th class="text-center">Invoice Qty</th>
+                                <th class="text-center">Invoice Value</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td><b id="total-value-footer"></b></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+
+                </div>
             </div>
         </div>
     </div>
@@ -135,24 +168,108 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable();
-            $('#advise_btn').on('click', function () {
-                @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
-                let bookings = []
-                $('input[type=checkbox]').each(function () {
-                    if ($(this).is(":checked")) {
-                        bookings.push($(this).attr('data-booking-no'));
+  var apiDataList = [];
+  function updateTotalValue() {
+    var totalValue = 0.00;
+    $(apiDataList).each(function () {
+      totalValue += Number(this.DelValue);
+    });
+    $('#total-value').html(totalValue.toFixed(2));
+    console.log('totalValue', totalValue);
+  }
+  $('#datatable').DataTable();
+  $('#submit-btn').on('click', function () {
+    $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
+      if (result) {
+        console.log(result)
+        console.log(result);
+        if (result > 0) {
+          Swal.fire(
+            'Success!',
+            'Save Successful',
+            'success'
+          );
+        }
+      } else {
+        Swal.fire(
+          'Failed!',
+          'Failed To Do the operation',
+          'danger'
+        );
+      }
+    });
+  });
+  // Listen for change event on checkboxes in Table A
+  $('#datatable').on('change', '.selected', function () {
+    var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+    if ($(this).is(':checked')) {
+      // Add the row to Table B
+      apiDataList.push({
+        'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
+        'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
+        'DelValue': $(this).closest('tr').find('.DelValue').val()
+      });
+      //console.log(apiDataList);
+      updateTotalValue();
+      $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
+    } else {
+      // Remove the row from Table B
+      var bookingNo = $row.find('.selected').data('booking-no');
+      apiDataList = apiDataList.filter(function (item) {
+        return item.BookingNo !== bookingNo;
+      });
+      $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
+      updateTotalValue();
+    }
+  });
+  // Listen for change event on checkboxes in Table B
+            $('#added-bookings-table').on('change', '.selected', function () {
+                var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+                var bookingNo = $row.find('.booking-select').val();
+                var value = parseFloat($row.find('.value').text());
+
+                if ($(this).is(':checked')) {
+                    // Add the selected value to the total
+                    updateTotalValue(value);
+                } else {
+                    // Subtract the deselected value from the total
+                    updateTotalValue(-value);
+                }
+
+                // Update the summary of the Values column in Table A footer
+                var totalValue = 0;
+                $('#added-bookings-table tbody tr').each(function () {
+                    if ($(this).find('.selected').is(':checked')) {
+                        totalValue += parseFloat($(this).find('.value').text());
                     }
                 });
-                $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                $('#added-bookings-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+            });
+
+            function updateTotalValue(value) {
+                var totalValue = parseFloat($('#total-value').text());
+                if (isNaN(totalValue)) {
+                    totalValue = 0;
+                }
+                totalValue += value;
+                $('#total-value').html(totalValue.toFixed(2));
+            }
+
+            $('#submit-btn').on('click', function () {
+                $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
                     if (result) {
                         console.log(result)
-                            //console.log(result);
-                            $('.pi-modal-content').empty();
-                            $('.pi-modal-content').html(result);
-                            $('.pi-advise-modal').modal('show');
+                        console.log(result);
+                        if (result > 0) {
+                            Swal.fire(
+                                'Success!',
+                                'Save Successful',
+                                'success'
+                            );
+                        }
                         } else {
                             Swal.fire(
                                 'Failed!',
@@ -161,7 +278,95 @@
                             );
                         }
                 });
-
             });
+        });
+
+            $('#datatable tbody').on('click', 'tr', function () {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                var bookingNo = $(this).find('td:eq(2)').text();
+                var product = $(this).find('td:eq(3)').text();
+                var value = $(this).find('td:eq(9)').text();
+                var specification = $(this).find('td:eq(10)').text();
+
+                if (checkbox.prop('checked')) {
+                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                } else {
+                    $('#added-table tbody tr').each(function () {
+                        if ($(this).find('td:eq(1)').text() == bookingNo) {
+                            $(this).remove();
+                            var deselectedValue = parseFloat($(this).find('.value').text());
+                            updateTotalValue(-deselectedValue);
+                        }
+                    });
+                }
+
+                // Update the summary of the Values column in Table B footer
+                var totalValue = 0;
+                $('#added-table tbody tr').each(function () {
+                    totalValue += parseFloat($(this).find('.value').text());
+                });
+                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+                updateTotalValue();
+            });
+
+            updateTotalValue();
+            $('#added-bookings-table').on('change', '.booking-select', function () {
+                updateTotalValue();
+            });
+
+        //changes for search
+        var table = $('#datatable').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "order": [[1, "desc"]]
+        });
+
+        // Add search functionality for Customer Name
+        $('#customerName').on('keyup', function () {
+            table.column(5).search(this.value).draw();
+        });
+
+
+
+        // Add search functionality for Retailer Name
+        $('#retailerName').on('keyup', function () {
+            table.column(12).search(this.value).draw();
+        });
+
+        // Add search functionality for Category Name
+        $('#categoryName').on('keyup', function () {
+            table.column(6).search(this.value).draw();
+        });
+
+        $('#advise_btn').on('click', function () {
+            let bookings = []
+            $('input[type=checkbox]').each(function () {
+                if ($(this).is(":checked")) {
+                    bookings.push($(this).attr('data-booking-no'));
+                }
+            });
+            $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                if (result) {
+                    //console.log(result)
+                    //console.log(result);
+                    $('.pi-modal-content').empty();
+                    $('.pi-modal-content').html(result);
+                    $('.pi-advise-modal').modal('show');
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        'Failed To Do the operation',
+                        'danger'
+                    );
+                }
+            });
+
+
         });</script>
+
+
+        
+
+
+       
+
 }

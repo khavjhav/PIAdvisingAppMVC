@@ -61,6 +61,7 @@
                             </div>
                         </div>
                     }
+
                     <div class="table-responsive">
                         <table id="datatable" class="mb-0 table table-bordered table-hover">
                             <thead class="th-top">
@@ -68,20 +69,11 @@
                                     <th>SL</th>
                                     <th>Select</th>
                                     <th class="text-center">Booking No</th>
-                                    <th class="text-center">Booking Date</th>
+
                                     <th class="text-center">Representative Name</th>
                                     <th class="text-center">Customer Name</th>
                                     <th class="text-center">Category Name</th>
-                                    <th class="text-center">Booking Qty</th>
-                                    <th class="text-center">Booking Value</th>
-                                    <th class="text-center">Invoice Qty</th>
-                                    <th class="text-center">Invoice Value</th>
-                                    @*<th class="text-center">LC Rcv Value</th>*@
-                                    <th class="text-center">LC Balance</th>
-                                    @*<th class="text-center">PI Status</th>*@
-                                    <th class="text-center">Retailer Name</th>
-                                    <th class="text-center">Delivery (%)</th>
-                                    <th class="text-center">Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,20 +89,11 @@
                                             <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                         </td>
                                         <td class="text-left td-green">@item.BookingNo</td>
-                                        <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                        <td class="text-left td-green">@item.RepresentativeName</td>
-                                        <td class="text-left td-green">@item.CustomerName</td>
-                                        <td class="text-left td-green">@item.CategoryName</td>
-                                        <td class="text-left t  d-green">@item.BookingQty</td>
-                                        @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                        <td class="text-left td-green">@item.InvoiceQty</td>
-                                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                        @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")*@
-                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
-                                        @*<td class="text-left td-green">@item.ISPISEND</td>*@
-                                        <td class="text-left td-green">@item.RetailerName</td>
-                                        @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
-                                        <td class="td-yellow"></td>
+
+                                        <td class="text-left td-green representative-name">@item.RepresentativeName</td>
+                                        <td class="text-left td-green customer-name">@item.CustomerName</td>
+                                        <td class="text-left td-green category-name">@item.CategoryName</td>
+
                                     </tr>
                                     rowNo++;
                                 }
@@ -121,6 +104,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-6">
             <h2 class="d-flex justify-content-between align-items-center">
                 <span>Added Bookings</span>
@@ -184,6 +168,7 @@
                 $('#total-value').html(totalValue.toFixed(2));
                 console.log('totalValue',totalValue);
             }
+
             $('#datatable').DataTable();
             $('#submit-btn').on('click', function () {
                 $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {

@@ -50,7 +50,8 @@ namespace PIAdvisingApp.ViewModels
         public string RepName { get; set; }
         public decimal InvoiceQty { get; set; }
         public decimal InvoiceValue { get; set; }
-       
+        public DateTime ApiDate { get; set; }
+
     }
     //public class BondApprovedPiUpdateViewModel
     //{
