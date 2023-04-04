@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="387009c323d74b6ba5aab675d4420596" Name="Diagram1" ZoomLevel="19">
+        <EntityTypeShape EntityType="SalesCubeSepModel.BookingMain" Width="1.5" PointX="8" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.BookingSub" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.CompanyInfo" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.CustomerGenInfo" Width="1.5" PointX="5.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.CustomerRepInfo" Width="1.5" PointX="8" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.InvoiceMain" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.InvoiceSub" Width="1.5" PointX="2.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.PIMain" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.Product" Width="1.5" PointX="13" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.ProductCategory" Width="1.5" PointX="10.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.Representative" Width="1.5" PointX="14.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.Retailer" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.PISub" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.QuedOrderDetail" Width="1.5" PointX="16.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.UserMenuPermission" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.vDN" Width="1.5" PointX="4.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewBankBranch" Width="1.5" PointX="12.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewBillAddress" Width="1.5" PointX="17.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewBindingType" Width="1.5" PointX="18.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewBleachCharge" Width="1.5" PointX="18.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewBookingDetail" Width="1.5" PointX="18.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewButtonHole" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewButtonLine" Width="1.5" PointX="19.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewClauseDetail" Width="1.5" PointX="20.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewCollectionType" Width="1.5" PointX="20.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewCompanyAccount" Width="1.5" PointX="20.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewCustomerClass" Width="1.5" PointX="20.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewCustomerProfile" Width="1.5" PointX="12.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewCustomerType" Width="1.5" PointX="21.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewDeliveryPriority" Width="1.5" PointX="21.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewEditReceiveMode" Width="1.5" PointX="20.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewElasticType" Width="1.5" PointX="4.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewEmailList" Width="1.5" PointX="22.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewGSMList" Width="1.5" PointX="6.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewHangerColor" Width="1.5" PointX="22.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewMaterialList" Width="1.5" PointX="22.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewMeasurementUnit" Width="1.5" PointX="22.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewMonthPAvgPrice" Width="1.5" PointX="22.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewNSDInfo" Width="1.5" PointX="22.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.ViewOIBillPaymentData" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewPaperCombination" Width="1.5" PointX="24.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewPaperType" Width="1.5" PointX="24.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewPaymentMode" Width="1.5" PointX="24.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewPIType" Width="1.5" PointX="24.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewQuantityUnit" Width="1.5" PointX="24.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewQuedConfrimOrderDetail" Width="1.5" PointX="24.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewQuedOrderDetail" Width="1.5" PointX="4.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewQuedOrderDetailsWeb" Width="1.5" PointX="6.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewReceiveMode" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewRepresentativeType" Width="1.5" PointX="14.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewSalesRepWisePBI" Width="1.5" PointX="26.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewSealing" Width="1.5" PointX="26.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.ViewSLPNProd" Width="1.5" PointX="26.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.ViewSLPNScedule" Width="1.5" PointX="26.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.VIewSlpSale" Width="1.5" PointX="26.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewUDAuthority" Width="1.5" PointX="26.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewUserType" Width="1.5" PointX="20.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.viewWashType" Width="1.5" PointX="26.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesCubeSepModel.vtest" Width="1.5" PointX="26.75" PointY="24.75" IsExpanded="true" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_BookingMain_CustomerGenInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_CustomerRepInfo_CustomerGenInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_PIMain_PIMain" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_PIMainEditQ_PIMain" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_PISub_PIMain" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesCubeSepModel.FK_Product_ProductCategory" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
