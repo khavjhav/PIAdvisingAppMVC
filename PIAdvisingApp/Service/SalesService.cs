@@ -37,7 +37,15 @@ namespace PIAdvisingApp.Service
         //        return result;
         //    }
         //}
-
+        public class LoginService
+        {
+            public bool IsValidUser(string userName, string password)
+            {
+                // Add logic here to check if the user is valid
+                // You can query your database table to check if the user exists and if the password is correct.
+                // If the user is valid, return true. Otherwise, return false.
+            }
+        }
         public List<PrcRptLcNotReceived> LcNotReceived(DateTime? fromDate, DateTime? toDate, int productCatId = 0, int locationId = 0, int customerId = 0, int repId = 0, int teamId = 0, string contractName = "", int userID = 1, int retailerId = 0)
         {
             using (var ctx = new ApplicationDbContext())

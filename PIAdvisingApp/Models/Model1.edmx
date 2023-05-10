@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LoginModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SysUserInfo">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="smallint" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserPWD" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="UserTitle" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="DepartmentId" Type="smallint" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="1500" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="eMail" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="BookingEntryCatId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="BookingEntryLocationId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="MinPriceQAppCatId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="MinPriceQAppLocationId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CRLimitQAppCatId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CRLimitQAppLocationId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RevisionCatId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RevisionLocationId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="BarCodeRcvTypeId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="LocationId" Type="smallint" Nullable="false" />
+          <Property Name="LoginKey" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="KeyStartDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="KeyEndDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ADMRetailerId" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="UserTypeId" Type="smallint" Nullable="false" />
+          <Property Name="UserLevelId" Type="smallint" Nullable="false" />
+          <Property Name="IsLogged" Type="tinyint" Nullable="false" />
+          <Property Name="IsActive" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="LoginModelStoreContainer">
+          <EntitySet Name="SysUserInfo" EntityType="Self.SysUserInfo" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LoginModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SysUserInfo">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int16" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserPWD" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int16" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="eMail" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BookingEntryCatId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BookingEntryLocationId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MinPriceQAppCatId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MinPriceQAppLocationId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CRLimitQAppCatId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CRLimitQAppLocationId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RevisionCatId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RevisionLocationId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BarCodeRcvTypeId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LocationId" Type="Int16" Nullable="false" />
+          <Property Name="LoginKey" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KeyStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="KeyEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ADMRetailerId" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserTypeId" Type="Int16" Nullable="false" />
+          <Property Name="UserLevelId" Type="Int16" Nullable="false" />
+          <Property Name="IsLogged" Type="Byte" Nullable="false" />
+          <Property Name="IsActive" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="LoginEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SysUserInfoes" EntityType="Self.SysUserInfo" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LoginModelStoreContainer" CdmEntityContainer="LoginEntities">
+          <EntitySetMapping Name="SysUserInfoes">
+            <EntityTypeMapping TypeName="LoginModel.SysUserInfo">
+              <MappingFragment StoreEntitySet="SysUserInfo">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPWD" ColumnName="UserPWD" />
+                <ScalarProperty Name="UserTitle" ColumnName="UserTitle" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="eMail" ColumnName="eMail" />
+                <ScalarProperty Name="BookingEntryCatId" ColumnName="BookingEntryCatId" />
+                <ScalarProperty Name="BookingEntryLocationId" ColumnName="BookingEntryLocationId" />
+                <ScalarProperty Name="MinPriceQAppCatId" ColumnName="MinPriceQAppCatId" />
+                <ScalarProperty Name="MinPriceQAppLocationId" ColumnName="MinPriceQAppLocationId" />
+                <ScalarProperty Name="CRLimitQAppCatId" ColumnName="CRLimitQAppCatId" />
+                <ScalarProperty Name="CRLimitQAppLocationId" ColumnName="CRLimitQAppLocationId" />
+                <ScalarProperty Name="RevisionCatId" ColumnName="RevisionCatId" />
+                <ScalarProperty Name="RevisionLocationId" ColumnName="RevisionLocationId" />
+                <ScalarProperty Name="BarCodeRcvTypeId" ColumnName="BarCodeRcvTypeId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="LoginKey" ColumnName="LoginKey" />
+                <ScalarProperty Name="KeyStartDate" ColumnName="KeyStartDate" />
+                <ScalarProperty Name="KeyEndDate" ColumnName="KeyEndDate" />
+                <ScalarProperty Name="ADMRetailerId" ColumnName="ADMRetailerId" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="UserLevelId" ColumnName="UserLevelId" />
+                <ScalarProperty Name="IsLogged" ColumnName="IsLogged" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -15,6 +15,12 @@
         .modal-backdrop {
             z-index: 10 !important
         }
+
+        .table-scroll {
+            overflow-y: scroll;
+            display: block;
+        }
+
     </style>
 }
 <div class="app-page-title">
@@ -40,56 +46,60 @@
                     }
                 </select>
             </div>
-            <table class="mb-0 table table-bordered table-hover" id="added-table">
-                <thead>
-                    <tr>
-                        <th>Api Number</th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>Submission Date</th>
-                        <th>Customer Name</th>
-                        <th>Representative Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody style="max-height: 150px; overflow-y: scroll;">
-                    @foreach (var item in Model)
-                    {
-                        string status = "";
-                        string statusClass = "";
-                        int randomStatus = new Random().Next(1, 4);
-                        switch (randomStatus)
+            <div class="table-responsive">
+                <table class="mb-0 table table-bordered table-hover" id="added-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Submission Date</th>
+                            <th class="text-center">Api Number</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Value</th>
+
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Representative Name</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody style="max-height: 150px; overflow-y: scroll;">
+                        @foreach (var item in Model)
                         {
-                            case 1:
-                                status = "submitted";
-                                statusClass = "status-submitted";
-                                break;
-                            case 2:
-                                status = "approved by bond team";
-                                statusClass = "status-approved";
-                                break;
-                            case 3:
-                                status = "revised by bond team";
-                                statusClass = "status-revised";
-                                break;
+                            string status = "";
+                            string statusClass = "";
+                            int randomStatus = new Random().Next(1, 4);
+                            switch (randomStatus)
+                            {
+                                case 1:
+                                    status = "submitted";
+                                    statusClass = "status-submitted";
+                                    break;
+                                case 2:
+                                    status = "approved by bond team";
+                                    statusClass = "status-approved";
+                                    break;
+                                case 3:
+                                    status = "revised by bond team";
+                                    statusClass = "status-revised";
+                                    break;
+                            }
+
+                            <tr data-status="@status">
+                                <td class="text-center">@item.ApiDate.ToString("d-MMM-yy")</td>
+                                <td class="text-center"><span class="apiNumber">@item.ApiNumber</span></td>
+                                <td class="text-center">@item.InvoiceQty</td>
+                                <td class="text-center">@item.InvoiceValue</td>
+
+                                <td class="text-center">@item.CustomerName</td>
+                                <td class="text-center">@item.RepName</td>
+                                <td class="text-center @statusClass" style="display:none">@status</td>
+                            </tr>
                         }
 
-                        <tr data-status="@status">
-                            <td><span class="apiNumber">@item.ApiNumber</span></td>
-                            <td>@item.InvoiceQty</td>
-                            <td>@item.InvoiceValue</td>
-                            <td>@item.ApiDate</td>
-                            <td>@item.CustomerName</td>
-                            <td>@item.RepName</td>
-                            <td class="@statusClass" style="display:none">@status</td>
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+                    </tbody>
+                </table>
+                </div>
+                <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+            </div>
         </div>
-    </div>
 </div>
 
 <script>
