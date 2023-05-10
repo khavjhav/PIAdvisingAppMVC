@@ -15,9 +15,6 @@
         .modal-backdrop {
             z-index: 10 !important
         }
-
-
-
     </style>
 }
 <div class="app-page-title">
@@ -30,22 +27,32 @@
     </div>
 </div>
 
-
 <div class="container-fluid">
     <div class="main-card mb-6 card">
         <div class="card-body">
-            <table class="mb-0 table table-bordered table-hover" id="added-table">  
+            <div class="form-group">
+                <label for="rep-filter">Filter by Representative Name:</label>
+                <select class="form-control" id="rep-filter">
+                    <option value="">All</option>
+                    @foreach (var rep in Model.Select(x => x.RepName).Distinct())
+                    {
+                        <option value="@rep">@rep</option>
+                    }
+                </select>
+            </div>
+            <table class="mb-0 table table-bordered table-hover" id="added-table">
                 <thead>
                     <tr>
                         <th>Api Number</th>
-                        <th>Invoice Qty</th>
-                        <th>Invoice Qty</th>
+                        <th>Quantity</th>
+                        <th>Value</th>
+                        <th>Submission Date</th>
                         <th>Customer Name</th>
-                        <th>Rep Name</th>
+                        <th>Representative Name</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="max-height: 150px; overflow-y: scroll;">
                     @foreach (var item in Model)
                     {
                         string status = "";
@@ -67,21 +74,39 @@
                                 break;
                         }
 
-                        <tr>
+                        <tr data-status="@status">
                             <td><span class="apiNumber">@item.ApiNumber</span></td>
                             <td>@item.InvoiceQty</td>
                             <td>@item.InvoiceValue</td>
+                            <td>@item.ApiDate</td>
                             <td>@item.CustomerName</td>
                             <td>@item.RepName</td>
-                            <td class="@statusClass">@status</td>
+                            <td class="@statusClass" style="display:none">@status</td>
                         </tr>
                     }
+
                 </tbody>
             </table>
             <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#rep-filter-btn").click(function () {
+            var repName = $("#rep-filter").val().toLowerCase();
+            $("#added-table tbody tr").hide();
+            $("#added-table tbody tr").each(function () {
+                var currentRow = $(this);
+                var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
+                if (currentRepName.indexOf(repName) !== -1) {
+                    currentRow.show();
+                }
+            });
+        });
+    });
+</script>
 
 @section Modal {
     <div class="modal fade" id="approved-pi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -95,7 +120,7 @@
                 </div>
                 <div id="approved-pi-modal-body" class="modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-sm btn-success" id="save-btn" data-dismiss="modal">Save</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -136,7 +161,7 @@
             }
             $('#datatable').DataTable();
 
-         
+
 
             // Add status message behind every row
             var statusArr = ["Submitted", "Approved by Bond Team", "Revised by Bond Team"];
@@ -164,6 +189,49 @@
                 }
             });
 
+            $('#approved-pi').on('click', '.modal-footer .btn-success', function () {
+                // Get the row that was clicked
+                var $row = $('#approved-pi-modal-body .table tbody tr');
+
+                // Remove the row from the table's DOM
+                $row.remove();
+
+                // Send an AJAX request to update the row's status in the database
+                $.ajax({
+                    url: '/update-status',
+                    method: 'POST',
+                    data: { apiNumber: $row.find('.apiNumber').text(), status: 'approved' }
+                });
+            });
+
+            $('#save-btn').click(function () {
+                // Get all the rows in the table
+                var $rows = $('#added-table tbody tr');
+
+                // Filter out rows with a "data-status" attribute of "approved"
+                $rows = $rows.filter('[data-status!="approved"]');
+
+                // TODO: Send an AJAX request to update the rows' status in the database
+
+                // Do something with the remaining rows
+                console.log($rows);
+            });
+
+            $("#rep-filter").change(function () {
+                var repName = $(this).val().toLowerCase();
+                $("#added-table tbody tr").hide();
+                if (repName === "") {
+                    $("#added-table tbody tr").show();
+                } else {
+                    $("#added-table tbody tr").each(function () {
+                        var currentRow = $(this);
+                        var currentRepName = currentRow.find("td:eq(5)").text().toLowerCase();
+                        if (currentRepName === repName) {
+                            currentRow.show();
+                        }
+                    });
+                }
+            });
 
         });</script>
 
