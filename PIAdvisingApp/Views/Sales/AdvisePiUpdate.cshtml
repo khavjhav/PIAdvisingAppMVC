@@ -17,8 +17,8 @@
         }
 
         #added-table {
-            height: 800px; /* set the desired height */
-            overflow-y: scroll; /* add vertical scrollbar */
+            height: 700px;
+            overflow-y: scroll;
         }
 
     </style>
@@ -64,25 +64,10 @@
                                         <input type="submit" value="Submit" class="btn btn-primary" />
                                     </div>
                                 </div>
-                                <div>
-                                    <label for="rep-filter">Filter by Rep Name:</label>
-                                    <select class="form-control" id="rep-filter">
-                                        <option value="">All</option>
-                                        @foreach (var rep in Model.Select(m => m.RepresentativeName).Distinct())
-                                        {
-                                            <option value="@rep">@rep</option>
-                                        }
-                                    </select>
-                                </div>
-
                             </div>
                         </div>
                     }
                     <div class="table-responsive">
-                        <div>
-                            <button id="select-all-btn">Select All</button>
-                            <button id="clear-all-btn">Clear All</button>
-                        </div>
                         <table id="datatable" class="mb-0 table table-bordered table-hover">
                             <thead class="th-top">
                                 <tr>
@@ -109,7 +94,7 @@
                                 @{ int rowNo = 1;}
                                 @foreach (var item in Model)
                                 {
-                                    <tr data-invoice-value="@item.DelValue.ToString("0.00")">
+                                    <tr>
                                         <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
                                         <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
                                         <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
@@ -119,15 +104,13 @@
                                         </td>
                                         <td class="text-left td-green">@item.BookingNo</td>
                                         <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                        <td class="repName" style="display:none">@item.RepresentativeName</td>
+                                        <td class="text-left td-green">@item.RepresentativeName</td>
                                         <td class="text-left td-green">@item.CustomerName</td>
                                         <td class="text-left td-green">@item.CategoryName</td>
                                         <td class="text-left t  d-green">@item.BookingQty</td>
                                         @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
                                         <td class="text-left td-green">@item.InvoiceQty</td>
                                         @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-
-
                                         @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")*@
                                         @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
                                         @*<td class="text-left td-green">@item.ISPISEND</td>*@
@@ -147,13 +130,12 @@
         <div class="col-md-6">
             <h2 class="d-flex justify-content-between align-items-center">
                 <span>Added Bookings</span>
-
-                <span id="totalInvoiceValue">0.00</span>
+                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
             </h2>
             <div class="main-card mb-6 card">
                 <div class="card-body">
                     @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
-                    <table class="mb-0 table table-bordered table-hover" id="added-table">
+                    <table class="mb-0 table table-bordered table-hover" id="added-table" style="height: 700px; overflow-y: scroll;">
                         <thead>
                             <tr>
                                 <th>SL</th>
@@ -162,7 +144,6 @@
                                 <th class="text-center">Invoice Qty</th>
                                 <th class="text-center">Invoice Value</th>
                             </tr>
-
                         </thead>
                         <tbody>
                         </tbody>
@@ -178,6 +159,8 @@
                     @*</form>*@
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -230,33 +213,6 @@
                         }
                 });
             });
-
-            //// Listen to changes on the checkboxes
-            //$('.selected').change(function () {
-            //    var total = 0;
-            //    // Loop through all selected checkboxes
-            //    $('.selected:checked').each(function () {
-            //        // Get the invoice value for the corresponding row
-            //        var invoiceValue = parseFloat($(this).closest('tr').find('.td-green[data-invoice-value]').data('invoice-value'));
-            //        // Add it to the total
-            //        total += invoiceValue;
-            //    });
-            //    // Display the total in the span element
-            //    $('#totalInvoiceValue').text(total.toFixed(2));
-            //});
-
-            // Calculate total invoice value
-            var totalInvoiceValue = 0;
-            $('.selected').change(function () {
-                if ($(this).is(':checked')) {
-                    totalInvoiceValue += parseFloat($(this).closest('tr').data('invoice-value'));
-                } else {
-                    totalInvoiceValue -= parseFloat($(this).closest('tr').data('invoice-value'));
-                }
-                $('#totalInvoiceValue').text('Total Invoice Value: ' + totalInvoiceValue.toFixed(2));
-            });
-
-
             $('#advise_btn').on('click', function () {
                 @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
                 let bookings = []
@@ -281,8 +237,6 @@
                         }
                 });
 
-             
-
             });
             //changes for search
             var table = $('#datatable').DataTable({
@@ -295,7 +249,7 @@
                 table.column(5).search(this.value).draw();
             });
 
-         
+
 
             // Add search functionality for Retailer Name
             $('#retailerName').on('keyup', function () {
@@ -305,60 +259,6 @@
             // Add search functionality for Category Name
             $('#categoryName').on('keyup', function () {
                 table.column(6).search(this.value).draw();
-            });
-
-            //// Select all button
-            //$('#select-all-btn').click(function () {
-            //    $('#datatable .selected:not(:checked)').click();
-            //});
-
-            //// Clear all button
-            //$('#clear-all-btn').click(function () {
-            //    $('#datatable .selected:checked').click();
-            //});
-
-            //// Listen for change event on checkboxes in Table A
-            //$('#datatable').on('change', '.selected', function () {
-            //    var $row = $(this).closest('tr'); // Get the parent row of the checkbox
-            //    if ($(this).is(':checked')) {
-            //        // Add the row to Table B
-            //        apiDataList.push({
-            //            'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
-            //            'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
-            //            'DelValue': $(this).closest('tr').find('.DelValue').val()
-            //        });
-            //        //console.log(apiDataList);
-            //        updateTotalValue();
-            //        $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
-            //    } else {
-            //        // Remove the row from Table B
-            //        var bookingNo = $row.find('.selected').data('booking-no');
-            //        apiDataList = apiDataList.filter(function (item) {
-            //            return item.BookingNo !== bookingNo;
-            //        });
-            //        $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
-            //        updateTotalValue();
-            //    }
-            //});
-
-            // Select All button
-            $('#select-all-btn').click(function () {
-                $('.selected:visible').prop('checked', true);
-                $('.selected:visible').trigger('change');
-            });
-
-            // Clear All button
-            $('#clear-all-btn').click(function () {
-                $('#addedTable tbody tr').remove();
-                $('.selected').prop('checked', false);
-                var selectedRows = $('.selected:checked');
-                if (selectedRows.length > 0) {
-                    var totalInvoiceValue = parseFloat($('#totalInvoiceValue').text().replace('Total Invoice Value: ', ''));
-                    selectedRows.each(function () {
-                        totalInvoiceValue -= parseFloat($(this).closest('tr').data('invoice-value'));
-                    });
-                    $('#totalInvoiceValue').text('Total Invoice Value: ' + totalInvoiceValue.toFixed(2));
-                }
             });
 
             // Listen for change event on checkboxes in Table A
@@ -376,32 +276,37 @@
                     $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
                 } else {
                     // Remove the row from Table B
-                    apiDataList = apiDataList.filter(function (el) {
-                        return el.BookingNo !== $row.find('.selected').data('booking-no');
-                    });
+                    let noJohn = apiDataList.filter(el => el.name !== "John");
                     var bookingNo = $row.find('.selected').data('booking-no');
                     $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
-                    updateTotalValue();
                 }
             });
 
-            // Listen for change event on rep filter dropdown
-            $('#rep-filter').on('change', function () {
-                var rep = $(this).val();
-                $("#datatable tbody tr").each(function () {
-                    var rowRep = $(this).find(".repName").text();
-                    if (!rep || rowRep === rep) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
+            $('#datatable tbody').on('click', 'tr', function () {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                var bookingNo = $(this).find('td:eq(2)').text();
+                var product = $(this).find('td:eq(3)').text();
+                var value = $(this).find('td:eq(9)').text();
+                var specification = $(this).find('td:eq(10)').text();
+                if (checkbox.prop('checked')) {
+                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                } else {
+                    $('#added-table tbody tr').each(function () {
+                        if ($(this).find('td:eq(1)').text() == bookingNo) {
+                            $(this).remove();
+                        }
+                    });
+                }
+                // Update the summary of the Values column in Table B footer
+                var totalValue = 0;
+                $('#added-table tbody tr').each(function () {
+                    totalValue += parseFloat($(this).find('.value').text());
                 });
-                $('.selected:visible').trigger('change');
+                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
             });
-
-
-
-
-            
+            updateTotalValue();
+            $('#added-bookings-table').on('change', '.booking-select', function () {
+                updateTotalValue();
+            });
         });</script>
 }

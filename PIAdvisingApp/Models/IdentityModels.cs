@@ -29,6 +29,8 @@ namespace PIAdvisingApp.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<PIAdvisingApp.ViewModels.ApiData> ApiDatas { get; set; }
     }
 
 }

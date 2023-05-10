@@ -111,10 +111,15 @@
                             @Html.TextBox("customerName", null, new { @class = "form-control" })
                         </div>
 
-                        @*<div class="form-group col-md-2">
+                        <div class="form-group col-md-2">
                             <label for="customerName" class="col-form-label">Customer Name:</label>
-                            @Html.DropDownList("customerId", new SelectList(ViewBag.Customers, "CustomerId", "Name"), "Select a customer", new { @class = "form-control" })
-                        </div>*@
+                            @Html.TextBox("customerName", null, new { @class = "form-control" })
+                        </div>
+
+                        @*<div class="form-group col-md-2">
+            <label for="customerName" class="col-form-label">Customer Name:</label>
+            @Html.DropDownList("customerId", new SelectList(ViewBag.Customers, "CustomerId", "Name"), "Select a customer", new { @class = "form-control" })
+        </div>*@
 
                         <div class="form-group col-md-2">
                             <label for="retailerName" class="col-form-label">Retailer Name:</label>

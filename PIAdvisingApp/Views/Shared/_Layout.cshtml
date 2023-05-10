@@ -31,8 +31,10 @@
 
     @Styles.Render("~/Content/main.css")
     @RenderSection("Css", required: false)
-	@Styles.Render("~/Content/DevExtremeBundle")
-	@Scripts.Render("~/Scripts/DevExtremeBundle")
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+  
+
 </head>
 <body onload="loadingAjax('myDiv');">
     <style type="text/css">
@@ -139,9 +141,7 @@
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div style="background-color: #417E2A" class="app-header header-shadow header-text-light">
             <a style="text-decoration:none" href="@Url.Action("Index", "Home")">
-                @*<div class="app-header__logo">
-                        <img style="max-height: 50px;" src="~/Content/assets/images/mobile-logo.png" alt="logo">
-                    </div>*@
+
             </a>
             <div class="app-header__content hris-font">
                 <div class="app-header-left">
@@ -151,19 +151,14 @@
                                 <i class="nav-link-icon fa fa-home"></i> Dashboard
                             </a>
                         </li>
-                        @*<li class="btn-group nav-item">
-            <a href="javascript:void(0);" class="nav-link">
-                <i class="nav-link-icon fa fa-edit"></i>
-                Projects
-            </a>
-        </li>*@
+                  
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="nav-link-icon fa fa-edit"></i> Sales
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>
-                                <a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>
+                             @*   <a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>*@
                                 <a class="dropdown-item" href="@Url.Action("AdvisePiUpdate", "Sales")">Advise PI Updated</a>
                             </div>
                         </li>
@@ -187,7 +182,7 @@
                             </div>
                         </li>
 
-                        <li class="nav-item dropdown">
+                        @*<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="nav-link-icon fa fa-edit"></i> Experimental
                             </a>
@@ -195,7 +190,7 @@
                                 <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">CM Approval</a>
                                 <a class="dropdown-item" href="#">Report</a>
                             </div>
-                        </li>
+                        </li>*@
                     </ul>
                 </div>
                 <div class="app-header-right">
@@ -317,5 +312,6 @@
         }); // jquery end
     </script>   
     @RenderSection("Modal", required: false)
+@Html.EJS().ScriptManager()
 </body>
 </html>

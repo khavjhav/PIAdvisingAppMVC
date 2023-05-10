@@ -95,7 +95,7 @@ namespace PIAdvisingApp.Controllers
 
         public ActionResult CmApproval()
         {
-            var advicePi = _salesService.AdvisePI();
+            var advicePi = _salesService.GetPiAdvisingBondData();
             return View(advicePi);
         }
 
