@@ -11,7 +11,6 @@ namespace PIAdvisingApp.Controllers
     public class HomeController : Controller
     {
 
-        loginEntities db = new loginEntities();
         public ActionResult Index()
         {
             return View();
@@ -21,24 +20,6 @@ namespace PIAdvisingApp.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //public ActionResult Login(SysUserInfo log)
-        //{
-
-        //    var SysUserInfo = db.sysUserInfo.Where(x => x.UserName == log.UserName && x.UserPWD == log.UserPWD).Count();
-        //    if (SysUserInfo > 0 )
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-                
-        //}
-
-        
 
         public ActionResult About()
         {
