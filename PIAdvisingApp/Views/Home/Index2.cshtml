@@ -1,12 +1,12 @@
-﻿@model PIAdvisingApp.Models.SysUserInfo
+﻿ @model PIAdvisingApp.Models.SysUserInfo
 
 @{
     ViewBag.Title = "Index2";
 }
 
-<h2>Index2</h2>
+<h2>Login Page</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Index2","Home",FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace PIAdvisingApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
 
@@ -21,26 +22,23 @@ namespace PIAdvisingApp.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(SysUserInfo log)
-        {
-            var SysUserInfo= db.sysUserInfo.Where(x=>x.UserName==log.UserName && x.UserPWD==log.UserPWD).Count()
-            if (SysUserInfo > 0 )
-            {
-                return RedirectToAction("Dashboard");
-            }
-            else
-            {
-                return View();
-            }
+        //[HttpPost]
+        //public ActionResult Login(SysUserInfo log)
+        //{
+
+        //    var SysUserInfo = db.sysUserInfo.Where(x => x.UserName == log.UserName && x.UserPWD == log.UserPWD).Count();
+        //    if (SysUserInfo > 0 )
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        return View();
+        //    }
                 
-        }
+        //}
 
-        public ActionResult Dashboard()
-        {
-            return View();
-        }
-
+        
 
         public ActionResult About()
         {

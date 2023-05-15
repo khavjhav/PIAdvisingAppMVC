@@ -78,7 +78,7 @@
           <Property Name="IsActive" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityContainer Name="LoginEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="SysUserInfoes" EntityType="Self.SysUserInfo" />
+          <EntitySet Name="SysUserInfoes" EntityType="LoginModel.SysUserInfo" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>

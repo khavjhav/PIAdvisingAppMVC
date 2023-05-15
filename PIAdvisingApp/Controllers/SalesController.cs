@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace PIAdvisingApp.Controllers
 {
+    [Authorize]
     public class SalesController : Controller
     {
         private readonly SalesService _salesService;

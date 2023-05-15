@@ -1,4 +1,4 @@
-@*@using Microsoft.AspNet.Identity
+ @*@using Microsoft.AspNet.Identity
     @using Microsoft.AspNet.Identity.Owin;
     @using BudgetCubeApp.Models;
     @using BudgetCubeApp.Service;*@
@@ -13,6 +13,14 @@
         var _estimatedBudgetService = new EstimatedBudgetService();
         var budgetYear = _commonService.GetCurrentBudgetYear();
     }*@
+
+@{ 
+    bool isLoggedIn = true;
+    if (string.IsNullOrWhiteSpace(User.Identity.Name))
+    {
+        isLoggedIn = false;
+    }
+}
 <!doctype html>
 <html lang="en">
 
@@ -213,13 +221,24 @@
                                                 <span>Logout</span>
                                             </a>
                                             @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item">
+                <i class="ni ni-user-run"></i>
+                <span>Logout</span>
+            </a>
+        }*@
+                                            @{
+                                                if (isLoggedIn)
                                                 {
-                                                    @Html.AntiForgeryToken()
-                                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item">
-                                                        <i class="ni ni-user-run"></i>
-                                                        <span>Logout</span>
-                                                    </a>
-                                                }*@
+                                                    <li>@Html.ActionLink(User.Identity.Name, "Index", "Home")</li>
+                                                    <li>@Html.ActionLink("Signout", "Signout", "Home")</li>
+                                                }
+                                                else
+                                                {
+                                                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>
