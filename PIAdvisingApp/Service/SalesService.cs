@@ -67,7 +67,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-may-2023',0,0,0,0,0,null,1,0")
+                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jun-2023',0,0,0,0,0,null,1,0")
                    .ToList();
 
                 return result;

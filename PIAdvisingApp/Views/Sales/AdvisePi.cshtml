@@ -6,16 +6,103 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
 
+    @*<style>
+            .tbody, td, th {
+                padding: 2px !important;
+                font-size: 11px !important;
+            }
+
+            .modal-backdrop {
+                z-index: 10 !important
+            }
+        </style>*@
+
     <style>
-        .tbody, td, th {
-            padding: 2px !important;
-            font-size: 11px !important;
+        * {
+            box-sizing: border-box;
         }
 
-        .modal-backdrop {
-            z-index: 10 !important
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex-basis: calc(50% - 20px);
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-btn {
+            background-color: #2196f3;
+        }
+
+        .save-btn {
+            background-color: #4caf50;
+        }
+
+        .disabled-btn {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
+
 }
 <div class="app-page-title">
     <div class="page-title-wrapper">
@@ -26,347 +113,239 @@
         </div>
     </div>
 </div>
-
-<div class="container-fluid">
-
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Existing Bookings</h2>
-            <div class="main-card mb-6 card">
-                <div class="card-body">
-
-                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
-                    {
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" id="customerName" class="form-control" />
-                                    </div>
-                                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="submit" value="Submit" class="btn btn-primary" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div class="table-responsive">
-                        <table id="datatable" class="mb-0 table table-bordered table-hover">
-                            <thead class="th-top">
-                                <tr>
-                                    <th>SL</th>
-                                    <th>Select</th>
-                                    <th class="text-center">Booking No</th>
-                                    <th class="text-center">Booking Date</th>
-                                    <th class="text-center">Representative Name</th>
-                                    <th class="text-center">Customer Name</th>
-                                    <th class="text-center">Category Name</th>
-                                    <th class="text-center">Booking Qty</th>
-                                    <th class="text-center">Booking Value</th>
-                                    <th class="text-center">Invoice Qty</th>
-                                    <th class="text-center">Invoice Value</th>
-                                    <th class="text-center">LC Balance</th>
-                                    <th class="text-center">Retailer Name</th>
-                                    <th class="text-center">Delivery (%)</th>
-                                  
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{ int rowNo = 1;}
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
-                                        <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
-                                        <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
-                                        <td class="text-left td-green"><b>@rowNo</b></td>
-                                        <td class="text-center td-green">
-                                            <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
-                                        </td>
-                                        <td class="text-left td-green">@item.BookingNo</td>
-                                        <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                        <td class="text-left td-green">@item.RepresentativeName</td>
-                                        <td class="text-left td-green">@item.CustomerName</td>
-                                        <td class="text-left td-green">@item.CategoryName</td>
-                                        <td class="text-left t  d-green">@item.BookingQty</td>
-                                        @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                        <td class="text-left td-green">@item.InvoiceQty</td>
-                                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
-                                        <td class="text-left td-green">@item.RetailerName</td>
-                                        @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
-                                      
-                                    </tr>
-                                    rowNo++;
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h2 class="d-flex justify-content-between align-items-center">
-                <span>Added Bookings</span>
-                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
-            </h2>
-            <div class="main-card mb-6 card">
-                <div class="card-body">
-
-                    <table class="mb-0 table table-bordered table-hover" id="added-table">
-                        <thead>
-                            <tr>
-                                <th>SL</th>
-                                <th class="text-center">Booking No.</th>
-                                <th class="text-center">Booking Date</th>
-                                <th class="text-center">Invoice Qty</th>
-                                <th class="text-center">Invoice Value</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3"></td>
-                                <td><b id="total-value-footer"></b></td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Modal {
-    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content pi-modal-content">
-            </div>
-        </div>
-    </div>
-}
-@section Scripts {
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Booking Form</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
     <script>
-        $(document).ready(function () {
-  var apiDataList = [];
-  function updateTotalValue() {
-    var totalValue = 0.00;
-    $(apiDataList).each(function () {
-      totalValue += Number(this.DelValue);
-    });
-    $('#total-value').html(totalValue.toFixed(2));
-    console.log('totalValue', totalValue);
-  }
-  $('#datatable').DataTable();
-  $('#submit-btn').on('click', function () {
-    $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
-      if (result) {
-        console.log(result)
-        console.log(result);
-        if (result > 0) {
-          Swal.fire(
-            'Success!',
-            'Save Successful',
-            'success'
-          );
-        }
-      } else {
-        Swal.fire(
-          'Failed!',
-          'Failed To Do the operation',
-          'danger'
-        );
-      }
-    });
-  });
-  // Listen for change event on checkboxes in Table A
-  $('#datatable').on('change', '.selected', function () {
-    var $row = $(this).closest('tr');  // Get the parent row of the checkbox
-    if ($(this).is(':checked')) {
-      // Add the row to Table B
-      apiDataList.push({
-        'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
-        'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
-        'DelValue': $(this).closest('tr').find('.DelValue').val()
-      });
-      //console.log(apiDataList);
-      updateTotalValue();
-      $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
-    } else {
-      // Remove the row from Table B
-      var bookingNo = $row.find('.selected').data('booking-no');
-      apiDataList = apiDataList.filter(function (item) {
-        return item.BookingNo !== bookingNo;
-      });
-      $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
-      updateTotalValue();
-    }
-  });
-  // Listen for change event on checkboxes in Table B
-            $('#added-bookings-table').on('change', '.selected', function () {
-                var $row = $(this).closest('tr');  // Get the parent row of the checkbox
-                var bookingNo = $row.find('.booking-select').val();
-                var value = parseFloat($row.find('.value').text());
+        // Add your JavaScript code here
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Customer Details</h2>
+            <form id="customerForm">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" required><br>
 
-                if ($(this).is(':checked')) {
-                    // Add the selected value to the total
-                    updateTotalValue(value);
-                } else {
-                    // Subtract the deselected value from the total
-                    updateTotalValue(-value);
-                }
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required><br>
 
-                // Update the summary of the Values column in Table A footer
-                var totalValue = 0;
-                $('#added-bookings-table tbody tr').each(function () {
-                    if ($(this).find('.selected').is(':checked')) {
-                        totalValue += parseFloat($(this).find('.value').text());
+                <label for="salesRep">Sales Rep. Name:</label>
+                <input type="text" id="salesRep" name="salesRep" required><br>
+
+                <label for="retailerName">Retailer Name:</label>
+                <input type="text" id="retailerName" name="retailerName" required><br>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Product Details</h2>
+            <form id="productForm">
+                <label for="productCategory">Product Category:</label>
+                <select id="productCategory" name="productCategory" onchange="populateProducts()">
+                    <option value="">Select Category</option>
+                    <option value="packaging">Packaging</option>
+                    <option value="thread">Thread</option>
+                    <option value="poly">Poly</option>
+                    <option value="hanger">Hanger</option>
+                </select><br>
+
+                <label for="products">Products:</label>
+                <select id="products" name="products"></select><br>
+
+                <button type="button" onclick="addProduct()">Add Product</button>
+            </form>
+        </div>
+    </div>
+        <div class="card">
+            <h2>Selected Products</h2>
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Value</th>
+                        <th>Color</th>
+                        <th>Style</th>
+                        <th>Remarks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Selected products will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        @*<script>
+                function populateProducts() {
+                    // Get the selected category
+                    var category = document.getElementById("productCategory").value;
+
+                    // Get the products select element
+                    var productsSelect = document.getElementById("products");
+
+                    // Clear the existing options
+                    productsSelect.innerHTML = "";
+
+                    // Add options based on the selected category
+                    if (category === "packaging") {
+                        productsSelect.innerHTML += "<option value='product1'>Product 1 (Packaging)</option>";
+                        productsSelect.innerHTML += "<option value='product2'>Product 2 (Packaging)</option>";
+                        // Add more options as needed
+                    } else if (category === "thread") {
+                        productsSelect.innerHTML += "<option value='product3'>Product 3 (Thread)</option>";
+                        productsSelect.innerHTML += "<option value='product4'>Product 4 (Thread)</option>";
+                        // Add more options as needed
+                    } else if (category === "poly") {
+                        productsSelect.innerHTML += "<option value='product5'>Product 5 (Poly)</option>";
+                        productsSelect.innerHTML += "<option value='product6'>Product 6 (Poly)</option>";
+                        // Add more options as needed
+                    } else if (category === "hanger") {
+                        productsSelect.innerHTML += "<option value='product7'>Product 7 (Hanger)</option>";
+                        productsSelect.innerHTML += "<option value='product8'>Product 8 (Hanger)</option>";
+                        // Add more options as needed
                     }
-                });
-                $('#added-bookings-table tfoot td:eq(3)').text(totalValue.toFixed(2));
-            });
-
-            function updateTotalValue(value) {
-                var totalValue = parseFloat($('#total-value').text());
-                if (isNaN(totalValue)) {
-                    totalValue = 0;
                 }
-                totalValue += value;
-                $('#total-value').html(totalValue.toFixed(2));
+
+                function addProduct() {
+                    // Get the selected product
+                    var product = document.getElementById("products").value;
+
+                    // Get the table body
+                    var tableBody = document.getElementById("productTable").getElementsByTagName("tbody")[0];
+
+                    // Create a new row
+                    var newRow = tableBody.insertRow();
+
+                    // Insert cells into the row
+                    var productNameCell = newRow.insertCell(0);
+                    var qtyCell = newRow.insertCell(1);
+                    var unitPriceCell = newRow.insertCell(2);
+                    var colorCell = newRow.insertCell(3);
+                    var styleCell = newRow.insertCell(4);
+                    var remarksCell = newRow.insertCell(5);
+
+                    // Set the cell values
+                    productNameCell.innerHTML = product;
+                    qtyCell.innerHTML = "<input type='text' name='qty'>";
+                    unitPriceCell.innerHTML = "<input type='text' name='unitPrice'>";
+                    colorCell.innerHTML = "<input type='text' name='color'>";
+                    styleCell.innerHTML = "<input type='text' name='style'>";
+                    remarksCell.innerHTML = "<input type='text' name='remarks'>";
+                }
+            </script>*@
+
+        <script>
+            // Add your JavaScript code here
+            function populateProducts() {
+                // Get the selected category
+                var category = document.getElementById("productCategory").value;
+
+                // Get the products select element
+                var productsSelect = document.getElementById("products");
+
+                // Clear the existing options
+                productsSelect.innerHTML = "";
+
+                // Add options based on the selected category
+                if (category === "packaging") {
+                    productsSelect.innerHTML += "<option value='product1'>Product 1 (Packaging)</option>";
+                    productsSelect.innerHTML += "<option value='product2'>Product 2 (Packaging)</option>";
+                    // Add more options as needed
+                } else if (category === "thread") {
+                    productsSelect.innerHTML += "<option value='product3'>Product 3 (Thread)</option>";
+                    productsSelect.innerHTML += "<option value='product4'>Product 4 (Thread)</option>";
+                    // Add more options as needed
+                } else if (category === "poly") {
+                    productsSelect.innerHTML += "<option value='product5'>Product 5 (Poly)</option>";
+                    productsSelect.innerHTML += "<option value='product6'>Product 6 (Poly)</option>";
+                    // Add more options as needed
+                } else if (category === "hanger") {
+                    productsSelect.innerHTML += "<option value='product7'>Product 7 (Hanger)</option>";
+                    productsSelect.innerHTML += "<option value='product8'>Product 8 (Hanger)</option>";
+                    // Add more options as needed
+                }
             }
 
-            $('#submit-btn').on('click', function () {
-                $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
-                    if (result) {
-                        console.log(result)
-                        console.log(result);
-                        if (result > 0) {
-                            Swal.fire(
-                                'Success!',
-                                'Save Successful',
-                                'success'
-                            );
-                        }
-                        } else {
-                            Swal.fire(
-                                'Failed!',
-                                'Failed To Do the operation',
-                                'danger'
-                            );
-                        }
-                });
-            });
-        });
+            function addProduct() {
+                // Get the selected product
+                var product = document.getElementById("products").value;
 
-            $('#datatable tbody').on('click', 'tr', function () {
-                var checkbox = $(this).find('input[type="checkbox"]');
-                var bookingNo = $(this).find('td:eq(2)').text();
-                var product = $(this).find('td:eq(3)').text();
-                var value = $(this).find('td:eq(9)').text();
-                var specification = $(this).find('td:eq(10)').text();
+                // Get the table body
+                var tableBody = document.getElementById("productTable").getElementsByTagName("tbody")[0];
 
-                if (checkbox.prop('checked')) {
-                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
-                } else {
-                    $('#added-table tbody tr').each(function () {
-                        if ($(this).find('td:eq(1)').text() == bookingNo) {
-                            $(this).remove();
-                            var deselectedValue = parseFloat($(this).find('.value').text());
-                            updateTotalValue(-deselectedValue);
-                        }
-                    });
-                }
+                // Create a new row
+                var newRow = tableBody.insertRow();
 
-                // Update the summary of the Values column in Table B footer
-                var totalValue = 0;
-                $('#added-table tbody tr').each(function () {
-                    totalValue += parseFloat($(this).find('.value').text());
-                });
-                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
-                updateTotalValue();
-            });
+                // Insert cells into the row
+                var productNameCell = newRow.insertCell(0);
+                var qtyCell = newRow.insertCell(1);
+                var unitPriceCell = newRow.insertCell(2);
+                var valueCell = newRow.insertCell(3);
+                var colorCell = newRow.insertCell(4);
+                var styleCell = newRow.insertCell(5);
+                var remarksCell = newRow.insertCell(6);
+                var actionsCell = newRow.insertCell(7);
 
-            updateTotalValue();
-            $('#added-bookings-table').on('change', '.booking-select', function () {
-                updateTotalValue();
-            });
+                // Set the cell values
+                productNameCell.innerHTML = product;
+                qtyCell.innerHTML = "<input type='text' name='qty'>";
+                unitPriceCell.innerHTML = "<input type='text' name='unitPrice'>";
+                valueCell.innerHTML = "<input type='text' name='value'>";
+                colorCell.innerHTML = "<input type='text' name='color'>";
+                styleCell.innerHTML = "<input type='text' name='style'>";
+                remarksCell.innerHTML = "<input type='text' name='remarks'>";
+                actionsCell.innerHTML = "<button onclick='saveProduct(this)'>Save</button> <button onclick='editProduct(this)'>Edit</button>";
+            }
 
-        //changes for search
-        var table = $('#datatable').DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "order": [[1, "desc"]]
-        });
+            function saveProduct(button) {
+                var row = button.parentNode.parentNode;
+                var qty = row.cells[1].querySelector("input[name='qty']").value;
+                var unitPrice = row.cells[2].querySelector("input[name='unitPrice']").value;
+                var value = row.cells[3].querySelector("input[name='value']").value;
+                var color = row.cells[4].querySelector("input[name='color']").value;
+                var style = row.cells[5].querySelector("input[name='style']").value;
+                var remarks = row.cells[6].querySelector("input[name='remarks']").value;
 
-        // Add search functionality for Customer Name
-        $('#customerName').on('keyup', function () {
-            table.column(5).search(this.value).draw();
-        });
+                // Update the cell values
+                row.cells[1].innerHTML = qty;
+                row.cells[2].innerHTML = unitPrice;
+                row.cells[3].innerHTML = value;
+                row.cells[4].innerHTML = color;
+                row.cells[5].innerHTML = style;
+                row.cells[6].innerHTML = remarks;
 
+                // Disable the "Save" button
+                button.disabled = true;
+            }
 
+            function editProduct(button) {
+                var row = button.parentNode.parentNode;
+                var qty = row.cells[1].innerHTML;
+                var unitPrice = row.cells[2].innerHTML;
+                var color = row.cells[3].innerHTML;
+                var style = row.cells[4].innerHTML;
+                var remarks = row.cells[5].innerHTML;
 
-        // Add search functionality for Retailer Name
-        $('#retailerName').on('keyup', function () {
-            table.column(12).search(this.value).draw();
-        });
+                // Set the cell values as input fields
+                row.cells[1].innerHTML = "<input type='text' name='qty' value='" + qty + "'>";
+                row.cells[2].innerHTML = "<input type='text' name='unitPrice' value='" + unitPrice + "'>";
+                row.cells[3].innerHTML = "<input type='text' name='color' value='" + color + "'>";
+                row.cells[4].innerHTML = "<input type='text' name='style' value='" + style + "'>";
+                row.cells[5].innerHTML = "<input type='text' name='remarks' value='" + remarks + "'>";
 
-        // Add search functionality for Category Name
-        $('#categoryName').on('keyup', function () {
-            table.column(6).search(this.value).draw();
-        });
+                // Enable the "Save" button
+                var saveButton = row.cells[6].querySelector("button:nth-of-type(1)");
+                saveButton.disabled = false;
+            }
+        </script>
 
-        $('#advise_btn').on('click', function () {
-            let bookings = []
-            $('input[type=checkbox]').each(function () {
-                if ($(this).is(":checked")) {
-                    bookings.push($(this).attr('data-booking-no'));
-                }
-            });
-            $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
-                if (result) {
-                    //console.log(result)
-                    //console.log(result);
-                    $('.pi-modal-content').empty();
-                    $('.pi-modal-content').html(result);
-                    $('.pi-advise-modal').modal('show');
-                } else {
-                    Swal.fire(
-                        'Failed!',
-                        'Failed To Do the operation',
-                        'danger'
-                    );
-                }
-            });
-
-
-        });</script>
-
-
-        
-
-
-       
-
-}
+</body>
+</html>
