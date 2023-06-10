@@ -43,7 +43,13 @@ namespace PIAdvisingApp.ViewModels
         public string BondName { get; set; }
         public string HSCode { get; set; }
         public string CustomerName { get; set; }
-        public string RepName { get; set; }
+        public string ShortName { get; set; }
+
+        public string RetailerName  { get; set; }
+        
+        public string IssuerName { get; set; } 
+
+        public string CompanyName { get; set; }
     }
 
     public class PiAdvisingBondMainViewModel

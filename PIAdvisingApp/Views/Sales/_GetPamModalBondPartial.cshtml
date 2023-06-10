@@ -1,17 +1,31 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
 <div class="modal-content">
+
+    <div id="loading-animation" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
     <div class="modal-header">
-        <h5 class="modal-title">Modal Title</h5>
+        <h5 class="modal-title">Bond Approval For Rep.</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
 
+
     @{
         var CustomerName = ""; // Initialize the customer name variable
-        var CategoryName = ""; // Initialize the product name variable
+
         var ProductName = ""; // Initialize the product name variable
+        var ShortName = "";
+        var RetailerName = "";
+        var IssuerName = "";
+        var CompanyName = "";
+
+
 
         if (Model.Any())
         {
@@ -19,6 +33,10 @@
             var firstItem = Model.First();
             CustomerName = firstItem.CustomerName;
             ProductName = firstItem.ProductName;
+            ShortName = firstItem.ShortName;
+            IssuerName = firstItem.IssuerName;
+            RetailerName = firstItem.RetailerName;
+            CompanyName = firstItem.CompanyName;
         }
     }
 
@@ -31,36 +49,36 @@
                 </div>
                 <div class="form-group">
                     <label for="retailerName">Retailer Name</label>
-                    <input type="text" class="form-control" id="retailerName" name="retailerName" value="Retailer Name" />
+                    <input type="text" class="form-control" id="retailerName" name="retailerName" value="@RetailerName" readonly />
                 </div>
                 <div class="form-group">
                     <label for="representativeName">Sales Rep. Name</label>
-                    <input type="text" class="form-control" id="representativeName" name="representativeName" value="Sales Rep. Name" />
+                    <input type="text" class="form-control" id="representativeName" name="representativeName" value="@ShortName" readonly />
                 </div>
                 <div class="form-group">
                     <label for="companyName">Company Name</label>
-                    <input type="text" class="form-control" id="companyName" name="companyName" value="Company Name" />
+                    <input type="text" class="form-control" id="companyName" name="companyName" value="@CompanyName" readonly />
                 </div>
             </div>
             <!--<div class="col-md-6">
-    <div class="form-group">
-        <label for="productCategory">Product Category</label>
-        <select class="form-control" id="productCategory" name="productCategory">
-            <option value="">Select Category</option>
-            <option value="packaging">Packaging</option>
-            <option value="poly">Poly</option>
-            <option value="thread">Thread</option>-->
+            <div class="form-group">
+                <label for="productCategory">Product Category</label>
+                <select class="form-control" id="productCategory" name="productCategory">
+                    <option value="">Select Category</option>
+                    <option value="packaging">Packaging</option>
+                    <option value="poly">Poly</option>
+                    <option value="thread">Thread</option>-->
             <!-- Add other category options here -->
             <!--</select>
-    </div>
-    <div class="form-group">
-        <label for="productName">Product Name</label>
-        <select class="form-control" id="productName" name="productName">
-            <option value="">Select Product</option>-->
+            </div>
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <select class="form-control" id="productName" name="productName">
+                    <option value="">Select Product</option>-->
             <!-- Populate product options based on the selected category using JavaScript -->
             <!--</select>
-        </div>
-    </div>-->
+                </div>
+            </div>-->
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="productCategory">Product Category</label>
@@ -90,6 +108,7 @@
                 <thead>
                     <tr>
                         <th>BookingNo</th>
+                
                         <th>CategoryName</th>
                         <th>ProductName</th>
                         <th>BondName</th>
@@ -98,14 +117,17 @@
                         <th>Measurement</th>
                         <th>MeasureUnit</th>
                         <th>HSCode</th>
+
                         @*<th>CustomerName</th>*@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.GroupBy(x => new { x.BookingNo, x.ShortName,
+                        x.CategoryName, x.ProductName, x.BondName, x.InvoiceQty, x.QuantityUnit, x.Measurement, x.MeasureUnit, x.HSCode }).Select(g => g.First()))
                     {
                         <tr>
                             <td>@item.BookingNo</td>
+                           
                             <td>@item.CategoryName</td>
                             <td>
                                 <input type="text" class="form-control form-control-sm" name="name" value="@item.ProductName" />
@@ -128,7 +150,6 @@
                             <td>
                                 <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
                             </td>
-                            @*<td>@item.CustomerName</td>*@
                         </tr>
                     }
                 </tbody>
@@ -140,3 +161,22 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Hide the modal content initially
+        $("#modal-content-wrapper").hide();
+
+        // Show loading animation
+        $("#loading-animation").show();
+
+        // Simulate delay for demonstration purposes
+        setTimeout(function () {
+            // Hide loading animation
+            $("#loading-animation").hide();
+
+            // Show the modal content
+            $("#modal-content-wrapper").show();
+        }, 2000); // Adjust the delay duration as needed
+    });
+</script>
