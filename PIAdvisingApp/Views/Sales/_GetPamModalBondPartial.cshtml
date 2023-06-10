@@ -1,36 +1,142 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
-<div style="height: 400px; overflow-y: scroll;">
-    <table class="mb-0 table table-bordered table-hover" id="added-table">
-        <thead style="position: sticky; top: 0; background-color: #fff;">
-            <tr>
-                <th>BookingNo</th>
-                <th>CategoryName</th>
-                <th>ProductName</th>
-                <th>BondName</th>
-                <th>InvoiceQty</th>
-                <th>QuantityUnit</th>
-                <th>Measurement</th>
-                <th>MeasureUnit</th>
-                <th>HSCode</th>
-                <th>CustomerName</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.BookingNo</td>
-                    <td>@item.CategoryName</td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.ProductName" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.BondName" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.InvoiceQty" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.QuantityUnit" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.Measurement" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.MeasureUnit" /></td>
-                    <td><input type="text" class="form-control form-control-sm m-0 p-0" name="name" value="@item.HSCode" /></td>
-                    <td>@item.CustomerName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Modal Title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    @{
+        var CustomerName = ""; // Initialize the customer name variable
+        var CategoryName = ""; // Initialize the product name variable
+        var ProductName = ""; // Initialize the product name variable
+
+        if (Model.Any())
+        {
+            // Assuming the customer name and product name are available in the first item of the Model collection
+            var firstItem = Model.First();
+            CustomerName = firstItem.CustomerName;
+            ProductName = firstItem.ProductName;
+        }
+    }
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" name="customerName" value="@CustomerName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="retailerName">Retailer Name</label>
+                    <input type="text" class="form-control" id="retailerName" name="retailerName" value="Retailer Name" />
+                </div>
+                <div class="form-group">
+                    <label for="representativeName">Sales Rep. Name</label>
+                    <input type="text" class="form-control" id="representativeName" name="representativeName" value="Sales Rep. Name" />
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" class="form-control" id="companyName" name="companyName" value="Company Name" />
+                </div>
+            </div>
+            <!--<div class="col-md-6">
+    <div class="form-group">
+        <label for="productCategory">Product Category</label>
+        <select class="form-control" id="productCategory" name="productCategory">
+            <option value="">Select Category</option>
+            <option value="packaging">Packaging</option>
+            <option value="poly">Poly</option>
+            <option value="thread">Thread</option>-->
+            <!-- Add other category options here -->
+            <!--</select>
+    </div>
+    <div class="form-group">
+        <label for="productName">Product Name</label>
+        <select class="form-control" id="productName" name="productName">
+            <option value="">Select Product</option>-->
+            <!-- Populate product options based on the selected category using JavaScript -->
+            <!--</select>
+        </div>
+    </div>-->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="productCategory">Product Category</label>
+                    <select class="form-control" id="productCategory" name="productCategory">
+                        <option value="">Select Category</option>
+                        @foreach (var item in Model.Select(x => x.CategoryName).Distinct())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <select class="form-control" id="productName" name="productName">
+                        <option value="">Select Product</option>
+                        @foreach (var item in Model.Select(x => x.ProductName).Distinct())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>BookingNo</th>
+                        <th>CategoryName</th>
+                        <th>ProductName</th>
+                        <th>BondName</th>
+                        <th>InvoiceQty</th>
+                        <th>QuantityUnit</th>
+                        <th>Measurement</th>
+                        <th>MeasureUnit</th>
+                        <th>HSCode</th>
+                        @*<th>CustomerName</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BookingNo</td>
+                            <td>@item.CategoryName</td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.ProductName" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.BondName" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.InvoiceQty" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.QuantityUnit" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.Measurement" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.MeasureUnit" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
+                            </td>
+                            @*<td>@item.CustomerName</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
 </div>
