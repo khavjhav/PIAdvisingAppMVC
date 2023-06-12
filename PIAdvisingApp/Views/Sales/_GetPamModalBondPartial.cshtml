@@ -122,7 +122,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.GroupBy(x => new { x.BookingNo, x.ShortName,
+                    @foreach (var item in Model.GroupBy(x => new { x.BookingNo, 
                         x.CategoryName, x.ProductName, x.BondName, x.InvoiceQty, x.QuantityUnit, x.Measurement, x.MeasureUnit, x.HSCode }).Select(g => g.First()))
                     {
                         <tr>
