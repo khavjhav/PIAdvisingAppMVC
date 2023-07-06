@@ -1,23 +1,218 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PrcRptLcNotReceived>
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
-<link href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css" rel="stylesheet" />
-<link href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
 
-<div class="col-md-6">
-    <h2 class="d-flex justify-content-between align-items-center">
-        <span>Added Bookings</span>
-        <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
-    </h2>
-    <div class="main-card mb-6 card">
-        <div class="card-body">
-            <div id="added-grid" style="height: 400px;"></div>
-            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+    <style>
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+
+        .modal-backdrop {
+            z-index: 10 !important
+        }
+
+        #added-table {
+            height: 700px;
+            overflow-y: scroll;
+        }
+
+        /* Data Grid styles */
+        .datagrid {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+        }
+
+        .header {
+            background-color: #f1f1f1;
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            font-weight: bold;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+        }
+
+        .cell {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        /* Additional styles for checkboxes */
+        input[type="checkbox"] {
+            margin: 0;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .td-green {
+            background-color: #e5ffe5;
+        }
+
+        .td-pink {
+            background-color: #ffe5e5;
+        }
+
+        .td-yellow {
+            background-color: #ffffe5;
+        }
+
+    </style>
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Advise PI Update
+            </div>
         </div>
     </div>
 </div>
 
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Existing Bookings</h2>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+
+                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" id="customerName" class="form-control" />
+                                    </div>
+                                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="submit" value="Submit" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="datagrid">
+                        <div class="header">
+                            <div class="cell">SL</div>
+                            <div class="cell">Select</div>
+                            <div class="cell">Booking No</div>
+                            <div class="cell">Booking Date</div>
+                            <div class="cell">Representative Name</div>
+                            <div class="cell">Customer Name</div>
+                            <div class="cell">Category Name</div>
+                            <div class="cell">Booking Qty</div>
+                            <div class="cell">Booking Value</div>
+                            <div class="cell">Invoice Qty</div>
+                            <div class="cell">Invoice Value</div>
+                            <div class="cell">LC Balance</div>
+                            <div class="cell">Retailer Name</div>
+                            <div class="cell">Delivery (%)</div>
+                            <div class="cell">Actions</div>
+                        </div>
+
+                        @{ int rowNo = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <div class="row">
+                                <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
+                                <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
+                                <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
+                                <div class="cell">@rowNo</div>
+                                <div class="cell">
+                                    <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
+                                </div>
+                                <div class="cell">@item.BookingNo</div>
+                                <div class="cell">@item.BookingDate.ToString("d-MMM-yyyy")</div>
+                                <div class="cell">@item.RepresentativeName</div>
+                                <div class="cell">@item.CustomerName</div>
+                                <div class="cell">@item.CategoryName</div>
+                                <div class="cell">@item.BookingQty</div>
+                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")</div>
+                                <div class="cell">@item.InvoiceQty</div>
+                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")</div>
+                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")</div>
+                                <div class="cell">@item.RetailerName</div>
+                                <div class="cell">@MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")</div>
+                                <div class="cell td-yellow"></div>
+                            </div>
+                            rowNo++;
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="d-flex justify-content-between align-items-center">
+                <span>Added Bookings</span>
+                <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
+            </h2>
+            <div class="main-card mb-6 card">
+                <div class="card-body">
+                    @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
+                    <table class="mb-0 table table-bordered table-hover" id="added-table" style="height: 700px; overflow-y: scroll;">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th class="text-center">Booking No.</th>
+                                <th class="text-center">Booking Date</th>
+                                <th class="text-center">Invoice Qty</th>
+                                <th class="text-center">Invoice Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td><b id="total-value-footer"></b></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+                    @*</form>*@
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section Modal {
+    <div class="modal fade pi-advise-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content pi-modal-content">
+            </div>
+        </div>
+    </div>
+}
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@26.2.0/dist/ag-grid-community.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script>
         $(document).ready(function () {
@@ -28,62 +223,124 @@
                     totalValue += Number(this.DelValue);
                 });
                 $('#total-value').html(totalValue.toFixed(2));
-                console.log('totalValue', totalValue);
+                console.log('totalValue',totalValue);
             }
-
-            // Configure ag-Grid
-            var columnDefs = [
-                { headerName: 'SL', field: 'SL', width: 70 },
-                { headerName: 'Booking No.', field: 'BookingNo', width: 200 },
-                { headerName: 'Booking Date', field: 'BookingDate', width: 200 },
-                { headerName: 'Invoice Qty', field: 'InvoiceQty', width: 150 },
-                { headerName: 'Invoice Value', field: 'InvoiceValue', width: 150 },
-            ];
-
-            var gridOptions = {
-                columnDefs: columnDefs,
-                rowData: [],
-                defaultColDef: {
-                    resizable: true,
-                    sortable: true,
-                },
-                rowSelection: 'multiple',
-                onSelectionChanged: function () {
-                    var selectedRows = gridOptions.api.getSelectedRows();
-                    apiDataList = selectedRows.map(function (row) {
-                        return {
-                            'BookingNo': row.BookingNo,
-                            'InvoiceQty': Number(row.InvoiceQty),
-                            'DelValue': row.InvoiceValue
-                        };
-                    });
-                    updateTotalValue();
-                },
-            };
-
-            // Create ag-Grid
-            new agGrid.Grid(document.querySelector('#added-grid'), gridOptions);
-
+            $('#datatable').DataTable();
             $('#submit-btn').on('click', function () {
-                // Perform submit action
-                // ...
+                $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
+                    if (result) {
+                        console.log(result)
+                        console.log(result);
+                        if (result > 0) {
+                            Swal.fire(
+                                'Success!',
+                                'Save Successful',
+                                'success'
+                            );
+                        }
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+            });
+            $('#advise_btn').on('click', function () {
+                @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
+                let bookings = []
+                $('input[type=checkbox]').each(function () {
+                    if ($(this).is(":checked")) {
+                        bookings.push($(this).attr('data-booking-no'));
+                    }
+                });
+                $.post("@Url.Action("LoadPiAdvisingDataPartial", "Sales")", { bookings: bookings }, function (result) {
+                    if (result) {
+                        //console.log(result)
+                            //console.log(result);
+                            $('.pi-modal-content').empty();
+                            $('.pi-modal-content').html(result);
+                            $('.pi-advise-modal').modal('show');
+                        } else {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed To Do the operation',
+                                'danger'
+                            );
+                        }
+                });
+
+            });
+            //changes for search
+            var table = $('#datatable').DataTable({
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[1, "desc"]]
             });
 
-            // Populate ag-Grid with data
-            var rowData = [];
-            var rowNo = 1;
-            @foreach (var item in Model)
-            {
-                <text>rowData.push({</text>
-                    <text>'SL': '@rowNo',</text>
-                    <text>'BookingNo': '@item.BookingNo',</text>
-                    <text>'BookingDate': '@item.BookingDate.ToString("d-MMM-yyyy")',</text>
-                    <text>'InvoiceQty': '@item.InvoiceQty',</text>
-                    <text>'InvoiceValue': '@item.InvoiceValue',</text>
-                <text>});</text>
-                <text>rowNo++;</text>
-            }
-            gridOptions.api.setRowData(rowData);
-        });
-    </script>
+            // Add search functionality for Customer Name
+            $('#customerName').on('keyup', function () {
+                table.column(5).search(this.value).draw();
+            });
+
+
+
+            // Add search functionality for Retailer Name
+            $('#retailerName').on('keyup', function () {
+                table.column(12).search(this.value).draw();
+            });
+
+            // Add search functionality for Category Name
+            $('#categoryName').on('keyup', function () {
+                table.column(6).search(this.value).draw();
+            });
+
+            // Listen for change event on checkboxes in Table A
+            $('#datatable').on('change', '.selected', function () {
+                var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+                if ($(this).is(':checked')) {
+                    // Add the row to Table B
+                    apiDataList.push({
+                        'BookingNo': $(this).closest('tr').find('.BookingNo').val(),
+                        'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
+                        'DelValue': $(this).closest('tr').find('.DelValue').val()
+                    });
+                    //console.log(apiDataList);
+                    updateTotalValue();
+                    $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
+                } else {
+                    // Remove the row from Table B
+                    let noJohn = apiDataList.filter(el => el.name !== "John");
+                    var bookingNo = $row.find('.selected').data('booking-no');
+                    $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
+                }
+            });
+
+            $('#datatable tbody').on('click', 'tr', function () {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                var bookingNo = $(this).find('td:eq(2)').text();
+                var product = $(this).find('td:eq(3)').text();
+                var value = $(this).find('td:eq(9)').text();
+                var specification = $(this).find('td:eq(10)').text();
+                if (checkbox.prop('checked')) {
+                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+                } else {
+                    $('#added-table tbody tr').each(function () {
+                        if ($(this).find('td:eq(1)').text() == bookingNo) {
+                            $(this).remove();
+                        }
+                    });
+                }
+                // Update the summary of the Values column in Table B footer
+                var totalValue = 0;
+                $('#added-table tbody tr').each(function () {
+                    totalValue += parseFloat($(this).find('.value').text());
+                });
+                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+            });
+            updateTotalValue();
+            $('#added-bookings-table').on('change', '.booking-select', function () {
+                updateTotalValue();
+            });
+        });</script>
 }
