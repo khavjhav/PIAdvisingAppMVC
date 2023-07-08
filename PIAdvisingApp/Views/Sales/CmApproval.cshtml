@@ -129,10 +129,10 @@
                     </button>
                 </div>
                 <div id="approved-pi-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
+                @*<div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-success" id="save-btn" data-dismiss="modal">Save</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -152,7 +152,7 @@
                 $('#approved-pi-modal-body').html(null);
                 let apiNumber = $(this).text();
                 $('#api-number-heading').text(apiNumber);
-                $.post("@Url.Action("GetPamModalBondPartial", "Sales")", { apiNumber }, function (result) {
+                $.post("@Url.Action("GetPamModalCmPartial", "Sales")", { apiNumber }, function (result) {
                     $('#approved-pi-modal-body').html(result);
                 });
                 $('#approved-pi').modal({
@@ -214,18 +214,18 @@
                 });
             });
 
-            $('#save-btn').click(function () {
-                // Get all the rows in the table
-                var $rows = $('#added-table tbody tr');
+            //$('#save-btn').click(function () {
+            //    // Get all the rows in the table
+            //    var $rows = $('#added-table tbody tr');
 
-                // Filter out rows with a "data-status" attribute of "approved"
-                $rows = $rows.filter('[data-status!="approved"]');
+            //    // Filter out rows with a "data-status" attribute of "approved"
+            //    $rows = $rows.filter('[data-status!="approved"]');
 
-                // TODO: Send an AJAX request to update the rows' status in the database
+            //    // TODO: Send an AJAX request to update the rows' status in the database
 
-                // Do something with the remaining rows
-                console.log($rows);
-            });
+            //    // Do something with the remaining rows
+            //    console.log($rows);
+            //});
 
             $("#rep-filter").change(function () {
                 var repName = $(this).val().toLowerCase();

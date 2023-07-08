@@ -1,4 +1,5 @@
-﻿using PIAdvisingApp.Models;
+﻿using DevExpress.XtraExport;
+using PIAdvisingApp.Models;
 using PIAdvisingApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -156,6 +157,32 @@ namespace PIAdvisingApp.Service
             }
         }
 
-
+        public void SaveCmApi(CmApprovalModalVm data)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                //Save main data
+                var masterQuery = "INSERT INTO dbo.PiAdvisingBondMain VALUES (@BookingNo, @InvoiceQty, @InvoiceValue, @ApiNumber, @ApiDate)";
+                var masterResult = ctx.Database
+                .ExecuteSqlCommand(masterQuery,
+                        new SqlParameter("CustomerName", data.CustomerName),
+                        new SqlParameter("RetailerName", data.RetailerName),
+                        new SqlParameter("ClauseName", data.ClauseName),
+                        new SqlParameter("ApiNumber", data),
+                        new SqlParameter("ApiDate", DateTime.Now)
+                        );
+                var insertedRowId = 0;
+                foreach(var detail in data.Details)
+                {
+                    //Save Sub data
+                    var detailQuery = "INSERT INTO dbo.PiAdvisingBondMain VALUES (@BookingNo, @InvoiceQty, @InvoiceValue, @ApiNumber, @ApiDate)";
+                    var detailResult = ctx.Database
+                    .ExecuteSqlCommand(detailQuery,
+                            new SqlParameter("CustomerName", detail.BondName),
+                            new SqlParameter("RetailerName", detail.BookingNo)
+                            );
+                }
+            }
+        }
     }
 }

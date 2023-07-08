@@ -369,6 +369,7 @@
     <Compile Include="viewMeasurementUnit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CmApprovalModalVm.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PrcRptLcNotReceived.cs" />
     <Compile Include="viewMonthPAvgPrice.cs">
@@ -698,6 +699,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Accounts\Login.cshtml" />
     <Content Include="Views\Sales\ClauseDetails.cshtml" />
+    <Content Include="Views\Sales\_GetPamModalCmPartial.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

@@ -126,8 +126,8 @@ namespace PIAdvisingApp.Controllers
             var advicePi = _salesService.GetPiAdvisingBondData();
             return View(advicePi);
 
-        }  
-        
+        }
+
         public ActionResult GetPamModalBondPartial(string apiNumber)
         {
             var result = _salesService.GetPamModalBond(apiNumber);
@@ -135,7 +135,20 @@ namespace PIAdvisingApp.Controllers
 
         }
 
+        public ActionResult GetPamModalCmPartial(string apiNumber)
+        {
+            var result = _salesService.GetPamModalBond(apiNumber);
+            ViewBag.ClauseModels = _salesService.GetAllClauseDetails();
+            return PartialView("_GetPamModalCmPartial", result);
 
+        }
+
+        [HttpPost]
+        public JsonResult SaveCmApi(CmApprovalModalVm data)
+        {
+            _salesService.SaveCmApi(data);
+            return Json("success");
+        }
 
         //public ActionResult BondApprovedPiUpdate()
         //{
@@ -228,7 +241,7 @@ namespace PIAdvisingApp.Controllers
                 rowAffected += _salesService.SavePiAdvisingBondMain(apiData);
             }
 
-            return Json(true); 
+            return Json(true);
         }
 
 

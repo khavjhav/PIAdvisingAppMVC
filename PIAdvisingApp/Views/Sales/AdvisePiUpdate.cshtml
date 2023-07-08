@@ -47,21 +47,46 @@
                                 <div class="form-group row">
                                     <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
                                     <div class="col-sm-4">
-                                        <input type="text" id="customerName" class="form-control" />
+                                        @*<input type="text" id="customerName" class="form-control" />*@
+                                        <select class="form-control" id="customer-filter">
+                                            <option value="">All</option>
+                                            @foreach (var customerName in Model.Select(x => x.CustomerName).Distinct())
+                                            {
+                                                <option value="@customerName">@customerName</option>
+                                            }
+                                        </select>
+
+
                                     </div>
+
+                              
                                     <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
                                     <div class="col-sm-4">
-                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                                        @* @Html.TextBox("retailerName", null, new { @class = "form-control" })*@
+                                        <select class="form-control" id="customer-filter">
+                                            <option value="">All</option>
+                                            @foreach (var retailerName in Model.Select(x => x.RetailerName).Distinct())
+                                            {
+                                                <option value="@retailerName">@retailerName</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
                                     <div class="col-sm-4">
-                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
+                                        @*@Html.TextBox("categoryName", null, new { @class = "form-control" })*@
+                                        <select class="form-control" id="customer-filter">
+                                            <option value="">All</option>
+                                            @foreach (var categoryName in Model.Select(x => x.CategoryName).Distinct())
+                                            {
+                                                <option value="@categoryName">@categoryName</option>
+                                            }
+                                        </select>
                                     </div>
-                                    <div class="col-sm-6">
+                                    @*<div class="col-sm-6">
                                         <input type="submit" value="Submit" class="btn btn-primary" />
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>
@@ -243,8 +268,18 @@
                 "order": [[1, "desc"]]
             });
 
+            // Set the default number of entries to 50
+            dataTable.page.len(50).draw();
+
+            // Hide the "Show [number] entries" dropdown and search box
+            $('#datatable_length, #datatable_filter').hide();
+
+            //// Add search functionality for Customer Name
+            //$('#customerName').on('keyup', function () {
+            //    table.column(5).search(this.value).draw();
+            //});
             // Add search functionality for Customer Name
-            $('#customerName').on('keyup', function () {
+            $('#customerName').on('change', function () {
                 table.column(5).search(this.value).draw();
             });
 
