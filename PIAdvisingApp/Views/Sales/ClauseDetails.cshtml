@@ -1,0 +1,73 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.ClauseModel>
+
+<h2>Clause Details</h2>
+
+<table id="clauseTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Clause Name</th>
+            <th>Term Name</th>
+            <th>Condition Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var clause in Model)
+        {
+            <tr>
+                <td>@clause.ClauseName</td>
+                <td>@clause.TermName</td>
+                <td>@clause.ConditionDetails</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            // Initialize the DataTable
+            var dataTable = $('#clauseTable').DataTable({
+                // Enable column-wise filtering
+                columnDefs: [{
+                    targets: 0,
+                    searchable: true,
+                    orderable: true
+                }],
+                // Enable filtering input for the first column
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (column.index() === 0) { // First column only
+                            var select = $('<select><option value="">All</option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                });
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+
+                            // Set the default selection to the second entry
+                            select.val(select.find('option:eq(1)').val());
+                            select.trigger('change');
+                        }
+                    });
+                }
+            });
+
+            // Set the default number of entries to 50
+            dataTable.page.len(50).draw();
+
+            // Hide the "Show [number] entries" dropdown and search box
+            $('#clauseTable_length, #clauseTable_filter').hide();
+        });
+    </script>
+}

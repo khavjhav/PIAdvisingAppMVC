@@ -20,50 +20,6 @@
             height: 700px;
             overflow-y: scroll;
         }
-
-        /* Data Grid styles */
-        .datagrid {
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-        }
-
-        .header {
-            background-color: #f1f1f1;
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-            font-weight: bold;
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: repeat(15, 1fr);
-        }
-
-        .cell {
-            padding: 8px;
-            border: 1px solid #ccc;
-        }
-
-        /* Additional styles for checkboxes */
-        input[type="checkbox"] {
-            margin: 0;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-        }
-
-        .td-green {
-            background-color: #e5ffe5;
-        }
-
-        .td-pink {
-            background-color: #ffe5e5;
-        }
-
-        .td-yellow {
-            background-color: #ffffe5;
-        }
-
     </style>
 }
 <div class="app-page-title">
@@ -110,53 +66,62 @@
                             </div>
                         </div>
                     }
+                    <div class="table-responsive">
+                        <table id="datatable" class="mb-0 table table-bordered table-hover">
+                            <thead class="th-top">
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Select</th>
+                                    <th class="text-center">Booking No</th>
+                                    <th class="text-center">Booking Date</th>
+                                    <th class="text-center">Representative Name</th>
+                                    <th class="text-center">Customer Name</th>
+                                    <th class="text-center">Category Name</th>
+                                    <th class="text-center">Booking Qty</th>
+                                    <th class="text-center">Booking Value</th>
+                                    <th class="text-center">Invoice Qty</th>
+                                    <th class="text-center">Invoice Value</th>
+                                    @*<th class="text-center">LC Rcv Value</th>*@
+                                    <th class="text-center">LC Balance</th>
+                                    @*<th class="text-center">PI Status</th>*@
+                                    <th class="text-center">Retailer Name</th>
+                                    <th class="text-center">Delivery (%)</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int rowNo = 1;}
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
+                                        <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
+                                        <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
+                                        <td class="text-left td-green"><b>@rowNo</b></td>
+                                        <td class="text-center td-green">
+                                            <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
+                                        </td>
+                                        <td class="text-left td-green">@item.BookingNo</td>
+                                        <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
+                                        <td class="text-left td-green">@item.RepresentativeName</td>
+                                        <td class="text-left td-green">@item.CustomerName</td>
+                                        <td class="text-left td-green">@item.CategoryName</td>
+                                        <td class="text-left t  d-green">@item.BookingQty</td>
+                                        @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
+                                        <td class="text-left td-green">@item.InvoiceQty</td>
+                                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
+                                        @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")*@
+                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
+                                        @*<td class="text-left td-green">@item.ISPISEND</td>*@
+                                        <td class="text-left td-green">@item.RetailerName</td>
+                                        @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
+                                        <td class="td-yellow"></td>
+                                    </tr>
+                                    rowNo++;
+                                }
 
-                    <div class="datagrid">
-                        <div class="header">
-                            <div class="cell">SL</div>
-                            <div class="cell">Select</div>
-                            <div class="cell">Booking No</div>
-                            <div class="cell">Booking Date</div>
-                            <div class="cell">Representative Name</div>
-                            <div class="cell">Customer Name</div>
-                            <div class="cell">Category Name</div>
-                            <div class="cell">Booking Qty</div>
-                            <div class="cell">Booking Value</div>
-                            <div class="cell">Invoice Qty</div>
-                            <div class="cell">Invoice Value</div>
-                            <div class="cell">LC Balance</div>
-                            <div class="cell">Retailer Name</div>
-                            <div class="cell">Delivery (%)</div>
-                            <div class="cell">Actions</div>
-                        </div>
-
-                        @{ int rowNo = 1;}
-                        @foreach (var item in Model)
-                        {
-                            <div class="row">
-                                <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
-                                <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
-                                <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
-                                <div class="cell">@rowNo</div>
-                                <div class="cell">
-                                    <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
-                                </div>
-                                <div class="cell">@item.BookingNo</div>
-                                <div class="cell">@item.BookingDate.ToString("d-MMM-yyyy")</div>
-                                <div class="cell">@item.RepresentativeName</div>
-                                <div class="cell">@item.CustomerName</div>
-                                <div class="cell">@item.CategoryName</div>
-                                <div class="cell">@item.BookingQty</div>
-                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")</div>
-                                <div class="cell">@item.InvoiceQty</div>
-                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")</div>
-                                <div class="cell">@MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")</div>
-                                <div class="cell">@item.RetailerName</div>
-                                <div class="cell">@MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")</div>
-                                <div class="cell td-yellow"></div>
-                            </div>
-                            rowNo++;
-                        }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

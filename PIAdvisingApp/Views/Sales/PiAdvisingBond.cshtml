@@ -21,7 +21,7 @@
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                Pening PI for Bond Review
+                Pending PI for Bond Review
             </div>
         </div>
     </div>
@@ -128,7 +128,7 @@
                     <tr>
                         <th>Api Number</th>
                         <th>Invoice Qty</th>
-                        <th>Invoice Qty</th>
+                        <th>Invoice Value</th>
                         <th>Customer Name</th>
                         <th>Rep Name</th>
                     </tr>
@@ -169,10 +169,16 @@
                     </button>
                 </div>
                 <div id="approved-pi-modal-body" class="modal-body"></div>
-                <div class="modal-footer">
+                @*<div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">Save</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                </div>*@
+
+                <div class="modal-footer">
+                   @* <button type="button" class="btn btn-primary" id="submitButton">Save Changes</button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -211,37 +217,6 @@
             }
             $('#datatable').DataTable();
 
-            //$("#rep-filter").change(function () {
-            //    var repName = $(this).val().toLowerCase();
-            //    $("#added-table tbody tr").hide();
-            //    if (repName === "") {
-            //        $("#added-table tbody tr").show();
-            //    } else {
-            //        $("#added-table tbody tr").each(function () {
-            //            var currentRow = $(this);
-            //            var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
-            //            if (currentRepName === repName) {
-            //                currentRow.show();
-            //            }
-            //        });
-            //    }
-            //});
-
-            //$("#customer-filter").change(function () {
-            //    var customerName = $(this).val().toLowerCase();
-            //    $("#added-table tbody tr").hide();
-            //    if (customerName === "") {
-            //        $("#added-table tbody tr").show();
-            //    } else {
-            //        $("#added-table tbody tr").each(function () {
-            //            var currentRow = $(this);
-            //            var currentCustomerName = currentRow.find("td:eq(3)").text().toLowerCase();
-            //            if (currentCustomerName === customerName) {
-            //                currentRow.show();
-            //            }
-            //        });
-            //    }
-            //});
 
             $(document).ready(function () {
                 var table = $('#api-list-table').DataTable({
@@ -283,6 +258,20 @@
                     $(this).find('input, select').focus();
                 });
             });
+
+            // Event listener for submit button click
+            $('#submitButton').click(function () {
+                var apiNumber = $('.apiNumber').text(); // Replace with the actual API number
+                var userName = $('.apiNumber').text();  // Replace with the actual user name
+                //var userName = 'John Doe'; // Replace with the actual user name
+
+                // Send notification
+                var notification = 'PI Approval request received (' + apiNumber + ') from ' + userName;
+                alert(notification); // You can replace this with your custom notification logic
+            });
+
+
+
         });</script>
 
 

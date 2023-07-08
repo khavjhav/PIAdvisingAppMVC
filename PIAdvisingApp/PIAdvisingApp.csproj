@@ -697,6 +697,7 @@
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Accounts\Login.cshtml" />
+    <Content Include="Views\Sales\ClauseDetails.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

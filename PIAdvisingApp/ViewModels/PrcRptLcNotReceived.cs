@@ -111,4 +111,20 @@ namespace PIAdvisingApp.ViewModels
         public string BondName { get; set; }
         public string Category { get; set; }
     }
+
+    public class ClauseModel
+    {
+        //public int ClauseId { get; set; }
+        //public string ClauseCode { get; set; }
+        public string ClauseName { get; set; }
+
+        //public int TermId { get; set; }
+        public string TermName { get; set; }
+        //public int ConditionId { get; set; }
+        public string ConditionDetails { get; set; }
+        //public string ConditionDetailsHTML { get; set; }
+        //public int RowNo { get; set; }
+        //public int IsActive { get; set; }
+        
+    }
 }

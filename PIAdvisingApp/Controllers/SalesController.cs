@@ -107,6 +107,20 @@ namespace PIAdvisingApp.Controllers
 
         }
 
+        public ActionResult ClauseDetails()
+        {
+            var clauseDetails = _salesService.GetAllClauseDetails();
+            return View(clauseDetails);
+        }
+
+
+        //public ActionResult ShowClauseDetails(string searchTerm)
+        //{
+        //    var clauseDetails = _salesService.GetDistinctClauseNames(searchTerm);
+        //    return View(clauseDetails);
+        //}
+
+
         public ActionResult PiAdvisingBond()
         {
             var advicePi = _salesService.GetPiAdvisingBondData();

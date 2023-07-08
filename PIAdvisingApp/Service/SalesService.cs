@@ -67,7 +67,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jun-2023',0,0,0,0,0,null,1,0")
+                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jul-2023',0,0,0,0,0,null,1,0")
                    .ToList();
 
                 return result;
@@ -135,6 +135,25 @@ namespace PIAdvisingApp.Service
                 return result;
             }
 
+        }
+
+        //public List<ClauseModel> GetClauseDetailsByClauseName(string clauseName)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var clauseNameParameter = new SqlParameter("@clauseName", clauseName);
+        //        var result = ctx.Database.SqlQuery<ClauseModel>("SELECT * FROM dbo.viewClauseDetails WHERE ClauseName = @clauseName", clauseNameParameter).ToList();
+        //        return result;
+        //    }
+        //}
+
+        public List<ClauseModel> GetAllClauseDetails()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database.SqlQuery<ClauseModel>("SELECT ClauseName, TermName, ConditionDetails FROM dbo.viewClauseDetails GROUP BY ClauseName,\r\n                                                                                  TermName,\r\n                                                                                  ConditionDetails").ToList();
+                return result;
+            }
         }
 
 

@@ -9,7 +9,7 @@
     </div>
 
     <div class="modal-header">
-        <h5 class="modal-title">Bond Approval For Rep.</h5>
+        <h5 class="modal-title">Bond Approval For Rep. </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -22,6 +22,7 @@
         var RetailerName = "";
         var IssuerName = "";
         var CompanyName = "";
+        var ApiNumber = "";
 
         if (Model.Any())
         {
@@ -33,6 +34,7 @@
             IssuerName = firstItem.IssuerName;
             RetailerName = firstItem.RetailerName;
             CompanyName = firstItem.CompanyName;
+            ApiNumber   = firstItem.ApiNumber;
         }
     }
 
@@ -94,7 +96,7 @@
                         <th>QuantityUnit</th>
                         <th>Measurement</th>
                         <th>MeasureUnit</th>
-                        <th>HSCode</th>
+                       @*<th>HSCode</th>*@
 
                         @*<th>CustomerName</th>*@
                     </tr>
@@ -123,9 +125,9 @@
                             <td>
                                 <input type="text" class="form-control form-control-sm" name="name" value="@item.MeasureUnit" />
                             </td>
-                            <td>
+                            @*<td>
                                 <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 </tbody>
@@ -133,10 +135,19 @@
         </div>
     </div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save Changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    </div>
+    @*<div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>*@
+
+<div class="modal-footer">
+    @*<button type="button" class="btn btn-primary" id="submitButton">Save Changes</button>
+    *@
+    <button type="button" class="btn btn-primary" id="submitButton" data-api-number="@ApiNumber">Save Changes</button>
+
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+
 </div>
 
 <script>
@@ -187,6 +198,31 @@
                     }
                 });
             }
+        });
+
+        // Event listener for submit button click
+        $('#submitButton').click(function () {
+           // var piNo = 'API123'; // Replace with the actual API number
+            var piNo = $(this).data('api-number'); 
+            var name = 'User Name'; // Replace with the user's name (retrieve from your authentication system)
+
+            // Send the notification request
+            $.ajax({
+                url: '/Sales/PiAdvisingBond', // Replace with the actual endpoint to send the notification
+                method: 'POST',
+                data: {
+                    piNo: piNo,
+                    name: name
+                },
+                success: function (response) {
+                    // Handle the success response, e.g., display a success message
+                    alert('PI Approval request received (' + piNo + ') from ' + name);
+                },
+                error: function (error) {
+                    // Handle the error response, e.g., display an error message
+                    console.error('Error sending notification:', error);
+                }
+            });
         });
     });
 </script>

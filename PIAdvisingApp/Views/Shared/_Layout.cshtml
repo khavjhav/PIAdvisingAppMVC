@@ -47,12 +47,21 @@
 <body onload="loadingAjax('myDiv');">
 
     <style type="text/css">
-        .watermark {
+       /* .watermark {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 48px;
+            color: rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+        }*/
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 18px;
             color: rgba(0, 0, 0, 0.5);
             pointer-events: none;
             z-index: 9999;
