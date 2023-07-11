@@ -63,17 +63,37 @@ namespace PIAdvisingApp.Service
         }
 
 
+        //public List<PrcRptLcNotReceived> AdvisePI()
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var result = ctx.Database
+        //           .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jul-2023',0,0,0,0,0,null,1,0")
+        //           .ToList();
+
+        //        return result;
+        //    }
+        //}
+
         public List<PrcRptLcNotReceived> AdvisePI()
         {
             using (var ctx = new ApplicationDbContext())
             {
+                DateTime currentDate = DateTime.Now;
+                DateTime fromDate = currentDate.AddYears(-2);
+                DateTime toDate = currentDate;
+
+                string fromDateStr = fromDate.ToString("dd-MMM-yyyy");
+                string toDateStr = toDate.ToString("dd-MMM-yyyy");
+
                 var result = ctx.Database
-                   .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jul-2023',0,0,0,0,0,null,1,0")
-                   .ToList();
+                    .SqlQuery<PrcRptLcNotReceived>($"EXEC PrcAdvisePI '{fromDateStr}', '{toDateStr}', 0, 0, 0, 0, 0, null, 1, 0")
+                    .ToList();
 
                 return result;
             }
         }
+
 
         public List<PrcRptLcNotReceived> BondApprovedPi(DateTime? fromDate, DateTime? toDate, int productCatId = 0, int locationId = 0, int customerId = 0, int repId = 0, int teamId = 0, string contractName = "", int userID = 1, int retailerId = 0)
         {
@@ -112,7 +132,8 @@ namespace PIAdvisingApp.Service
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"EXEC GetPamModalBond  @ApiNumber", new SqlParameter("ApiNumber", apiNumber)).ToList();
+                var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"EXEC GetPamModalBond  @ApiNumber", 
+                    new SqlParameter("ApiNumber", apiNumber)).ToList();
 
                 return result;
             }
