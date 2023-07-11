@@ -148,11 +148,28 @@ namespace PIAdvisingApp.Service
                 var result = ctx.Database
                     .ExecuteSqlCommand(query,
                         new SqlParameter("BookingNo", apiData.BookingNo),
-                        new SqlParameter("InvoiceQty", apiData.InvoiceQty),
+                        new SqlParameter("InvoiceQty", apiData.InvoiceQty), //not going to main
                         new SqlParameter("InvoiceValue", apiData.DelValue),
                         new SqlParameter("ApiNumber", apiData.ApiNumber),
                         new SqlParameter("ApiDate", DateTime.Now)
                         );
+                ///sub details from booking sub , like product, measurements.
+                ///  var insertedRowId = 0;
+                //foreach (var detail in data.Details)
+                //{
+                //    //Save Sub data
+                //    var detailQuery = "INSERT INTO dbo.PiAdvisingBondSub VALUES (@BookingSubId, @BookingQty, @UnitPrice, @Measurement, @MeasurementID, @ApiDate)";
+                //    var detailResult = ctx.Database
+                //    .ExecuteSqlCommand(detailQuery,
+                //            new SqlParameter("BookingSubID", detail.BookingSubId),
+                //            new SqlParameter("UnitPrice", detail.UnitPrice)
+                //            new SqlParameter("Measurement", detail.Measurement),
+                //            new SqlParameter("MeasurementID", detail.MeasurementID)
+                //            new SqlParameter("ApiDate", DateTime.Now)
+                //            );
+                //}
+
+
 
                 return result;
             }
