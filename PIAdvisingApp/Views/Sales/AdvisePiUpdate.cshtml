@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <style>
         .tbody, td, th {
             padding: 2px !important;
@@ -25,27 +25,45 @@
         .hide-column {
             display: none;
         }
+
+        /* Add this CSS code for resizable columns */
+        table.dataTable th,
+        table.dataTable td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+           
+        }
+
+        .dataTables_wrapper .dataTables_columnResize {
+            cursor: ew-resize;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            z-index: 10;
+        }
     </style>
 }
 @*<div class="app-page-title">
-    <div class="page-title-wrapper">
-        <div class="page-title-heading">
-            <div>
-                Advise PI Update
-            </div>
-            <div class="form-group">
-                <label for="rep-filter">Filter by Representative Name:</label>
-                <select class="form-control" id="rep-filter">
-                    <option value="">All</option>
-                    @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
-                    {
-                        <option value="@rep">@rep</option>
-                    }
-                </select>
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div>
+                    Advise PI Update
+                </div>
+                <div class="form-group">
+                    <label for="rep-filter">Filter by Representative Name:</label>
+                    <select class="form-control" id="rep-filter">
+                        <option value="">All</option>
+                        @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
+                        {
+                            <option value="@rep">@rep</option>
+                        }
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 <div class="app-page-title">
     <div class="page-title-wrapper">
@@ -54,15 +72,15 @@
                 Advise PI Update
             </div>
             @*<div class="filter">
-                <label for="rep-filter">Filter by Representative Name:</label>
-                <select class="form-control" id="rep-filter">
-                    <option value="">All</option>
-                    @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
-                    {
-                        <option value="@rep">@rep</option>
-                    }
-                </select>
-            </div>*@
+                    <label for="rep-filter">Filter by Representative Name:</label>
+                    <select class="form-control" id="rep-filter">
+                        <option value="">All</option>
+                        @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
+                        {
+                            <option value="@rep">@rep</option>
+                        }
+                    </select>
+                </div>*@
         </div>
     </div>
 </div>
@@ -72,7 +90,7 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Existing Bookings</h2>
-          
+
 
             <div class="main-card mb-6 card">
                 <div class="card-body">
@@ -80,26 +98,26 @@
                     @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
                     {
                         @*<div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" id="customerName" class="form-control" />
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="customerName" class="form-control" />
+                                        </div>
+                                        <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
+                                        <div class="col-sm-4">
+                                            @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                                        </div>
                                     </div>
-                                    <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                                    <div class="form-group row">
+                                        <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
+                                        <div class="col-sm-4">
+                                            @Html.TextBox("categoryName", null, new { @class = "form-control" })
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
-                                    <div class="col-sm-4">
-                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
-                                    </div>
-                                 
-                                </div>
-                            </div>
-                        </div>*@
+                            </div>*@
                     }
                     <div class="table-responsive">
                         <table id="datatable" class="mb-0 table table-bordered table-hover">
@@ -109,15 +127,15 @@
                                     <th>Select</th>
                                     <th class="text-center">Booking No</th>
                                     <th class="text-center">Booking Date</th>
-                                    <th class="text-center">Representative Name</th>
-                                    <th class="text-center">Customer Name</th>
                                     <th class="text-center">Category Name</th>
+                                    <th class="text-center">Customer Name</th>
+                                    <th class="text-center">Representative Name</th>
                                     <th class="text-center">Booking Qty</th>
                                     <th class="text-center">Booking Value</th>
-                                    <th class="text-center hide-column">Invoice Qty</th>
-                                    <th class="text-center">Invoice Value</th>
+                                    @*<th class="text-center hide-column">Invoice Qty</th>
+        <th class="text-center">Invoice Value</th*@>
                                     @*<th class="text-center">LC Rcv Value</th>
-                                    <th class="text-center">LC Balance</th>*@
+        <th class="text-center">LC Balance</th>*@
                                     @*<th class="text-center">PI Status</th>*@
                                     <th class="text-center">Retailer Name</th>
                                     <th class="text-center">Delivery (%)</th>
@@ -132,21 +150,21 @@
                                         <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
                                         <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
                                         <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
-                                        <td class="text-left td-green"><b>@rowNo</b></td>
+                                        <td type="hidden" class="text-left td-green"><b>@rowNo</b></td>
                                         <td class="text-center td-green">
                                             <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                         </td>
                                         <td class="text-left td-green">@item.BookingNo</td>
                                         <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                        <td class="text-left td-green">@item.RepresentativeName</td>
-                                        <td class="text-left td-green">@item.CustomerName</td>
                                         <td class="text-left td-green">@item.CategoryName</td>
-                                        <td class="text-left t  d-green">@item.BookingQty</td>
+                                        <td class="text-left td-green">@item.CustomerName</td>
+                                        <td class="text-left td-green">@item.RepresentativeName</td>
+                                        <td class="text-left td-green">@item.BookingQty</td>
                                         @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
-                                        <td class="text-left td-green">@item.InvoiceQty</td>
-                                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
+                                        @*<td class="text-left td-green">@item.InvoiceQty</td>
+                                            @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")*@
                                         @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
-                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")*@
+                                            @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")*@
                                         @*<td class="text-left td-green">@item.ISPISEND</td>*@
                                         <td class="text-left td-green">@item.RetailerName</td>
                                         @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
@@ -214,111 +232,109 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
     @*<script>
 
-        $(document).ready(function () {
-            var table = $('#datatable').DataTable({
-                initComplete: function () {
-                    this.api().columns().every(function () {
-                        var column = this;
-                        var select = $('<select><option value=""></option></select>')
+            $(document).ready(function () {
+                var table = $('#datatable').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            select.append('<option value="">All</option>');
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+
+                            //var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
+                            //    .appendTo($(column.header()))
+                            //    .on('keyup change', function () {
+                            //        column.search($(this).val()).draw();
+                            //    });
+
+                            //$(searchInput).add(select).on('click', function (e) {
+                            //    e.stopPropagation();
+                            //});
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                });
+            });
+        </script>*@
+
+
+
+    <!-- Include Select2 CSS and JS files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    @*dropdown search*@
+<script>
+    $(document).ready(function () {
+        var table = $('#datatable').DataTable({
+            responsive: true,
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    if (
+                        column.index() === 5 || // Customer Name
+                        column.index() === 4 || // Rep Name
+                        column.index() === 6 || // CATEGORY
+                        column.index() === 11 // Pi Status
+                    ) {
+                        var select = $('<select class="select2"><option value=""></option></select>')
                             .appendTo($(column.header()))
                             .on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? '^' + val + '$' : '', true, false).draw();
                             });
 
                         select.append('<option value="">All</option>');
 
                         column.data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>');
-                        });
-
-                        //var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
-                        //    .appendTo($(column.header()))
-                        //    .on('keyup change', function () {
-                        //        column.search($(this).val()).draw();
-                        //    });
-
-                        //$(searchInput).add(select).on('click', function (e) {
-                        //    e.stopPropagation();
-                        //});
-                    });
-                }
-            });
-
-            $('#api-list-table thead').on('click', 'th', function () {
-                $(this).find('input, select').focus();
-            });
-        });
-    </script>*@
-
-    <script>
-
-        $(document).ready(function () {
-            var table = $('#datatable').DataTable({
-                initComplete: function () {
-                    this.api().columns().every(function () {
-                        var column = this;
-                        if (
-                            column.index() === 5 || // Customer Name
-                            column.index() === 4 || // Rep Name
-                            column.index() === 10 || // Retailer Name
-                            column.index() === 8 || // Category
-                            column.index() === 15 // PI Flag
-
-                        ) {
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo($(column.header()))
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
-                                });
-
-                            select.append('<option value="">All</option>');
-
-                            //column.data().unique().sort().each(function (d, j) {
-                            //    select.append('<option value="' + d + '">' + d + '</option>');
-
-                        column.data().unique().sort().each(function (d, j) {
                             var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
                             select.append('<option value="' + d + '">' + displayedValue + '</option>');
                         });
-                            var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
-                            .appendTo($(column.header()))
-                            .on('keyup change', function () {
-                                column.search($(this).val()).draw();
-                            });
 
-                        $(searchInput).add(select).on('click', function (e) {
-                            e.stopPropagation();
-                        });
-                        }
-                    });
-                }
-            });
-
-            // Set the default number of entries to 30
-            datatable.page.len(30).draw();
-
-            // Hide the "Show [number] entries" dropdown and search box
-            $('#datatable_length').hide();
-
-          
-            $('#datatable thead').on('click', 'th', function () {
-                $(this).find('input, select').focus();
+                        select.select2();
+                    }
+                });
+            }
+        }).on('draw.dt', function () {
+            // Add resizing functionality to columns after each draw
+            table.columns().every(function () {
+                new $.fn.dataTable.Responsive.ColumnResize(this, {
+                    resizeCallback: function (column) {
+                        var tableApi = this.s.dt;
+                        tableApi.table().node().style.width = 'auto';
+                        tableApi.columns.adjust();
+                    }
+                });
             });
         });
 
-    </script>
+        $('#datatable thead').on('click', 'th', function () {
+            $(this).find('input, select').focus();
+        });
+    });
+</script>
+
 
     <script>
         $(document).ready(function () {
@@ -382,24 +398,11 @@
             var table = $('#datatable').DataTable({
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 "order": [[1, "desc"]]
-            });
 
-            // Add search functionality for Customer Name
-            $('#customerName').on('keyup', function () {
-                table.column(5).search(this.value).draw();
+
             });
 
 
-
-            // Add search functionality for Retailer Name
-            $('#retailerName').on('keyup', function () {
-                table.column(12).search(this.value).draw();
-            });
-
-            // Add search functionality for Category Name
-            $('#categoryName').on('keyup', function () {
-                table.column(6).search(this.value).draw();
-            });
 
             // Listen for change event on checkboxes in Table A
             $('#datatable').on('change', '.selected', function () {
@@ -422,21 +425,21 @@
                 }
             });
 
-            $("#rep-filter").change(function () {
-                var repName = $(this).val().toLowerCase();
-                $("#added-table tbody tr").hide();
-                if (repName === "") {
-                    $("#added-table tbody tr").show();
-                } else {
-                    $("#added-table tbody tr").each(function () {
-                        var currentRow = $(this);
-                        var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
-                        if (currentRepName === repName) {
-                            currentRow.show();
-                        }
-                    });
-                }
-            });
+            //$("#rep-filter").change(function () {
+            //    var repName = $(this).val().toLowerCase();
+            //    $("#added-table tbody tr").hide();
+            //    if (repName === "") {
+            //        $("#added-table tbody tr").show();
+            //    } else {
+            //        $("#added-table tbody tr").each(function () {
+            //            var currentRow = $(this);
+            //            var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
+            //            if (currentRepName === repName) {
+            //                currentRow.show();
+            //            }
+            //        });
+            //    }
+            //});
 
             $('#datatable tbody').on('click', 'tr', function () {
                 var checkbox = $(this).find('input[type="checkbox"]');
