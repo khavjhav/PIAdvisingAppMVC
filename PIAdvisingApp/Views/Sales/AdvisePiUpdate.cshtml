@@ -6,27 +6,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
 
-    @*<style>
-            .tbody, td, th {
-                padding: 2px !important;
-                font-size: 11px !important;
-            }
-
-            .modal-backdrop {
-                z-index: 10 !important
-            }
-
-            #added-table {
-                height: 700px;
-                overflow-y: scroll;
-            }
-        </style>*@
-
     <style>
         .tbody, td, th {
             padding: 2px !important;
             font-size: 11px !important;
-            height: 20px !important;
         }
 
         .modal-backdrop {
@@ -37,14 +20,49 @@
             height: 700px;
             overflow-y: scroll;
         }
+
+        /* Add this CSS code to your HTML file */
+        .hide-column {
+            display: none;
+        }
     </style>
 }
-<div class="app-page-title">
+@*<div class="app-page-title">
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
                 Advise PI Update
             </div>
+            <div class="form-group">
+                <label for="rep-filter">Filter by Representative Name:</label>
+                <select class="form-control" id="rep-filter">
+                    <option value="">All</option>
+                    @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
+                    {
+                        <option value="@rep">@rep</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="title">
+                Advise PI Update
+            </div>
+            @*<div class="filter">
+                <label for="rep-filter">Filter by Representative Name:</label>
+                <select class="form-control" id="rep-filter">
+                    <option value="">All</option>
+                    @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
+                    {
+                        <option value="@rep">@rep</option>
+                    }
+                </select>
+            </div>*@
         </div>
     </div>
 </div>
@@ -54,63 +72,38 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Existing Bookings</h2>
+          
+
             <div class="main-card mb-6 card">
                 <div class="card-body">
 
                     @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
                     {
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
                                     <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
                                     <div class="col-sm-4">
-                                        @*<input type="text" id="customerName" class="form-control" />*@
-                                        <select class="form-control" id="customer-filter">
-                                            <option value="">All</option>
-                                            @foreach (var customerName in Model.Select(x => x.CustomerName).Distinct())
-                                            {
-                                                <option value="@customerName">@customerName</option>
-                                            }
-                                        </select>
-
-
+                                        <input type="text" id="customerName" class="form-control" />
                                     </div>
-
-
                                     <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
                                     <div class="col-sm-4">
-                                        @* @Html.TextBox("retailerName", null, new { @class = "form-control" })*@
-                                        <select class="form-control" id="customer-filter">
-                                            <option value="">All</option>
-                                            @foreach (var retailerName in Model.Select(x => x.RetailerName).Distinct())
-                                            {
-                                                <option value="@retailerName">@retailerName</option>
-                                            }
-                                        </select>
+                                        @Html.TextBox("retailerName", null, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
                                     <div class="col-sm-4">
-                                        @*@Html.TextBox("categoryName", null, new { @class = "form-control" })*@
-                                        <select class="form-control" id="customer-filter">
-                                            <option value="">All</option>
-                                            @foreach (var categoryName in Model.Select(x => x.CategoryName).Distinct())
-                                            {
-                                                <option value="@categoryName">@categoryName</option>
-                                            }
-                                        </select>
+                                        @Html.TextBox("categoryName", null, new { @class = "form-control" })
                                     </div>
-                                    @*<div class="col-sm-6">
-                                            <input type="submit" value="Submit" class="btn btn-primary" />
-                                        </div>*@
+                                 
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     }
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered table-striped">
-                            <thead>
+                        <table id="datatable" class="mb-0 table table-bordered table-hover">
+                            <thead class="th-top">
                                 <tr>
                                     <th>SL</th>
                                     <th>Select</th>
@@ -121,12 +114,14 @@
                                     <th class="text-center">Category Name</th>
                                     <th class="text-center">Booking Qty</th>
                                     <th class="text-center">Booking Value</th>
-                                    <th class="text-center">Invoice Qty</th>
+                                    <th class="text-center hide-column">Invoice Qty</th>
                                     <th class="text-center">Invoice Value</th>
-                                    <th class="text-center">LC Balance</th>
+                                    @*<th class="text-center">LC Rcv Value</th>
+                                    <th class="text-center">LC Balance</th>*@
+                                    @*<th class="text-center">PI Status</th>*@
                                     <th class="text-center">Retailer Name</th>
                                     <th class="text-center">Delivery (%)</th>
-                                    @*<th class="text-center">Actions</th>*@
+                                    <th class="text-center">PI Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,12 +145,13 @@
                                         @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
                                         <td class="text-left td-green">@item.InvoiceQty</td>
                                         @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")
-                                        @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")*@
-                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")
+                                        @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
+                                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")*@
                                         @*<td class="text-left td-green">@item.ISPISEND</td>*@
                                         <td class="text-left td-green">@item.RetailerName</td>
                                         @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
-                                        <td class="td-yellow"></td>
+                                        @*<td class="td-yellow"></td>*@
+                                        <td class="text-center td-green">@item.ISPISEND</td>
                                     </tr>
                                     rowNo++;
                                 }
@@ -180,8 +176,8 @@
                                 <th>SL</th>
                                 <th class="text-center">Booking No.</th>
                                 <th class="text-center">Booking Date</th>
-                                <th class="text-center">Invoice Qty</th>
-                                <th class="text-center">Invoice Value</th>
+                                <th class="text-center">Value</th>
+                                <th class="text-center">PI Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -219,6 +215,111 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+
+    @*<script>
+
+        $(document).ready(function () {
+            var table = $('#datatable').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.header()))
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        select.append('<option value="">All</option>');
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+
+                        //var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
+                        //    .appendTo($(column.header()))
+                        //    .on('keyup change', function () {
+                        //        column.search($(this).val()).draw();
+                        //    });
+
+                        //$(searchInput).add(select).on('click', function (e) {
+                        //    e.stopPropagation();
+                        //});
+                    });
+                }
+            });
+
+            $('#api-list-table thead').on('click', 'th', function () {
+                $(this).find('input, select').focus();
+            });
+        });
+    </script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            var table = $('#datatable').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        if (
+                            column.index() === 5 || // Customer Name
+                            column.index() === 4 || // Rep Name
+                            column.index() === 10 || // Retailer Name
+                            column.index() === 8 || // Category
+                            column.index() === 15 // PI Flag
+
+                        ) {
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                });
+
+                            select.append('<option value="">All</option>');
+
+                            //column.data().unique().sort().each(function (d, j) {
+                            //    select.append('<option value="' + d + '">' + d + '</option>');
+
+                        column.data().unique().sort().each(function (d, j) {
+                            var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                            select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                        });
+                            var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
+                            .appendTo($(column.header()))
+                            .on('keyup change', function () {
+                                column.search($(this).val()).draw();
+                            });
+
+                        $(searchInput).add(select).on('click', function (e) {
+                            e.stopPropagation();
+                        });
+                        }
+                    });
+                }
+            });
+
+            // Set the default number of entries to 30
+            datatable.page.len(30).draw();
+
+            // Hide the "Show [number] entries" dropdown and search box
+            $('#datatable_length').hide();
+
+          
+            $('#datatable thead').on('click', 'th', function () {
+                $(this).find('input, select').focus();
+            });
+        });
+
+    </script>
+
     <script>
         $(document).ready(function () {
             var apiDataList = [];
@@ -252,13 +353,6 @@
                         }
                 });
             });
-
-            $('#myTable').DataTable({
-                select: {
-                    style: 'os',
-                },
-            });
-
             $('#advise_btn').on('click', function () {
                 @*window.open('@Url.Action("BondApprovedPi", "Sales")', '_blank');*@
                 let bookings = []
@@ -290,18 +384,8 @@
                 "order": [[1, "desc"]]
             });
 
-            // Set the default number of entries to 50
-            dataTable.page.len(50).draw();
-
-            // Hide the "Show [number] entries" dropdown and search box
-            $('#datatable_length, #datatable_filter').hide();
-
-            //// Add search functionality for Customer Name
-            //$('#customerName').on('keyup', function () {
-            //    table.column(5).search(this.value).draw();
-            //});
             // Add search functionality for Customer Name
-            $('#customerName').on('change', function () {
+            $('#customerName').on('keyup', function () {
                 table.column(5).search(this.value).draw();
             });
 
@@ -338,12 +422,28 @@
                 }
             });
 
+            $("#rep-filter").change(function () {
+                var repName = $(this).val().toLowerCase();
+                $("#added-table tbody tr").hide();
+                if (repName === "") {
+                    $("#added-table tbody tr").show();
+                } else {
+                    $("#added-table tbody tr").each(function () {
+                        var currentRow = $(this);
+                        var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
+                        if (currentRepName === repName) {
+                            currentRow.show();
+                        }
+                    });
+                }
+            });
+
             $('#datatable tbody').on('click', 'tr', function () {
                 var checkbox = $(this).find('input[type="checkbox"]');
                 var bookingNo = $(this).find('td:eq(2)').text();
                 var product = $(this).find('td:eq(3)').text();
-                var value = $(this).find('td:eq(9)').text();
-                var specification = $(this).find('td:eq(10)').text();
+                var value = $(this).find('td:eq(6)').text();
+                var specification = $(this).find('td:eq(13)').text();
                 if (checkbox.prop('checked')) {
                     $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
                 } else {

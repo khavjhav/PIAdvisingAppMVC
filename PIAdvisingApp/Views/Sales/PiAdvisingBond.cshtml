@@ -241,15 +241,15 @@
                                 select.append('<option value="' + d + '">' + d + '</option>');
                             });
 
-                            var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
-                                .appendTo($(column.header()))
-                                .on('keyup change', function () {
-                                    column.search($(this).val()).draw();
-                                });
+                            //var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
+                            //    .appendTo($(column.header()))
+                            //    .on('keyup change', function () {
+                            //        column.search($(this).val()).draw();
+                            //    });
 
-                            $(searchInput).add(select).on('click', function (e) {
-                                e.stopPropagation();
-                            });
+                            //$(searchInput).add(select).on('click', function (e) {
+                            //    e.stopPropagation();
+                            //});
                         });
                     }
                 });
