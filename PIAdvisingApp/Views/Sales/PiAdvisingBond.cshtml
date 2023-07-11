@@ -220,36 +220,54 @@
 
             $(document).ready(function () {
                 var table = $('#api-list-table').DataTable({
+                    //initComplete: function () {
+                    //    this.api().columns().every(function () {
+                    //        var column = this;
+                    //        var select = $('<select><option value=""></option></select>')
+                    //            .appendTo($(column.header()))
+                    //            .on('change', function () {
+                    //                var val = $.fn.dataTable.util.escapeRegex(
+                    //                    $(this).val()
+                    //                );
+
+                    //                column
+                    //                    .search(val ? '^' + val + '$' : '', true, false)
+                    //                    .draw();
+                    //            });
+
+                    //        select.append('<option value="">All</option>');
+
+                    //        column.data().unique().sort().each(function (d, j) {
+                    //            select.append('<option value="' + d + '">' + d + '</option>');
+                    //        });
+
+
+                    //    });
+                    //}
                     initComplete: function () {
                         this.api().columns().every(function () {
                             var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo($(column.header()))
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+                              
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
 
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
                                 });
 
-                            select.append('<option value="">All</option>');
-
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>');
-                            });
-
-                            //var searchInput = $('<input type="text" class="form-control form-control-sm" placeholder="Search...">')
-                            //    .appendTo($(column.header()))
-                            //    .on('keyup change', function () {
-                            //        column.search($(this).val()).draw();
-                            //    });
-
-                            //$(searchInput).add(select).on('click', function (e) {
-                            //    e.stopPropagation();
-                            //});
+                                select.select2();
+                            }
                         });
                     }
                 });

@@ -45,25 +45,7 @@
         }
     </style>
 }
-@*<div class="app-page-title">
-        <div class="page-title-wrapper">
-            <div class="page-title-heading">
-                <div>
-                    Advise PI Update
-                </div>
-                <div class="form-group">
-                    <label for="rep-filter">Filter by Representative Name:</label>
-                    <select class="form-control" id="rep-filter">
-                        <option value="">All</option>
-                        @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
-                        {
-                            <option value="@rep">@rep</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>*@
+
 
 <div class="app-page-title">
     <div class="page-title-wrapper">
@@ -71,16 +53,7 @@
             <div class="title">
                 Advise PI Update
             </div>
-            @*<div class="filter">
-                    <label for="rep-filter">Filter by Representative Name:</label>
-                    <select class="form-control" id="rep-filter">
-                        <option value="">All</option>
-                        @foreach (var rep in Model.Select(x => x.RepresentativeName).Distinct())
-                        {
-                            <option value="@rep">@rep</option>
-                        }
-                    </select>
-                </div>*@
+          
         </div>
     </div>
 </div>
@@ -88,7 +61,7 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <h2>Existing Bookings</h2>
 
 
@@ -97,9 +70,9 @@
 
                     @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
                     {
-                        @*<div class="row">
+                        <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group row">
+                                    @*<div class="form-group row">
                                         <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
                                         <div class="col-sm-4">
                                             <input type="text" id="customerName" class="form-control" />
@@ -115,9 +88,9 @@
                                             @Html.TextBox("categoryName", null, new { @class = "form-control" })
                                         </div>
 
-                                    </div>
+                                    </div>*@
                                 </div>
-                            </div>*@
+                            </div>
                     }
                     <div class="table-responsive">
                         <table id="datatable" class="mb-0 table table-bordered table-hover">
@@ -149,8 +122,8 @@
                                     <tr>
                                         <input type="hidden" class="BookingNo" name="BookingNo" value="@item.BookingNo" />
                                         <input type="hidden" class="InvoiceQty" name="InvoiceQty" value="@item.InvoiceQty" />
-                                        <input type="hidden" class="DelValue" name="DelValue" value="@item.DelValue" />
-                                        <td type="hidden" class="text-left td-green"><b>@rowNo</b></td>
+                                        <input type="hidden" class="DelValue" name="DelValue" value="@item.BookingValue" />
+                                        <td></td>
                                         <td class="text-center td-green">
                                             <input type="checkbox" class="selected" data-booking-no="@item.BookingNo" value="" />
                                         </td>
@@ -180,12 +153,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <h2 class="d-flex justify-content-between align-items-center">
                 <span>Added Bookings</span>
                 <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
             </h2>
-            <div class="main-card mb-6 card">
+            <div class="main-card mb-4 card">
                 <div class="card-body">
                     @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
                     <table class="mb-0 table table-bordered table-hover" id="added-table" style="height: 700px; overflow-y: scroll;">
@@ -337,8 +310,9 @@
 
 
     <script>
+        var apiDataList = [];
         $(document).ready(function () {
-            var apiDataList = [];
+           
             function updateTotalValue() {
                 var totalValue = 0.00;
                 $(apiDataList).each(function () {
@@ -349,10 +323,13 @@
             }
             $('#datatable').DataTable();
             $('#submit-btn').on('click', function () {
+                if(apiDataList.length===0) return 
+
                 $.post("@Url.Action("SaveApiData", "Sales")", { apiDataList: apiDataList }, function (result) {
+                    apiDataList = []
                     if (result) {
-                        console.log(result)
-                        console.log(result);
+                        //console.log(result)
+                        //console.log(result);
                         if (result > 0) {
                             Swal.fire(
                                 'Success!',
@@ -365,8 +342,13 @@
                                 'Failed!',
                                 'Failed To Do the operation',
                                 'danger'
-                            );
-                        }
+                        );
+                        console.log("success")
+                       
+                    }
+                    $('#added-table tbody').empty()
+                    updateTotalValue();
+                    $(".selected").prop("checked", false)
                 });
             });
             $('#advise_btn').on('click', function () {
@@ -416,12 +398,15 @@
                     });
                     //console.log(apiDataList);
                     updateTotalValue();
-                    $('#added-bookings-form tbody').append($row.clone().find('.selected').remove().end());
+
+                    $('#added-table tbody').append($row.clone().find('.selected').remove().end());
                 } else {
                     // Remove the row from Table B
-                    let noJohn = apiDataList.filter(el => el.name !== "John");
+                    console.log($(this).closest('tr').find('.BookingNo').val(), $(this).attr("data-booking-no"))
+                    apiDataList = apiDataList.filter(el => el.BookingNo !== $(this).attr("data-booking-no"));
                     var bookingNo = $row.find('.selected').data('booking-no');
-                    $('#added-bookings-form tbody').find('tr:contains(' + bookingNo + ')').remove();
+                    $('#added-table tbody').find('tr:contains(' + bookingNo + ')').remove();
+                    updateTotalValue();
                 }
             });
 
@@ -441,28 +426,28 @@
             //    }
             //});
 
-            $('#datatable tbody').on('click', 'tr', function () {
-                var checkbox = $(this).find('input[type="checkbox"]');
-                var bookingNo = $(this).find('td:eq(2)').text();
-                var product = $(this).find('td:eq(3)').text();
-                var value = $(this).find('td:eq(6)').text();
-                var specification = $(this).find('td:eq(13)').text();
-                if (checkbox.prop('checked')) {
-                    $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
-                } else {
-                    $('#added-table tbody tr').each(function () {
-                        if ($(this).find('td:eq(1)').text() == bookingNo) {
-                            $(this).remove();
-                        }
-                    });
-                }
-                // Update the summary of the Values column in Table B footer
-                var totalValue = 0;
-                $('#added-table tbody tr').each(function () {
-                    totalValue += parseFloat($(this).find('.value').text());
-                });
-                $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
-            });
+            //$('#datatable tbody').on('click', 'tr', function () {
+            //    var checkbox = $(this).find('input[type="checkbox"]');
+            //    var bookingNo = $(this).find('td:eq(2)').text();
+            //    var product = $(this).find('td:eq(3)').text();
+            //    var value = $(this).find('td:eq(6)').text();
+            //    var specification = $(this).find('td:eq(13)').text();
+            //    if (checkbox.prop('checked')) {
+            //        $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
+            //    } else {
+            //        $('#added-table tbody tr').each(function () {
+            //            if ($(this).find('td:eq(1)').text() == bookingNo) {
+            //                $(this).remove();
+            //            }
+            //        });
+            //    }
+            //    // Update the summary of the Values column in Table B footer
+            //    var totalValue = 0;
+            //    $('#added-table tbody tr').each(function () {
+            //        totalValue += parseFloat($(this).find('.value').text());
+            //    });
+            //    $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
+            //});
             updateTotalValue();
             $('#added-bookings-table').on('change', '.booking-select', function () {
                 updateTotalValue();
