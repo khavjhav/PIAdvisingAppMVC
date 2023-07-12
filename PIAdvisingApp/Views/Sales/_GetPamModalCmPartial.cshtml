@@ -34,7 +34,7 @@
             IssuerName = firstItem.IssuerName;
             RetailerName = firstItem.RetailerName;
             CompanyName = firstItem.CompanyName;
-            ApiNumber   = firstItem.ApiNumber;
+            ApiNumber = firstItem.ApiNumber;
         }
     }
 
@@ -80,9 +80,20 @@
                         }
                     </select>
                 </div>
+                @*<div class="form-group">
+                        <label for="productName">Clause Name</label>
+                        <select class="form-control" id="clauseName" name="clauseName">
+                            <option value="">Select Product</option>
+                            @foreach (var item in ViewBag.ClauseModels)
+                            {
+                                <option value="@item.ClauseName">@item.ClauseName</option>
+                            }
+                        </select>
+                    </div>*@
+
                 <div class="form-group">
-                    <label for="productName">Clause Name</label>
-                    <select class="form-control" id="clauseName" name="clauseName">
+                    <label for="clauseName">Clause Name</label>
+                    <select class="form-control select2" id="clauseName" name="clauseName">
                         <option value="">Select Product</option>
                         @foreach (var item in ViewBag.ClauseModels)
                         {
@@ -90,6 +101,9 @@
                         }
                     </select>
                 </div>
+
+
+
             </div>
         </div>
 
@@ -106,7 +120,7 @@
                         <th>QuantityUnit</th>
                         <th>Measurement</th>
                         <th>MeasureUnit</th>
-                       @*<th>HSCode</th>*@
+                        @*<th>HSCode</th>*@
 
                         @*<th>CustomerName</th>*@
                     </tr>
@@ -136,8 +150,8 @@
                                 <input type="text" class="form-control form-control-sm MeasureUnit" name="name" value="@item.MeasureUnit" />
                             </td>
                             @*<td>
-                                <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
-                            </td>*@
+                                    <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
+                                </td>*@
                         </tr>
                     }
                 </tbody>
@@ -150,15 +164,18 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>*@
 
-<div class="modal-footer">
-    @*<button type="button" class="btn btn-primary" id="submitButton">Save Changes</button>
-    *@
-    <button type="button" class="btn btn-primary" id="submitButton" data-api-number="@ApiNumber">Save Changes</button>
+    <div class="modal-footer">
+        @*<button type="button" class="btn btn-primary" id="submitButton">Save Changes</button>
+        *@
+        <button type="button" class="btn btn-primary" id="submitButton" data-api-number="@ApiNumber">Save Changes</button>
 
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+
 </div>
 
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -209,6 +226,14 @@
                 });
             }
         });
+        // Initialize select2 on the "Clause Name" dropdown
+        $('#clauseName').select2({
+            placeholder: 'Select Product',
+            allowClear: true,
+            width: '100%'
+        });
+
+
 
         // Event listener for submit button click
         $('#submitButton').click(function () {
@@ -222,23 +247,84 @@
                 console.log($(this))
             });
 
-            // Send the notification request
-            @*$.ajax({
+            @*// Send the notification request
+            $.ajax({
                 url: "@Url.Action("SaveCmApi", "Sales")", // Replace with the actual endpoint to send the notification
                 method: 'POST',
                 data: {
                     piNo: piNo,
-                    name: name
+                  /*  name: name*/
                 },
                 success: function (response) {
                     // Handle the success response, e.g., display a success message
-                    alert('PI Approval request received (' + piNo + ') from ' + name);
+                    alert('PI Approval request received (' + piNo + ') from ' + "User";
                 },
                 error: function (error) {
                     // Handle the error response, e.g., display an error message
                     console.error('Error sending notification:', error);
                 }
             });*@
+
+            $('#submitButton').click(function () {
+    // Collect data from the table
+    var customerName = $('#customerName').val();
+    var retailerName = $('#retailerName').val();
+    var representativeName = $('#representativeName').val();
+    var companyName = $('#companyName').val();
+    var productData = [];
+
+    // Iterate over each table row in the tbody
+    $('#cm-api-modal-tbody tr').each(function () {
+      var bookingNo = $(this).find('td:nth-child(1)').text();
+      var categoryName = $(this).find('td:nth-child(2)').text();
+      var productName = $(this).find('.ProductName').val();
+      var bondName = $(this).find('.BondName').val();
+      var invoiceQty = $(this).find('.InvoiceQty').val();
+      var quantityUnit = $(this).find('.QuantityUnit').val();
+      var measurement = $(this).find('.Measurement').val();
+      var measureUnit = $(this).find('.MeasureUnit').val();
+
+      var rowData = {
+        BookingNo: bookingNo,
+        CategoryName: categoryName,
+        ProductName: productName,
+        BondName: bondName,
+        InvoiceQty: invoiceQty,
+        QuantityUnit: quantityUnit,
+        Measurement: measurement,
+        MeasureUnit: measureUnit
+      };
+
+      productData.push(rowData);
+    });
+
+    // Create the data object to send to the server
+    var formData = {
+      CustomerName: customerName,
+      RetailerName: retailerName,
+      RepresentativeName: representativeName,
+      CompanyName: companyName,
+      Details: productData
+    };
+
+    // Send the data to the server
+    $.ajax({
+      url: '@Url.Action("SaveCmApi", "Sales")',
+      method: 'POST',
+      data: formData,
+      success: function (response) {
+        // Handle the success response
+        console.log('Data saved successfully:', response);
+      },
+      error: function (error) {
+        // Handle the error response
+        console.error('Error saving data:', error);
+      }
+    });
+  });
+
+
+
         });
     });
 </script>

@@ -21,6 +21,13 @@
             overflow-y: scroll;
         }
 
+            #added-table thead th,
+            #added-table tbody tr,
+            #added-table tfoot td {
+                height: 7px;
+                padding: 0;
+            }
+
         /* Add this CSS code to your HTML file */
         .hide-column {
             display: none;
@@ -42,6 +49,10 @@
             bottom: 0;
             width: 6px;
             z-index: 10;
+        }
+
+        .custom-row-height td {
+            height: 5px;
         }
     </style>
 }
@@ -65,54 +76,43 @@
             <h2>Existing Bookings</h2>
 
 
-            <div class="main-card mb-6 card">
+            <div class="main-card mb-8 card">
                 <div class="card-body">
 
-                    @using (Html.BeginForm("LcNotReceived", "Sales", FormMethod.Get))
-                    {
-                        <div class="row">
-                                <div class="col-md-12">
-                                    @*<div class="form-group row">
-                                        <label for="customerName" class="col-sm-2 col-form-label">Customer Name:</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" id="customerName" class="form-control" />
-                                        </div>
-                                        <label for="retailerName" class="col-sm-2 col-form-label">Retailer Name:</label>
-                                        <div class="col-sm-4">
-                                            @Html.TextBox("retailerName", null, new { @class = "form-control" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="representativeName" class="col-sm-2 col-form-label">Category Name:</label>
-                                        <div class="col-sm-4">
-                                            @Html.TextBox("categoryName", null, new { @class = "form-control" })
-                                        </div>
-
-                                    </div>*@
-                                </div>
+                    
+                    <div >
+                        
+                            <div>
+                                <button type="button" id="select-all-btn" class="btn btn-primary mr-2">Select All</button>
+                                <button type="button" id="clear-all-btn" class="btn btn-secondary">Clear All</button>
                             </div>
-                    }
-                    <div class="table-responsive">
+                            @*<span class="text-right" style="font-size: 18px;">
+                                Total Value: <span id="total-value"></span>
+                            </span>*@
+                      
                         <table id="datatable" class="mb-0 table table-bordered table-hover">
                             <thead class="th-top">
                                 <tr>
                                     <th>SL</th>
-                                    <th>Select</th>
+                                    <th>
+                                        Select
+                                    </th>
                                     <th class="text-center">Booking No</th>
                                     <th class="text-center">Booking Date</th>
-                                    <th class="text-center">Category Name</th>
+
+                                    <th class="text-center">PI Status</th>
                                     <th class="text-center">Customer Name</th>
                                     <th class="text-center">Representative Name</th>
                                     <th class="text-center">Booking Qty</th>
                                     <th class="text-center">Booking Value</th>
                                     @*<th class="text-center hide-column">Invoice Qty</th>
-        <th class="text-center">Invoice Value</th*@>
+                    <th class="text-center">Invoice Value</th*@>
                                     @*<th class="text-center">LC Rcv Value</th>
-        <th class="text-center">LC Balance</th>*@
+                    <th class="text-center">LC Balance</th>*@
                                     @*<th class="text-center">PI Status</th>*@
                                     <th class="text-center">Retailer Name</th>
                                     <th class="text-center">Delivery (%)</th>
-                                    <th class="text-center">PI Status</th>
+                                    <th class="text-center">Category Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,20 +129,21 @@
                                         </td>
                                         <td class="text-left td-green">@item.BookingNo</td>
                                         <td class="text-left td-green">@item.BookingDate.ToString("d-MMM-yyyy")</td>
-                                        <td class="text-left td-green">@item.CategoryName</td>
+                                        <td class="text-center td-green">@item.ISPISEND</td>
                                         <td class="text-left td-green">@item.CustomerName</td>
                                         <td class="text-left td-green">@item.RepresentativeName</td>
                                         <td class="text-left td-green">@item.BookingQty</td>
                                         @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green")
                                         @*<td class="text-left td-green">@item.InvoiceQty</td>
-                                            @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")*@
+                        @MyHelpers.FinancialNumberRoundedTd(item.DelValue, "td-green")*@
                                         @*@MyHelpers.FinancialNumberRoundedTd(item.LCrcvValue, "td-green")
-                                            @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")*@
+                        @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green")*@
                                         @*<td class="text-left td-green">@item.ISPISEND</td>*@
                                         <td class="text-left td-green">@item.RetailerName</td>
                                         @MyHelpers.FinancialNumberTd(item.DlvPer, "td-pink", "", "%")
                                         @*<td class="td-yellow"></td>*@
-                                        <td class="text-center td-green">@item.ISPISEND</td>
+
+                                        <td class="text-left td-green">@item.CategoryName</td>
                                     </tr>
                                     rowNo++;
                                 }
@@ -159,16 +160,17 @@
                 <span class="text-right" style="font-size: 18px;">Total Value: <span id="total-value"></span></span>
             </h2>
             <div class="main-card mb-4 card">
-                <div class="card-body">
+                <div class="card-body" style="padding: 5px;">
                     @*<form id="added-bookings-form" method="post" action="@Url.Action("SaveApiData", "Sales")">*@
                     <table class="mb-0 table table-bordered table-hover" id="added-table" style="height: 700px; overflow-y: scroll;">
                         <thead>
                             <tr>
                                 <th>SL</th>
                                 <th class="text-center">Booking No.</th>
+                                <th class="text-center">Booking No.</th>
                                 <th class="text-center">Booking Date</th>
-                                <th class="text-center">Value</th>
-                                <th class="text-center">PI Status</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Customer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -181,8 +183,11 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
-                    @*</form>*@
+                    <div class="submit-row d-flex justify-content-between align-items-center">
+                        <input type="text" class="form-control remarks-input" placeholder="Remarks">
+                        <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+                    </div>
+                 
                 </div>
             </div>
 
@@ -396,10 +401,12 @@
                         'InvoiceQty': Number($(this).closest('tr').find('.InvoiceQty').val()),
                         'DelValue': $(this).closest('tr').find('.DelValue').val()
                     });
+                    $('#added-table tbody tr').addClass('custom-row-height');
                     //console.log(apiDataList);
                     updateTotalValue();
 
                     $('#added-table tbody').append($row.clone().find('.selected').remove().end());
+                    $('#added-table tbody tr').addClass('custom-row-height');
                 } else {
                     // Remove the row from Table B
                     console.log($(this).closest('tr').find('.BookingNo').val(), $(this).attr("data-booking-no"))
@@ -410,47 +417,70 @@
                 }
             });
 
-            //$("#rep-filter").change(function () {
-            //    var repName = $(this).val().toLowerCase();
-            //    $("#added-table tbody tr").hide();
-            //    if (repName === "") {
-            //        $("#added-table tbody tr").show();
-            //    } else {
-            //        $("#added-table tbody tr").each(function () {
-            //            var currentRow = $(this);
-            //            var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
-            //            if (currentRepName === repName) {
-            //                currentRow.show();
-            //            }
+
+            //// Listen for change event on checkboxes in Table A
+            //$('#datatable').on('change', '.selected', function () {
+            //    var $row = $(this).closest('tr');  // Get the parent row of the checkbox
+            //    if ($(this).is(':checked')) {
+            //        // Add the row to Table B
+            //        var bookingNo = $row.find('.text-left.td-green:nth-child(2)').text().trim();
+            //        var customerName = $row.find('.text-left.td-green:nth-child(6)').text().trim();
+            //        var bookingQty = $row.find('.text-left.td-green:nth-child(8)').text().trim();
+            //        var delValue = $row.find('.text-left.td-green:nth-child(9)').text().trim();
+            //        var piStatus = $row.find('.text-center.td-green:last').text().trim();
+
+            //        apiDataList.push({
+            //            'BookingNo': bookingNo,
+            //            'CustomerName': customerName,
+            //            'BookingQty': bookingQty,
+            //            'DelValue': $(this).closest('tr').find('.DelValue').val(),
+            //            'PiStatus': piStatus
             //        });
+
+            //        var totalValue = parseFloat($('#total-value').text());
+            //        totalValue += parseFloat(delValue);
+            //        $('#total-value').text(totalValue.toFixed(2));
+
+            //        $('#added-table tbody tr').addClass('custom-row-height');
+
+            //        var clonedRow = $('<tr></tr>');
+            //        clonedRow.append('<td>' + bookingNo + '</td>');
+            //        clonedRow.append('<td>' + customerName + '</td>');
+            //        clonedRow.append('<td>' + bookingQty + '</td>');
+            //        clonedRow.append('<td>' + bookingValue + '</td>');
+            //        clonedRow.append('<td>' + piStatus + '</td>');
+
+            //        $('#added-table tbody').append(clonedRow);
+            //        $('#added-table tbody tr').addClass('custom-row-height');
+            //    } else {
+            //        // Remove the row from Table B
+            //        var bookingNo = $(this).attr("data-booking-no");
+            //        apiDataList = apiDataList.filter(el => el.BookingNo !== bookingNo);
+            //        var bookingNoRow = $('#added-table tbody').find('tr:contains(' + bookingNo + ')');
+            //        var bookingValue = bookingNoRow.find('td:nth-child(4)').text().trim();
+            //        var totalValue = parseFloat($('#total-value').text());
+            //        totalValue -= parseFloat(bookingValue);
+            //        $('#total-value').text(totalValue.toFixed(2));
+            //        bookingNoRow.remove();
             //    }
             //});
 
-            //$('#datatable tbody').on('click', 'tr', function () {
-            //    var checkbox = $(this).find('input[type="checkbox"]');
-            //    var bookingNo = $(this).find('td:eq(2)').text();
-            //    var product = $(this).find('td:eq(3)').text();
-            //    var value = $(this).find('td:eq(6)').text();
-            //    var specification = $(this).find('td:eq(13)').text();
-            //    if (checkbox.prop('checked')) {
-            //        $('#added-table tbody').append('<tr><td><input type="checkbox" class="selected" data-booking-no="' + bookingNo + '" value="" checked /></td><td>' + bookingNo + '</td><td>' + product + '</td><td class="value">' + value + '</td><td>' + specification + '</td></tr>');
-            //    } else {
-            //        $('#added-table tbody tr').each(function () {
-            //            if ($(this).find('td:eq(1)').text() == bookingNo) {
-            //                $(this).remove();
-            //            }
-            //        });
-            //    }
-            //    // Update the summary of the Values column in Table B footer
-            //    var totalValue = 0;
-            //    $('#added-table tbody tr').each(function () {
-            //        totalValue += parseFloat($(this).find('.value').text());
-            //    });
-            //    $('#added-table tfoot td:eq(3)').text(totalValue.toFixed(2));
-            //});
+
+
+           
             updateTotalValue();
             $('#added-bookings-table').on('change', '.booking-select', function () {
                 updateTotalValue();
+            });
+
+            // Select All button click event handler
+            $('#select-all-btn').on('click', function () {
+                $('#datatable').find('.selected').prop('checked', true).trigger('change');
+            });
+
+            // Clear All button click event handler
+            $('#clear-all-btn').on('click', function () {
+                $('#datatable').find('.selected').prop('checked', false).trigger('change');
             });
         });</script>
 }
