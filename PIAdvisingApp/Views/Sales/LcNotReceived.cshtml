@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+
     <style>
         .tbody, td, th {
             padding: 2px !important;
@@ -112,14 +115,14 @@
                         </div>
 
                         @*<div class="form-group col-md-2">
-                            <label for="customerName" class="col-form-label">Retailer Name:</label>
-                            @Html.TextBox("retailerName", null, new { @class = "form-control" })
-                        </div>*@
+                                <label for="customerName" class="col-form-label">Retailer Name:</label>
+                                @Html.TextBox("retailerName", null, new { @class = "form-control" })
+                            </div>*@
 
                         @*<div class="form-group col-md-2">
-            <label for="customerName" class="col-form-label">Customer Name:</label>
-            @Html.DropDownList("customerId", new SelectList(ViewBag.Customers, "CustomerId", "Name"), "Select a customer", new { @class = "form-control" })
-        </div>*@
+                                <label for="customerName" class="col-form-label">Customer Name:</label>
+                                @Html.DropDownList("customerId", new SelectList(ViewBag.Customers, "CustomerId", "Name"), "Select a customer", new { @class = "form-control" })
+                            </div>*@
 
                         <div class="form-group col-md-2">
                             <label for="retailerName" class="col-form-label">Retailer Name:</label>
@@ -237,6 +240,7 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable();
@@ -354,5 +358,122 @@
                     }
                 });
             });
+
+            var table = $('#datatable').DataTable({
+                responsive: true,
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        //if (
+                        //    column.index() === 3 || // Representative Name
+                        //    column.index() === 4 || // Customer Name
+                        //    column.index() === 12 || // PI Status
+                        //    column.index() === 13 // Retailer Name
+                        //)
+                        {
+                            var select = $('<select class="select2"><option value=""></option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                });
+
+                            select.append('<option value="">All</option>');
+
+                            column.data().unique().sort().each(function (d, j) {
+                                var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                var columnHeaderText = $(column.header()).text(); // Get the column header text
+                                select.append('<option value="' + d + '">' + columnHeaderText + ': ' + displayedValue + '</option>');
+                            });
+
+                            select.select2();
+                        }
+                    });
+                },
+                drawCallback: function () {
+                    // Update the dropdown button text with the selected value
+                    $('.select2').each(function () {
+                        var selectedValue = $(this).val();
+                        var buttonText = $(this).find('option[value="' + selectedValue + '"]').text();
+                        $(this).siblings('.select2-container').find('.select2-selection__rendered').text(buttonText);
+                    });
+                }
+            }).on('draw.dt', function () {
+                // Add resizing functionality to columns after each draw
+                table.columns().every(function () {
+                    new $.fn.dataTable.Responsive.ColumnResize(this, {
+                        resizeCallback: function (column) {
+                            var tableApi = this.s.dt;
+                            tableApi.table().node().style.width = 'auto';
+                            tableApi.columns.adjust();
+                        }
+                    });
+                });
+            });
+
+            $('#datatable thead').on('click', 'th', function () {
+                $(this).find('input, select').focus();
+            });
         });</script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#datatable').DataTable({
+                responsive: true,
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        //if (
+                        //    column.index() === 3 || // Representative Name
+                        //    column.index() === 4 || // Customer Name
+                        //    column.index() === 12 || // PI Status
+                        //    column.index() === 13 // Retailer Name
+                        //)
+                        {
+                            var select = $('<select class="select2"><option value=""></option></select>')
+                                .appendTo($(column.header()))
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                });
+
+                            select.append('<option value="">All</option>');
+
+                            column.data().unique().sort().each(function (d, j) {
+                                var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                var columnHeaderText = $(column.header()).text(); // Get the column header text
+                                select.append('<option value="' + d + '">' + columnHeaderText + ': ' + displayedValue + '</option>');
+                            });
+
+                            select.select2();
+                        }
+                    });
+                },
+                drawCallback: function () {
+                    // Update the dropdown button text with the selected value
+                    $('.select2').each(function () {
+                        var selectedValue = $(this).val();
+                        var buttonText = $(this).find('option[value="' + selectedValue + '"]').text();
+                        $(this).siblings('.select2-container').find('.select2-selection__rendered').text(buttonText);
+                    });
+                }
+            }).on('draw.dt', function () {
+                // Add resizing functionality to columns after each draw
+                table.columns().every(function () {
+                    new $.fn.dataTable.Responsive.ColumnResize(this, {
+                        resizeCallback: function (column) {
+                            var tableApi = this.s.dt;
+                            tableApi.table().node().style.width = 'auto';
+                            tableApi.columns.adjust();
+                        }
+                    });
+                });
+            });
+
+            $('#datatable thead').on('click', 'th', function () {
+                $(this).find('input, select').focus();
+            });
+        });
+
+    </script>
 }

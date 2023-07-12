@@ -144,7 +144,7 @@ namespace PIAdvisingApp.Service
             // Implement your logic to generate dummy data based on the provided type
             // Return the appropriate dummy value based on the type
             if (type == typeof(int))
-                return 123; // Replace with appropriate dummy value for int
+                return 11; // Replace with appropriate dummy value for int
             else if (type == typeof(string))
                 return "test"; // Replace with appropriate dummy value for string
             else if (type == typeof(short))
@@ -156,7 +156,7 @@ namespace PIAdvisingApp.Service
             else if (type == typeof(decimal) || type == typeof(double) || type == typeof(float))
                 return 123.45m; // Replace with appropriate dummy value for decimal/float/double
             else
-                return null; // Replace with appropriate dummy value for other types
+                return 112; // Replace with appropriate dummy value for other types
         }
 
 
