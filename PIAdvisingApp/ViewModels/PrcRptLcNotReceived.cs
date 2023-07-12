@@ -11,6 +11,23 @@ namespace PIAdvisingApp.ViewModels
     public class PrcRptLcNotReceived  
     {
         public string BookingNo { get; set; }
+
+        //public int BookingId { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public int CompanyId { get; set; }
+
+        public int RepresentativeId { get; set; }
+
+        public int CMRepresentativeId { get; set; }
+        public int AdvisingBankId { get; set; }
+
+        public int AdvisingBranchId { get; set; }
+        public int IssuerId { get; set; }
+
+        public int LocationId { get; set; }
+
         public DateTime BookingDate { get; set; }
         public string RepresentativeName { get; set; }
         public string CustomerName { get; set; }
