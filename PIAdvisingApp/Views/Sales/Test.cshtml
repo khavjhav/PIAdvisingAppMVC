@@ -1,27 +1,9 @@
-﻿﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondMainViewModel>
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondMainViewModel>
+
 @section Css {
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
-
-    <style>
-        .tbody, td, th {
-            padding: 2px !important;
-            font-size: 11px !important;
-        }
-
-        .modal-backdrop {
-            z-index: 10 !important
-        }
-
-        .table-scroll {
-            overflow-y: scroll;
-            display: block;
-        }
-    </style>
+    <!-- Add your custom CSS styles here -->
 }
+
 <div class="app-page-title">
     <div class="page-title-wrapper">
         <div class="page-title-heading">
@@ -32,226 +14,83 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <div class="main-card mb-6 card">
-        <div class="card-body">
-            <div class="form-group">
-                <label for="rep-filter">Filter by Representative Name:</label>
-                <select class="form-control" id="rep-filter">
-                    <option value="">All</option>
-                    @foreach (var rep in Model.Select(x => x.RepName).Distinct())
-                    {
-                        <option value="@rep">@rep</option>
-                    }
-                </select>
-            </div>
-            <div class="table-responsive">
-                <table class="mb-0 table table-bordered table-hover" id="added-table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Submission Date</th>
-                            <th class="text-center">Api Number</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-center">Value</th>
+@section Modal {
+    <!-- Add your modal code here if needed -->
+}
 
-                            <th class="text-center">Customer Name</th>
-                            <th class="text-center">Representative Name</th>
-                            <th class="text-center">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody style="max-height: 150px; overflow-y: scroll;">
-                        @foreach (var item in Model)
-                        {
-                            string status = "";
-                            string statusClass = "";
-                            int randomStatus = new Random().Next(1, 4);
-                            switch (randomStatus)
-                            {
-                                case 1:
-                                    status = "";
-                                    statusClass = "status-submitted";
-                                    break;
-                                case 2:
-                                    status = "approved by bond team";
-                                    statusClass = "status-approved";
-                                    break;
-                                case 3:
-                                    status = "revised by bond team";
-                                    statusClass = "status-revised";
-                                    break;
-                            }
+@section Scripts {
+    <!-- Add your script references and code here if needed -->
+}
 
-                            <tr data-status="@status">
-                                <td class="text-center">@item.ApiDate.ToString("d-MMM-yy")</td>
-                                <td class="text-center"><span class="apiNumber">@item.ApiNumber</span></td>
-                                <td class="text-center">@item.InvoiceQty</td>
-                                <td class="text-center">@item.InvoiceValue</td>
+<!-- Form for inputting parameters -->
+<form method="post" action="@Url.Action("GetPamModalBondPartial", "Sales")">
 
-                                <td class="text-center">@item.CustomerName</td>
-                                <td class="text-center">@item.RepName</td>
-                                <td class="text-center @statusClass" style="display:none">@status</td>
-                            </tr>
-                        }
-
-                    </tbody>
-                </table>
-            </div>
-            <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
-        </div>
+    <div class="form-group">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name">
     </div>
+    <div class="form-group">
+        <label for="retailerName">Retailer Name:</label>
+        <input type="text" class="form-control" id="retailerName" name="retailerName" placeholder="Enter Retailer Name">
+    </div>
+    <div class="form-group">
+        <label for="categoryName">Category Name:</label>
+        <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<!-- Master view for displaying results -->
+<div class="master-view">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Booking Number</th>
+                <th>Customer Name</th>
+                <th>Retailer Name</th>
+                <th>Total Price</th>
+                <th>Total Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BookingNo</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.RetailerName</td>
+                    <td>@item.InvoiceValue</td>
+                    <td>@item.InvoiceQty</td>
+                </tr>
+                <tr class="detail-row">
+                    <td colspan="5">
+                        <!-- Detail view for expanded row -->
+                        <div class="detail-view">
+                            <p>Product Name: @item.ProductName</p>
+                            <p>Measurement: @item.Measurement</p>
+                            <p>Other details...</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-@*<script>
-    $(document).ready(function () {
-        $("#rep-filter-btn").click(function () {
-            var repName = $("#rep-filter").val().toLowerCase();
-            $("#added-table tbody tr").hide();
-            $("#added-table tbody tr").each(function () {
-                var currentRow = $(this);
-                var currentRepName = currentRow.find("td:eq(4)").text().toLowerCase();
-                if (currentRepName.indexOf(repName) !== -1) {
-                    currentRow.show();
-                }
-            });
-        });
-    });
-</script>*@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<style>
+    .detail-row {
+        display: none;
+    }
+
+        .detail-row.show {
+            display: table-row;
+        }
+</style>
+
 <script>
     $(document).ready(function () {
-        $("#rep-filter").select2({
-            placeholder: "All",
-            allowClear: true,
+        $('.master-view').on('click', 'tbody tr', function () {
+            $(this).next('.detail-row').toggleClass('show');
         });
     });
 </script>
-
-@section Modal {
-    <div class="modal fade" id="approved-pi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">CM API Approval - <span id="api-number-heading"></span></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div id="approved-pi-modal-body" class="modal-body"></div>
-                @*<div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-success" id="save-btn" data-dismiss="modal">Save</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                    </div>*@
-            </div>
-        </div>
-    </div>
-}
-@section Scripts {
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-
-
-    <script>
-        $(document).ready(function () {
-            $('.apiNumber').click(function () {
-                $('#approved-pi-modal-body').html(null);
-                let apiNumber = $(this).text();
-                $('#api-number-heading').text(apiNumber);
-                $.post("@Url.Action("GetPamModalCmPartial", "Sales")", { apiNumber }, function (result) {
-                    $('#approved-pi-modal-body').html(result);
-                });
-                $('#approved-pi').modal({
-                    show: true,
-                    backdrop: false
-                });
-            });
-            var apiDataList = [];
-            function updateTotalValue() {
-                var totalValue = 0.00;
-                $(apiDataList).each(function () {
-                    totalValue += Number(this.DelValue);
-                });
-                $('#total-value').html(totalValue.toFixed(2));
-                console.log('totalValue', totalValue);
-            }
-            $('#datatable').DataTable();
-
-
-
-            // Add status message behind every row
-            var statusArr = ["Submitted", "Approved by Bond Team", "Revised by Bond Team"];
-            $("#added-table tbody tr").each(function () {
-                var status = statusArr[Math.floor(Math.random() * statusArr.length)];
-                $(this).append("<td class='status'>" + status + "</td>");
-            });
-
-            // Add random status color to each status column
-            $("#added-table tbody tr").each(function () {
-                var statusCol = $(this).find(".status");
-                var status = statusCol.text().toLowerCase();
-                switch (status) {
-                    case "submitted":
-                        statusCol.addClass("bg-warning text-dark");
-                        break;
-                    case "approved by bond team":
-                        statusCol.addClass("bg-success text-white");
-                        break;
-                    case "revised by bond team":
-                        statusCol.addClass("bg-info text-white");
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-            $('#approved-pi').on('click', '.modal-footer .btn-success', function () {
-                // Get the row that was clicked
-                var $row = $('#approved-pi-modal-body .table tbody tr');
-
-                // Remove the row from the table's DOM
-                $row.remove();
-
-                // Send an AJAX request to update the row's status in the database
-                $.ajax({
-                    url: '/update-status',
-                    method: 'POST',
-                    data: { apiNumber: $row.find('.apiNumber').text(), status: 'approved' }
-                });
-            });
-
-            //$('#save-btn').click(function () {
-            //    // Get all the rows in the table
-            //    var $rows = $('#added-table tbody tr');
-
-            //    // Filter out rows with a "data-status" attribute of "approved"
-            //    $rows = $rows.filter('[data-status!="approved"]');
-
-            //    // TODO: Send an AJAX request to update the rows' status in the database
-
-            //    // Do something with the remaining rows
-            //    console.log($rows);
-            //});
-
-            //$("#rep-filter").change(function () {
-            //    var repName = $(this).val().toLowerCase();
-            //    $("#added-table tbody tr").hide();
-            //    if (repName === "") {
-            //        $("#added-table tbody tr").show();
-            //    } else {
-            //        $("#added-table tbody tr").each(function () {
-            //            var currentRow = $(this);
-            //            var currentRepName = currentRow.find("td:eq(5)").text().toLowerCase();
-            //            if (currentRepName === repName) {
-            //                currentRow.show();
-            //            }
-            //        });
-            //    }
-            //});
-
-        });</script>
-
-
-}

@@ -220,30 +220,6 @@
 
             $(document).ready(function () {
                 var table = $('#api-list-table').DataTable({
-                    //initComplete: function () {
-                    //    this.api().columns().every(function () {
-                    //        var column = this;
-                    //        var select = $('<select><option value=""></option></select>')
-                    //            .appendTo($(column.header()))
-                    //            .on('change', function () {
-                    //                var val = $.fn.dataTable.util.escapeRegex(
-                    //                    $(this).val()
-                    //                );
-
-                    //                column
-                    //                    .search(val ? '^' + val + '$' : '', true, false)
-                    //                    .draw();
-                    //            });
-
-                    //        select.append('<option value="">All</option>');
-
-                    //        column.data().unique().sort().each(function (d, j) {
-                    //            select.append('<option value="' + d + '">' + d + '</option>');
-                    //        });
-
-
-                    //    });
-                    //}
                     initComplete: function () {
                         this.api().columns().every(function () {
                             var column = this;
@@ -270,11 +246,660 @@
                             }
                         });
                     }
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
+                });
+
+                $('#api-list-table thead').on('click', 'th', function () {
+                    $(this).find('input, select').focus();
+                }); var table = $('#api-list-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            if (
+                                column.index() === 3 || // Customer Name
+                                column.index() === 4 // Rep Name
+
+                            ) {
+                                var select = $('<select class="select2"><option value=""></option></select>')
+                                    .appendTo($(column.header()))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                select.append('<option value="">All</option>');
+
+                                column.data().unique().sort().each(function (d, j) {
+                                    var displayedValue = d.length > 15 ? d.substr(0, 15) + '...' : d;
+                                    select.append('<option value="' + d + '">' + displayedValue + '</option>');
+                                });
+
+                                select.select2();
+                            }
+                        });
+                    }
                 });
 
                 $('#api-list-table thead').on('click', 'th', function () {
                     $(this).find('input, select').focus();
                 });
+
+               
             });
 
             // Event listener for submit button click

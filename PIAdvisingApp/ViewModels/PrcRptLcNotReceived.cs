@@ -12,8 +12,8 @@ namespace PIAdvisingApp.ViewModels
     {
         public string BookingNo { get; set; }
 
-        //public int BookingId { get; set; }
-
+        public int BookingId { get; set; }
+        public string CustomerName { get; set; }
         public int CustomerId { get; set; }
 
         public int CompanyId { get; set; }
@@ -30,7 +30,7 @@ namespace PIAdvisingApp.ViewModels
 
         public DateTime BookingDate { get; set; }
         public string RepresentativeName { get; set; }
-        public string CustomerName { get; set; }
+    
         public string CategoryName { get; set; }
         public string CustomerRef { get; set; }
         public string RNNo { get; set; }
@@ -45,6 +45,22 @@ namespace PIAdvisingApp.ViewModels
         public string ISPISEND { get; set; }
         public string RetailerName { get; set; }
         public decimal DlvPer { get; set; }
+
+
+        public string IssuerName { get; set; }
+ 
+        public short RetailerId { get; set; }
+        public string CompanyName { get; set; }
+       
+        public string ShortName { get; set; }
+     
+        public string ProductName { get; set; }
+        public short ProductId { get; set; }
+        public string Measurement { get; set; }
+        public short MeasureUnitId { get; set; }
+        public decimal UnitPrice { get; set; }
+        public string QuantityUnit { get; set; }
+        public short QuantityUnitId { get; set; }
 
     }
     public class PiAdvisingBondViewModel
@@ -62,11 +78,29 @@ namespace PIAdvisingApp.ViewModels
         public string CustomerName { get; set; }
         public string ShortName { get; set; }
 
-        public string RetailerName  { get; set; }
-        
-        public string IssuerName { get; set; } 
+        public string RetailerName { get; set; }
+
+        public string IssuerName { get; set; }
 
         public string CompanyName { get; set; }
+
+       
+        //public string IssuerId { get; set; }
+     
+        //public string RetailerId { get; set; }
+       
+        //public string CompanyId { get; set; }
+        //public string RepresentativeId { get; set; }
+        
+        //public decimal BookingQty { get; set; }
+        //public decimal BookingValue { get; set; }
+  
+        //public string ProductId { get; set; }
+       
+        //public short MeasureUnitId { get; set; }
+        //public decimal UnitPrice { get; set; }
+       
+        //public short QuantityUnitId { get; set; }
     }
 
     public class PiAdvisingBondMainViewModel
@@ -77,6 +111,26 @@ namespace PIAdvisingApp.ViewModels
         public decimal InvoiceQty { get; set; }
         public decimal InvoiceValue { get; set; }
         public DateTime ApiDate { get; set; }
+
+        public string BookingNo { get; set;}
+
+        public string IssuerName { get; set; }
+        public short IssuerId { get; set; }
+        public string RetailerName { get; set; }
+        public short RetailerId { get; set; }
+        public string CompanyName { get; set; }
+        public short CompanyId { get; set; }
+        public short RepresentativeId { get; set; }
+        public string ShortName { get; set; }
+        public decimal BookingQty { get; set; }
+        public decimal BookingValue { get; set; }
+        public string ProductName { get; set; }
+        public short ProductId { get; set; }
+        public string Measurement { get; set; }
+        public short MeasureUnitId { get; set; }
+        public decimal UnitPrice { get; set; }
+        public string QuantityUnit { get; set; }
+        public short QuantityUnitId { get; set; }
 
     }
     //public class BondApprovedPiUpdateViewModel

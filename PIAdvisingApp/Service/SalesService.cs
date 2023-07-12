@@ -144,7 +144,7 @@ namespace PIAdvisingApp.Service
             // Implement your logic to generate dummy data based on the provided type
             // Return the appropriate dummy value based on the type
             if (type == typeof(int))
-                return 11; // Replace with appropriate dummy value for int
+                return 123; // Replace with appropriate dummy value for int
             else if (type == typeof(string))
                 return "test"; // Replace with appropriate dummy value for string
             else if (type == typeof(short))
@@ -156,7 +156,7 @@ namespace PIAdvisingApp.Service
             else if (type == typeof(decimal) || type == typeof(double) || type == typeof(float))
                 return 123.45m; // Replace with appropriate dummy value for decimal/float/double
             else
-                return 112; // Replace with appropriate dummy value for other types
+                return null; // Replace with appropriate dummy value for other types
         }
 
 
@@ -176,7 +176,7 @@ namespace PIAdvisingApp.Service
 
                 //);
 
-                var query = "INSERT INTO dbo.PiMain (PIId, PINo, BookingNo,   PISDate, PIDate, PITypeId, Month, Year, SerialNo, LocationId, CompanyId, CustomerId, IssuerId, CustomerRef, AddEmailAddress, RepresentativeId, CMRepresentativeId, PIClauseId, AdvisingBankId, AdvisingBranchId, BillAddressId, BillAddress, PIAmount, IsCollectionDone, IsCustomizePI, IsPONumber, IsStyleRef, IsSize, IsColor, IsBreakdown1, IsBreakdown2, IsShadeNumber, IsWashType, IsGSM, IsAutoPI, IsSentToCustomer, IsInQueue, PIFwDate, IsWeightPI, IsBookingRevised, SendingCount, EntryUserId, EntryDate, RevisionUserId, RevisionDate, IPAddress, PCName) " +
+                var query = "INSERT INTO dbo.PiAdvisingBondMain (PIId, PINo, BookingNo,   PISDate, PIDate, PITypeId, Month, Year, SerialNo, LocationId, CompanyId, CustomerId, IssuerId, CustomerRef, AddEmailAddress, RepresentativeId, CMRepresentativeId, PIClauseId, AdvisingBankId, AdvisingBranchId, BillAddressId, BillAddress, PIAmount, IsCollectionDone, IsCustomizePI, IsPONumber, IsStyleRef, IsSize, IsColor, IsBreakdown1, IsBreakdown2, IsShadeNumber, IsWashType, IsGSM, IsAutoPI, IsSentToCustomer, IsInQueue, PIFwDate, IsWeightPI, IsBookingRevised, SendingCount, EntryUserId, EntryDate, RevisionUserId, RevisionDate, IPAddress, PCName) " +
              "VALUES (@PIId, @PINo, @BookingNo, @PISDate, @PIDate, @PITypeId, @Month, @Year, @SerialNo, @LocationId, @CompanyId, @CustomerId, @IssuerId, @CustomerRef, @AddEmailAddress, @RepresentativeId, @CMRepresentativeId, @PIClauseId, @AdvisingBankId, @AdvisingBranchId, @BillAddressId, @BillAddress, @PIAmount, @IsCollectionDone, @IsCustomizePI, @IsPONumber, @IsStyleRef, @IsSize, @IsColor, @IsBreakdown1, @IsBreakdown2, @IsShadeNumber, @IsWashType, @IsGSM, @IsAutoPI, @IsSentToCustomer, @IsInQueue, @PIFwDate, @IsWeightPI, @IsBookingRevised, @SendingCount, @EntryUserId, @EntryDate, @RevisionUserId, @RevisionDate, @IPAddress, @PCName)";
                 var result = ctx.Database.ExecuteSqlCommand(query,
                     new SqlParameter("PIId", GenerateDummyData(typeof(int))), // Use your own logic to generate dummy data for PIId
@@ -235,80 +235,80 @@ namespace PIAdvisingApp.Service
                     );
 
                 ///sub details from booking sub , like product, measurements.
-    //            var insertedRowId = 0;
-    //            foreach (var detail in data.Details)
-    //            {
-    //                //Save Sub data
-    //                //var detailQuery = "INSERT INTO dbo.PiAdvisingBondSub VALUES (@BookingSubId, @BookingQty, @UnitPrice, @Measurement, @MeasurementID, @ApiDate)";
-    //                var detailQuery = "INSERT INTO dbo.YourTableName (PIId, PISubId, ProductId, ProductSpecification, CustomerSpecification, NSDNo, MeasureUnitId, Length, Width, Height, Thickness, Measurement, PONumber, StyleRef, Color, BreakDown1, BreakDown2, Size, PackStyleId, Ply, SqrMeter, IsPerforated, PaperComId, PaperCombination, GlueType, ElasticType, IsPrinted, IsOutDimension, IsDyeCutting, MaterialName, DeptNoColor, Sealing, AirHole, PillowSize, Flap, GsstLength, GsstWidthLeft, GsstWidthRight, PrintCost, AdhesiveCost, PrintOption, NoOfColor, ShadeNumber, ShadeOption, WashType, ItemCode, LabelCaption, Brand, Cut_Fold, GSM, Quantity, QtyInKG, QuantityUnitId, UnitPrice, TotalAmount, RowNo) " +
-    //         "VALUES (@PIId, @PISubId, @ProductId, @ProductSpecification, @CustomerSpecification, @NSDNo, @MeasureUnitId, @Length, @Width, @Height, @Thickness, @Measurement, @PONumber, @StyleRef, @Color, @BreakDown1, @BreakDown2, @Size, @PackStyleId, @Ply, @SqrMeter, @IsPerforated, @PaperComId, @PaperCombination, @GlueType, @ElasticType, @IsPrinted, @IsOutDimension, @IsDyeCutting, @MaterialName, @DeptNoColor, @Sealing, @AirHole, @PillowSize, @Flap, @GsstLength, @GsstWidthLeft, @GsstWidthRight, @PrintCost, @AdhesiveCost, @PrintOption, @NoOfColor, @ShadeNumber, @ShadeOption, @WashType, @ItemCode, @LabelCaption, @Brand, @Cut_Fold, @GSM, @Quantity, @QtyInKG, @QuantityUnitId, @UnitPrice, (@Quantity * @UnitPrice), @RowNo)";
+                var insertedRowId = 0;
+                foreach (var detail in data.Details)
+                {
+                    //Save Sub data
+                    //var detailQuery = "INSERT INTO dbo.PiAdvisingBondSub VALUES (@BookingSubId, @BookingQty, @UnitPrice, @Measurement, @MeasurementID, @ApiDate)";
+                    var detailQuery = "INSERT INTO dbo.YourTableName (PIId, PISubId, ProductId, ProductSpecification, CustomerSpecification, NSDNo, MeasureUnitId, Length, Width, Height, Thickness, Measurement, PONumber, StyleRef, Color, BreakDown1, BreakDown2, Size, PackStyleId, Ply, SqrMeter, IsPerforated, PaperComId, PaperCombination, GlueType, ElasticType, IsPrinted, IsOutDimension, IsDyeCutting, MaterialName, DeptNoColor, Sealing, AirHole, PillowSize, Flap, GsstLength, GsstWidthLeft, GsstWidthRight, PrintCost, AdhesiveCost, PrintOption, NoOfColor, ShadeNumber, ShadeOption, WashType, ItemCode, LabelCaption, Brand, Cut_Fold, GSM, Quantity, QtyInKG, QuantityUnitId, UnitPrice, TotalAmount, RowNo) " +
+             "VALUES (@PIId, @PISubId, @ProductId, @ProductSpecification, @CustomerSpecification, @NSDNo, @MeasureUnitId, @Length, @Width, @Height, @Thickness, @Measurement, @PONumber, @StyleRef, @Color, @BreakDown1, @BreakDown2, @Size, @PackStyleId, @Ply, @SqrMeter, @IsPerforated, @PaperComId, @PaperCombination, @GlueType, @ElasticType, @IsPrinted, @IsOutDimension, @IsDyeCutting, @MaterialName, @DeptNoColor, @Sealing, @AirHole, @PillowSize, @Flap, @GsstLength, @GsstWidthLeft, @GsstWidthRight, @PrintCost, @AdhesiveCost, @PrintOption, @NoOfColor, @ShadeNumber, @ShadeOption, @WashType, @ItemCode, @LabelCaption, @Brand, @Cut_Fold, @GSM, @Quantity, @QtyInKG, @QuantityUnitId, @UnitPrice, (@Quantity * @UnitPrice), @RowNo)";
 
-    //                var detailResult = ctx.Database
-    //                .ExecuteSqlCommand(detailQuery,
-    //                        //new SqlParameter("BookingSubID", detail.BookingSubId),
-    //                        //new SqlParameter("UnitPrice", detail.UnitPrice),
-    //                        //new SqlParameter("Measurement", detail.Measurement),
-    //                        //new SqlParameter("MeasurementID", detail.MeasurementID),
-    //                        //new SqlParameter("ApiDate", DateTime.Now)
-    //                        new SqlParameter("PIId", GenerateDummyData(typeof(int))), // Use your own logic to generate dummy data for PIId
-    //new SqlParameter("PISubId", GenerateDummyData(typeof(int))), // Use your own logic to generate dummy data for PISubId
-    //new SqlParameter("ProductId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for ProductId
-    //new SqlParameter("ProductSpecification", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ProductSpecification
-    //new SqlParameter("CustomerSpecification", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for CustomerSpecification
-    //new SqlParameter("NSDNo", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for NSDNo
-    //new SqlParameter("MeasureUnitId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for MeasureUnitId
-    //new SqlParameter("Length", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Length
-    //new SqlParameter("Width", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Width
-    //new SqlParameter("Height", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Height
-    //new SqlParameter("Thickness", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Thickness
-    //new SqlParameter("Measurement", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Measurement
-    //new SqlParameter("PONumber", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PONumber
-    //new SqlParameter("StyleRef", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for StyleRef
-    //new SqlParameter("Color", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Color
-    //new SqlParameter("BreakDown1", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for BreakDown1
-    //new SqlParameter("BreakDown2", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for BreakDown2
-    //new SqlParameter("Size", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Size
-    //new SqlParameter("PackStyleId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for PackStyleId
-    //new SqlParameter("Ply", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for Ply
-    //new SqlParameter("SqrMeter", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for SqrMeter
-    //new SqlParameter("IsPerforated", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsPerforated
-    //new SqlParameter("PaperComId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for PaperComId
-    //new SqlParameter("PaperCombination", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PaperCombination
-    //new SqlParameter("GlueType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for GlueType
-    //new SqlParameter("ElasticType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ElasticType
-    //new SqlParameter("IsPrinted", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsPrinted
-    //new SqlParameter("IsOutDimension", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsOutDimension
-    //new SqlParameter("IsDyeCutting", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsDyeCutting
-    //new SqlParameter("MaterialName", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for MaterialName
-    //new SqlParameter("DeptNoColor", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for DeptNoColor
-    //new SqlParameter("Sealing", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Sealing
-    //new SqlParameter("AirHole", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for AirHole
-    //new SqlParameter("PillowSize", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for PillowSize
-    //new SqlParameter("Flap", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Flap
-    //new SqlParameter("GsstLength", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstLength
-    //new SqlParameter("GsstWidthLeft", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstWidthLeft
-    //new SqlParameter("GsstWidthRight", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstWidthRight
-    //new SqlParameter("PrintCost", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for PrintCost
-    //new SqlParameter("AdhesiveCost", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for AdhesiveCost
-    //new SqlParameter("PrintOption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PrintOption
-    //new SqlParameter("NoOfColor", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for NoOfColor
-    //new SqlParameter("ShadeNumber", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ShadeNumber
-    //new SqlParameter("ShadeOption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ShadeOption
-    //new SqlParameter("WashType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for WashType
-    //new SqlParameter("ItemCode", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ItemCode
-    //new SqlParameter("LabelCaption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for LabelCaption
-    //new SqlParameter("Brand", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Brand
-    //new SqlParameter("Cut_Fold", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Cut_Fold
-    //new SqlParameter("GSM", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for GSM
-    //new SqlParameter("Quantity", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Quantity
-    //new SqlParameter("QtyInKG", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for QtyInKG
-    //new SqlParameter("QuantityUnitId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for QuantityUnitId
-    //new SqlParameter("UnitPrice", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for UnitPrice
-    //new SqlParameter("TotalAmount", apiData.DelValue), // Use the actual TotalAmount value
-    //new SqlParameter("RowNo", GenerateDummyData(typeof(short))) // Use your own logic to generate dummy data for RowNo
+                    var detailResult = ctx.Database
+                    .ExecuteSqlCommand(detailQuery,
+                            //new SqlParameter("BookingSubID", detail.BookingSubId),
+                            //new SqlParameter("UnitPrice", detail.UnitPrice),
+                            //new SqlParameter("Measurement", detail.Measurement),
+                            //new SqlParameter("MeasurementID", detail.MeasurementID),
+                            //new SqlParameter("ApiDate", DateTime.Now)
+                            new SqlParameter("PIId", GenerateDummyData(typeof(int))), // Use your own logic to generate dummy data for PIId
+    new SqlParameter("PISubId", GenerateDummyData(typeof(int))), // Use your own logic to generate dummy data for PISubId
+    new SqlParameter("ProductId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for ProductId
+    new SqlParameter("ProductSpecification", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ProductSpecification
+    new SqlParameter("CustomerSpecification", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for CustomerSpecification
+    new SqlParameter("NSDNo", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for NSDNo
+    new SqlParameter("MeasureUnitId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for MeasureUnitId
+    new SqlParameter("Length", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Length
+    new SqlParameter("Width", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Width
+    new SqlParameter("Height", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Height
+    new SqlParameter("Thickness", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Thickness
+    new SqlParameter("Measurement", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Measurement
+    new SqlParameter("PONumber", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PONumber
+    new SqlParameter("StyleRef", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for StyleRef
+    new SqlParameter("Color", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Color
+    new SqlParameter("BreakDown1", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for BreakDown1
+    new SqlParameter("BreakDown2", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for BreakDown2
+    new SqlParameter("Size", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Size
+    new SqlParameter("PackStyleId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for PackStyleId
+    new SqlParameter("Ply", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for Ply
+    new SqlParameter("SqrMeter", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for SqrMeter
+    new SqlParameter("IsPerforated", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsPerforated
+    new SqlParameter("PaperComId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for PaperComId
+    new SqlParameter("PaperCombination", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PaperCombination
+    new SqlParameter("GlueType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for GlueType
+    new SqlParameter("ElasticType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ElasticType
+    new SqlParameter("IsPrinted", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsPrinted
+    new SqlParameter("IsOutDimension", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsOutDimension
+    new SqlParameter("IsDyeCutting", GenerateDummyData(typeof(byte))), // Use your own logic to generate dummy data for IsDyeCutting
+    new SqlParameter("MaterialName", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for MaterialName
+    new SqlParameter("DeptNoColor", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for DeptNoColor
+    new SqlParameter("Sealing", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Sealing
+    new SqlParameter("AirHole", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for AirHole
+    new SqlParameter("PillowSize", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for PillowSize
+    new SqlParameter("Flap", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Flap
+    new SqlParameter("GsstLength", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstLength
+    new SqlParameter("GsstWidthLeft", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstWidthLeft
+    new SqlParameter("GsstWidthRight", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for GsstWidthRight
+    new SqlParameter("PrintCost", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for PrintCost
+    new SqlParameter("AdhesiveCost", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for AdhesiveCost
+    new SqlParameter("PrintOption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for PrintOption
+    new SqlParameter("NoOfColor", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for NoOfColor
+    new SqlParameter("ShadeNumber", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ShadeNumber
+    new SqlParameter("ShadeOption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ShadeOption
+    new SqlParameter("WashType", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for WashType
+    new SqlParameter("ItemCode", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for ItemCode
+    new SqlParameter("LabelCaption", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for LabelCaption
+    new SqlParameter("Brand", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Brand
+    new SqlParameter("Cut_Fold", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for Cut_Fold
+    new SqlParameter("GSM", GenerateDummyData(typeof(string))), // Use your own logic to generate dummy data for GSM
+    new SqlParameter("Quantity", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for Quantity
+    new SqlParameter("QtyInKG", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for QtyInKG
+    new SqlParameter("QuantityUnitId", GenerateDummyData(typeof(short))), // Use your own logic to generate dummy data for QuantityUnitId
+    new SqlParameter("UnitPrice", GenerateDummyData(typeof(decimal))), // Use your own logic to generate dummy data for UnitPrice
+    new SqlParameter("TotalAmount", apiData.DelValue), // Use the actual TotalAmount value
+    new SqlParameter("RowNo", GenerateDummyData(typeof(short))) // Use your own logic to generate dummy data for RowNo
 
-    //                        );
-    //            }
+                            );
+                }
 
 
 

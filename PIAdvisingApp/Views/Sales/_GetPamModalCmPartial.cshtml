@@ -2,11 +2,11 @@
 
 <div class="modal-content">
 
-    <div id="loading-animation" class="text-center">
+    @*<div id="loading-animation" class="text-center">
         <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-    </div>
+    </div>*@
 
     <div class="modal-header">
         <h5 class="modal-title">CM Approval For Rep. </h5>
@@ -61,6 +61,10 @@
 
             <div class="col-md-6">
                 <div class="form-group">
+                    <label for="issuerName">Issuer Name</label>
+                    <input type="text" class="form-control" id="issuerName" name="issuerName" value="@IssuerName" readonly />
+                </div>
+                <div class="form-group">
                     <label for="productCategory">Product Category</label>
                     <select class="form-control" id="productCategory" name="productCategory">
                         <option value="">Select Category</option>
@@ -81,15 +85,15 @@
                     </select>
                 </div>
                 @*<div class="form-group">
-                        <label for="productName">Clause Name</label>
-                        <select class="form-control" id="clauseName" name="clauseName">
-                            <option value="">Select Product</option>
-                            @foreach (var item in ViewBag.ClauseModels)
-                            {
-                                <option value="@item.ClauseName">@item.ClauseName</option>
-                            }
-                        </select>
-                    </div>*@
+            <label for="productName">Clause Name</label>
+            <select class="form-control" id="clauseName" name="clauseName">
+                <option value="">Select Product</option>
+                @foreach (var item in ViewBag.ClauseModels)
+                {
+                    <option value="@item.ClauseName">@item.ClauseName</option>
+                }
+            </select>
+        </div>*@
 
                 <div class="form-group">
                     <label for="clauseName">Clause Name</label>
@@ -177,22 +181,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 
-<script>
+@section Scripts {
+    <script>
     $(document).ready(function () {
         // Hide the modal content initially
         $("#modal-content-wrapper").hide();
 
-        // Show loading animation
-        $("#loading-animation").show();
+        //// Show loading animation
+        //$("#loading-animation").show();
 
-        // Simulate delay for demonstration purposes
-        setTimeout(function () {
-            // Hide loading animation
-            $("#loading-animation").hide();
+        //// Simulate delay for demonstration purposes
+        //setTimeout(function () {
+        //    // Hide loading animation
+        //    $("#loading-animation").hide();
 
-            // Show the modal content
-            $("#modal-content-wrapper").show();
-        }, 2000); // Adjust the delay duration as needed
+        //    // Show the modal content
+        //    $("#modal-content-wrapper").show();
+        //}, 2000); // Adjust the delay duration as needed
 
         // Event listener for product category dropdown change
         $('#productCategory').change(function () {
@@ -235,7 +240,7 @@
 
 
 
-        // Event listener for submit button click
+        @*// Event listener for submit button click
         $('#submitButton').click(function () {
            // var piNo = 'API123'; // Replace with the actual API number
             let customerName = $("#customerName").val();
@@ -247,7 +252,7 @@
                 console.log($(this))
             });
 
-            @*// Send the notification request
+            // Send the notification request
             $.ajax({
                 url: "@Url.Action("SaveCmApi", "Sales")", // Replace with the actual endpoint to send the notification
                 method: 'POST',
@@ -263,68 +268,67 @@
                     // Handle the error response, e.g., display an error message
                     console.error('Error sending notification:', error);
                 }
-            });*@
+            });
+        });*@
 
-            $('#submitButton').click(function () {
-    // Collect data from the table
-    var customerName = $('#customerName').val();
-    var retailerName = $('#retailerName').val();
-    var representativeName = $('#representativeName').val();
-    var companyName = $('#companyName').val();
-    var productData = [];
+        $('#submitButton').click(function () {
+        // Collect data from the table
+        var customerName = $('#customerName').val();
+        var retailerName = $('#retailerName').val();
+        var representativeName = $('#representativeName').val();
+        var companyName = $('#companyName').val();
+        var productData = [];
 
-    // Iterate over each table row in the tbody
-    $('#cm-api-modal-tbody tr').each(function () {
-      var bookingNo = $(this).find('td:nth-child(1)').text();
-      var categoryName = $(this).find('td:nth-child(2)').text();
-      var productName = $(this).find('.ProductName').val();
-      var bondName = $(this).find('.BondName').val();
-      var invoiceQty = $(this).find('.InvoiceQty').val();
-      var quantityUnit = $(this).find('.QuantityUnit').val();
-      var measurement = $(this).find('.Measurement').val();
-      var measureUnit = $(this).find('.MeasureUnit').val();
+        // Iterate over each table row in the tbody
+        $('#cm-api-modal-tbody tr').each(function () {
+          var bookingNo = $(this).find('td:nth-child(1)').text();
+          var categoryName = $(this).find('td:nth-child(2)').text();
+          var productName = $(this).find('.ProductName').val();
+          var bondName = $(this).find('.BondName').val();
+          var invoiceQty = $(this).find('.InvoiceQty').val();
+          var quantityUnit = $(this).find('.QuantityUnit').val();
+          var measurement = $(this).find('.Measurement').val();
+          var measureUnit = $(this).find('.MeasureUnit').val();
 
-      var rowData = {
-        BookingNo: bookingNo,
-        CategoryName: categoryName,
-        ProductName: productName,
-        BondName: bondName,
-        InvoiceQty: invoiceQty,
-        QuantityUnit: quantityUnit,
-        Measurement: measurement,
-        MeasureUnit: measureUnit
-      };
+          var rowData = {
+            BookingNo: bookingNo,
+            CategoryName: categoryName,
+            ProductName: productName,
+            BondName: bondName,
+            InvoiceQty: invoiceQty,
+            QuantityUnit: quantityUnit,
+            Measurement: measurement,
+            MeasureUnit: measureUnit
+          };
 
-      productData.push(rowData);
-    });
-
-    // Create the data object to send to the server
-    var formData = {
-      CustomerName: customerName,
-      RetailerName: retailerName,
-      RepresentativeName: representativeName,
-      CompanyName: companyName,
-      Details: productData
-    };
-
-    // Send the data to the server
-    $.ajax({
-      url: '@Url.Action("SaveCmApi", "Sales")',
-      method: 'POST',
-      data: formData,
-      success: function (response) {
-        // Handle the success response
-        console.log('Data saved successfully:', response);
-      },
-      error: function (error) {
-        // Handle the error response
-        console.error('Error saving data:', error);
-      }
-    });
-  });
-
-
-
+          productData.push(rowData);
         });
+
+        // Create the data object to send to the server
+        var formData = {
+          CustomerName: customerName,
+          RetailerName: retailerName,
+          RepresentativeName: representativeName,
+          CompanyName: companyName,
+          Details: productData
+        };
+
+        // Send the data to the server
+        $.ajax({
+          url: '@Url.Action("SaveCmApi", "Sales")',
+          method: 'POST',
+          data: formData,
+          success: function (response) {
+            // Handle the success response
+            console.log('Data saved successfully:', response);
+          },
+          error: function (error) {
+            // Handle the error response
+            console.error('Error saving data:', error);
+          }
+        });
+      });
+
     });
-</script>
+    </script>
+}
