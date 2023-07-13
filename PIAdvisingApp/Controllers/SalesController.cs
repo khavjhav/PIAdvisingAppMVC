@@ -92,6 +92,25 @@ namespace PIAdvisingApp.Controllers
             var advicePi = _salesService.AdvisePI();
             return View(advicePi);
         }
+        public ActionResult AdvisePiFromRep()
+        {
+            int employeeId = 18843;
+            ViewBag.CustomerByReps = _salesService.GetCustomerByRepId(employeeId);
+            ViewBag.EmployeeId = 18843;
+            //var advicePi = _salesService.AdvisePI();
+            List<AdvisePiFromRepResult> result = new List<AdvisePiFromRepResult>();
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult AdvisePiFromRepDetailsPartial(int customerId ,int employeeId)
+        {
+            //var advicePi = _salesService.AdvisePI();
+            DateTime fromDate = DateTime.Now.AddYears(-2);
+            DateTime toDate = DateTime.Now;
+            List<AdvisePiFromRepResult> result = _salesService.GetAdvisePiFromRepDetails(customerId, employeeId, fromDate, toDate);
+            return PartialView("_AdvisePiFromRepDetailsPartial", result);
+        }
 
 
         public ActionResult CmApproval()

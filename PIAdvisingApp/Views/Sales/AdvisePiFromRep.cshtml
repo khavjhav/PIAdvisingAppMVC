@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "Advise PiUpdate 2";
+}
+
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+
+    @*<style>
+            .tbody, td, th {
+                padding: 2px !important;
+                font-size: 11px !important;
+            }
+
+            .modal-backdrop {
+                z-index: 10 !important
+            }
+        </style>*@
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex-basis: calc(50% - 20px);
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-btn {
+            background-color: #2196f3;
+        }
+
+        .save-btn {
+            background-color: #4caf50;
+        }
+
+        .disabled-btn {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Advise PI Update
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <div>
+                    <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group">
+                        <label for="exampleEmail22" class="mr-sm-2">Customer</label>
+                        <select id="CustomerId" class="form-control-sm form-control">
+                            <option value="0">Please Select</option>
+                            @foreach (var item in ViewBag.CustomerByReps)
+                            {
+                                <option value="@item.CustomerId">@item.CustomerName</option>
+                            }
+                        </select>
+                    </div>
+
+                    <button id="show-btn" class="btn btn-primary">Show</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div id="advise-pi-from-rep-details-div">
+        @*this is where the partial view loads*@
+    </div>
+    </div>
+
+
+    @section Scripts {
+
+        <script>
+        $(document).ready(function () {
+            $('#show-btn').click(function () {
+                let customerId = $('#CustomerId').val();
+                let employeeId = '@ViewBag.EmployeeId';
+                if (customerId == 0) {
+                    alert("Please select a customer");
+                    $('#advise-pi-from-rep-details-div').empty();
+                    return;
+                } else {
+                    $.post("@Url.Action("AdvisePiFromRepDetailsPartial", "Sales")", { customerId: customerId, employeeId: employeeId  }, function (result) {
+                        $('#advise-pi-from-rep-details-div').empty();
+                        $('#advise-pi-from-rep-details-div').html(result);
+                    });
+                }
+            })
+        });
+        </script>
+
+    }

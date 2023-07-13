@@ -212,7 +212,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">Pending PI For Sending to Customer</a>
-                                    @*<a class="dropdown-item" href="@Url.Action("Test", "Sales")">Test</a>*@
+                                    <a class="dropdown-item" href="@Url.Action("Test", "Sales")">Test</a>
                                     <a class="dropdown-item" href="#">Report</a>
                                 </div>
                             </li>
@@ -332,15 +332,15 @@
         //    $('div.loading').fadeOut(1000);
         //});
         /// some script
-        //$body = $("body");
-        //$(document).on({
-        //    ajaxStart: function () {
-        //        $body.addClass("loading");
-        //    },
-        //    ajaxStop: function () {
-        //        $body.removeClass("loading");
-        //    }
-        //});
+        $body = $("body");
+        $(document).on({
+            ajaxStart: function () {
+                $body.addClass("loading");
+            },
+            ajaxStop: function () {
+                $body.removeClass("loading");
+            }
+        });
         // jquery ready start
         $(document).ready(function () {
             // jQuery code
