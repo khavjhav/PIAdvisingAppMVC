@@ -10,16 +10,16 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
 
-    @*<style>
-            .tbody, td, th {
-                padding: 2px !important;
-                font-size: 11px !important;
-            }
+    <style>
+        .tbody, td, th {
+            padding: 2px !important;
+            font-size: 9px !important;
+        }
 
-            .modal-backdrop {
-                z-index: 10 !important
-            }
-        </style>*@
+        .modal-backdrop {
+            z-index: 10 !important
+        }
+    </style>
 
     <style>
         * {
@@ -119,53 +119,96 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-8">
-        <div class="main-card mb-3 card">
-            <div class="card-body">
-                <div>
-                    <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group">
-                        <label for="exampleEmail22" class="mr-sm-2">Customer</label>
-                        <select id="CustomerId" class="form-control-sm form-control">
-                            <option value="0">Please Select</option>
-                            @foreach (var item in ViewBag.CustomerByReps)
-                            {
-                                <option value="@item.CustomerId">@item.CustomerName</option>
-                            }
-                        </select>
-                    </div>
-
+    <div class="col-lg-4">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-1">
+                <div class="mb-1 mr-sm-2 mb-sm-0 position-relative form-group">
+                    <label for="CustomerId" class="mr-sm-2">Customer</label>
+                    <select id="CustomerId" class="form-control-sm form-control">
+                        <option value="0">Please Select</option>
+                        @foreach (var item in ViewBag.CustomerByReps)
+                        {
+                            <option value="@item.CustomerId">@item.CustomerName</option>
+                        }
+                    </select>
                     <button id="show-btn" class="btn btn-primary">Show</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-lg-8 text-right">
+        <h6>Total : <span id="total">0.00</span></h6>
+    </div>
 </div>
-<div class="col-lg-12">
-    <div id="advise-pi-from-rep-details-div">
+<div class="row">
+    <div class="col-lg-12 col-xl-6 " id="advise-pi-from-rep-details-div">
         @*this is where the partial view loads*@
     </div>
+    <div class="col-lg-12 col-xl-6 ">
+        @*this is where the partial view loads*@
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Table bordered</h5>
+                <div class=" table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Retailer Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
+</div>
 
 
-    @section Scripts {
+@section Scripts {
 
-        <script>
+    <script>
         $(document).ready(function () {
             $('#show-btn').click(function () {
                 let customerId = $('#CustomerId').val();
                 let employeeId = '@ViewBag.EmployeeId';
                 if (customerId == 0) {
-                    alert("Please select a customer");
                     $('#advise-pi-from-rep-details-div').empty();
+                    alert("Please select a customer");
                     return;
                 } else {
-                    $.post("@Url.Action("AdvisePiFromRepDetailsPartial", "Sales")", { customerId: customerId, employeeId: employeeId  }, function (result) {
+                    $.post("@Url.Action("AdvisePiFromRepDetailsPartial", "Sales")", { customerId: customerId, employeeId: employeeId }, function (result) {
                         $('#advise-pi-from-rep-details-div').empty();
                         $('#advise-pi-from-rep-details-div').html(result);
                     });
                 }
-            })
-        });
-        </script>
+            });
+            $(document).on('click', '.selected-item',function () {
+                let bookingId = $(this).val();
+                let bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                let BookingQty = $(this).closest('tr').find('.BookingQty').text();
+                let CategoryName = $(this).closest('tr').find('.CategoryName').text();
+                let BookingValue = $(this).closest('tr').find('.BookingValue').text();
+                let RetailerName = $(this).closest('tr').find('.RetailerName').text();
+                //add tr to table
+                $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+                updateTotal();
+            });
 
-    }
+            function updateTotal() {
+                var total = 0;
+                $('.BookingValueSelected').each(function()
+                {
+                    total += parseFloat($(this).text());
+                });
+                $('#total').text(total);
+            }
+        });
+    </script>
+
+}
