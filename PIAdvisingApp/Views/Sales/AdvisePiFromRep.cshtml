@@ -3,6 +3,7 @@
     ViewBag.Title = "Advise PiUpdate 2";
 }
 
+
 @section Css {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -145,7 +146,7 @@
         @*this is where the partial view loads*@
     </div>
     <div class="col-lg-12 col-xl-6 ">
-        @*this is where the partial view loads*@
+
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Table bordered</h5>
@@ -172,6 +173,11 @@
 
 @section Scripts {
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#show-btn').click(function () {
@@ -188,26 +194,69 @@
                     });
                 }
             });
-            $(document).on('click', '.selected-item',function () {
-                let bookingId = $(this).val();
-                let bookingNo = $(this).closest('tr').find('.BookingNo').text();
-                let BookingQty = $(this).closest('tr').find('.BookingQty').text();
-                let CategoryName = $(this).closest('tr').find('.CategoryName').text();
-                let BookingValue = $(this).closest('tr').find('.BookingValue').text();
-                let RetailerName = $(this).closest('tr').find('.RetailerName').text();
-                //add tr to table
-                $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+     
+            $(document).on('change', '.selected-item', function () {
+                var bookingId = $(this).val();
+                var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                var BookingQty = $(this).closest('tr').find('.BookingQty').text();
+                var CategoryName = $(this).closest('tr').find('.CategoryName').text();
+                var BookingValue = $(this).closest('tr').find('.BookingValue').text();
+                var RetailerName = $(this).closest('tr').find('.RetailerName').text();
+
+                if ($(this).is(':checked')) {
+                    // Add the row to the right table
+                    $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+                } else {
+                    // Remove the row from the right table
+                    $('#advise-pi-from-rep-selected').find('tr').each(function () {
+                        if ($(this).find('td:first').text() === bookingNo) {
+                            $(this).remove();
+                            return false; // exit the loop
+                        }
+                    });
+                }
+
                 updateTotal();
             });
 
             function updateTotal() {
                 var total = 0;
-                $('.BookingValueSelected').each(function()
-                {
+                $('.BookingValueSelected').each(function () {
                     total += parseFloat($(this).text());
                 });
                 $('#total').text(total);
             }
+            var table = $('#booking-table').DataTable({
+                lengthMenu: [25],
+                language: {
+                    lengthMenu: 'Show _MENU_ entries',
+                    info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                    search: '<strong>Filter:</strong> ',
+                    paginate: {
+                        first: 'First',
+                        last: 'Last',
+                        next: '&rarr;',
+                        previous: '&larr;'
+                    }
+                }
+            });
+
+            // Apply Select2 to Retailer Name and Category Name columns
+            $('.RetailerName, .CategoryName').select2();
+
+            // Add filtering functionality to Retailer Name and Category Name columns
+            $('.RetailerName, .CategoryName').on('select2:select', function (e) {
+                var column = table.column($(this).attr('data-column'));
+                var value = $(this).val();
+
+                if (value.length > 0) {
+                    column.search(value.join('|'), true, false).draw();
+                } else {
+                    column.search('').draw();
+                }
+            });
+
+
         });
     </script>
 

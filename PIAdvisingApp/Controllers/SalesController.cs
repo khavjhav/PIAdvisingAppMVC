@@ -121,8 +121,8 @@ namespace PIAdvisingApp.Controllers
 
         public ActionResult Test()
         {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
+            var clauseDetails = _salesService.GetAllClauseDetails();
+            return View(clauseDetails);
         }
 
         public ActionResult BondApprovedPiUpdate()
