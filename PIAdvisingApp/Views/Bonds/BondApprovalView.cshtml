@@ -1,46 +1,20 @@
-﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondMainViewModel>
-
-@section Css {
-    <!-- Add your custom CSS styles here -->
+﻿
+@{
+    ViewBag.Title = "BondApprovalView";
 }
+
+<h2>BondApprovalView</h2>
 
 <div class="app-page-title">
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                Test
+                Pending PI for Bond Review
             </div>
         </div>
     </div>
 </div>
 
-@section Modal {
-    <!-- Add your modal code here if needed -->
-}
-
-@section Scripts {
-    <!-- Add your script references and code here if needed -->
-}
-
-<!-- Form for inputting parameters -->
-<form method="post" action="@Url.Action("GetPamModalBondPartial", "Sales")">
-
-    <div class="form-group">
-        <label for="customerName">Customer Name:</label>
-        <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name">
-    </div>
-    <div class="form-group">
-        <label for="retailerName">Retailer Name:</label>
-        <input type="text" class="form-control" id="retailerName" name="retailerName" placeholder="Enter Retailer Name">
-    </div>
-    <div class="form-group">
-        <label for="categoryName">Category Name:</label>
-        <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter Category Name">
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-
-<!-- Master view for displaying results -->
 <div class="container">
     <h2>GPI List</h2>
     <table class="table table-bordered">
@@ -250,4 +224,3 @@
         </tbody>
     </table>
 </div>
-
