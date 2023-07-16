@@ -39,8 +39,8 @@
 
     @Styles.Render("~/Content/main.css")
     @RenderSection("Css", required: false)
-    @Styles.Render("~/Content/DevExtremeBundle")
-    @Scripts.Render("~/Scripts/DevExtremeBundle")
+    @*@Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")*@
 
 
 </head>
@@ -113,7 +113,7 @@
             position: absolute;
             margin: 0 auto;
             z-index: 9999;
-            background: url("../../Content/assets/images/loader1.gif") no-repeat;
+            /*background: url("~/Content/assets/images/loader1.gif") no-repeat;*/
             /*background: url('~/Content/assets/images/loader1.gif') no-repeat;*/
             top: 50px;
             cursor: wait;

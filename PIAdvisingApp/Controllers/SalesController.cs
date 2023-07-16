@@ -7,6 +7,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Controllers;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace PIAdvisingApp.Controllers
@@ -112,7 +114,13 @@ namespace PIAdvisingApp.Controllers
             return PartialView("_AdvisePiFromRepDetailsPartial", result);
         }
 
-
+        [HttpPost]
+        public ActionResult SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> request)
+        {
+            //get user ip address 
+            int rowsAffected = _salesService.SaveAdvisePiFromRep(request);
+            return Json(rowsAffected);
+        }
         public ActionResult CmApproval()
         {
             var advicePi = _salesService.GetPiAdvisingBondData();

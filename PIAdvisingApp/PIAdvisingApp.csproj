@@ -372,6 +372,7 @@
     <Compile Include="ViewModels\CustomerByRepVm.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PrcRptLcNotReceived.cs" />
+    <Compile Include="ViewModels\SaveAdvisePiFromRepRequest.cs" />
     <Compile Include="viewMonthPAvgPrice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

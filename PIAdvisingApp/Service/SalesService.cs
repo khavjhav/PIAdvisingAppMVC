@@ -382,7 +382,7 @@ namespace PIAdvisingApp.Service
 
             using (var ctx = new ApplicationDbContext())
             {
-                
+
                 var result = ctx.Database
                   .SqlQuery<AdvisePiFromRepResult>($"EXEC PrcAdvisePiForRep '{fromDate.ToString("dd-MMM-yyyy")}', '{toDate.ToString("dd-MMM-yyyy")}', {customerId}, {employeeId}")
                   .ToList();
@@ -390,5 +390,65 @@ namespace PIAdvisingApp.Service
                 return result;
             }
         }
+
+        public int SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> requests)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                int rowsAffected = 0;
+                var apiNumber = GenerateUniqueNumber(requests.Select(x => x.EmployeeId).FirstOrDefault());
+                var datetime = DateTime.Now;
+                foreach (var item in requests)
+                {
+                    var command = "INSERT INTO [dbo].[ApiMainBond]" +
+           "([ApiNumber]" +
+           ",[BookingId]" +
+           ",[BookingNo]" +
+           ",[CustomerId]" +
+           ",[RetailerId]" +
+           ",[BookingQty]" +
+           ",[BookingValue]" +
+           ",[Remarks]" +
+           ",[EmployeeId]" +
+           ",[EntryTime]" +
+           ",[IpAddress])" +
+     "VALUES (@ApiNumber" +
+           ",@BookingId" +
+           ",@BookingNo" +
+           ",@CustomerId" +
+           ",@RetailerId" +
+           ",@BookingQty" +
+           ",@BookingValue" +
+           ",@Remarks" +
+           ",@EmployeeId" +
+           ",@EntryTime" +
+           ",@IpAddress)";
+
+                    rowsAffected += ctx.Database.ExecuteSqlCommand(
+                        command,
+                        new SqlParameter("ApiNumber", apiNumber),
+                        new SqlParameter("BookingId", item.BookingId),
+                        new SqlParameter("BookingNo", item.BookingNo),
+                        new SqlParameter("CustomerId", item.CustomerId),
+                        new SqlParameter("RetailerId", item.RetailerId),
+                        new SqlParameter("BookingQty", item.BookingQty),
+                        new SqlParameter("BookingValue", item.BookingValue),
+                        new SqlParameter("Remarks", item.Remarks),
+                        new SqlParameter("EmployeeId", item.EmployeeId),
+                        new SqlParameter("EntryTime", datetime),
+                        new SqlParameter("IpAddress", item.IPAddress));
+                }
+                return rowsAffected;
+            }
+        }
+        public string GenerateUniqueNumber(int employeeId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var apiNumber = ctx.Database.SqlQuery<string>("EXEC GetApiNumber @EmployeeId", new SqlParameter("EmployeeId", employeeId)).FirstOrDefault();
+                return apiNumber.ToString();
+            }
+        }
+
     }
 }

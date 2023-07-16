@@ -21,93 +21,6 @@
             z-index: 10 !important
         }
     </style>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            flex-basis: calc(50% - 20px);
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            margin-top: 0;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        select,
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .edit-btn {
-            background-color: #2196f3;
-        }
-
-        .save-btn {
-            background-color: #4caf50;
-        }
-
-        .disabled-btn {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
-
 }
 <div class="app-page-title">
     <div class="page-title-wrapper">
@@ -123,65 +36,107 @@
     <div class="col-lg-4">
         <div class="main-card mb-2 card">
             <div class="card-body p-1">
-                <div class="mb-1 mr-sm-2 mb-sm-0 position-relative form-group">
-                    <label for="CustomerId" class="mr-sm-2">Customer</label>
-                    <select id="CustomerId" class="form-control-sm form-control">
-                        <option value="0">Please Select</option>
-                        @foreach (var item in ViewBag.CustomerByReps)
-                        {
-                            <option value="@item.CustomerId">@item.CustomerName</option>
-                        }
-                    </select>
-                    <button id="show-btn" class="btn btn-primary">Show</button>
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Customer</td>
+                                <td class="text-center">
+                                    <select id="CustomerId" class="form-control-sm form-control">
+                                        <option value="0">Please select</option>
+                                        @foreach (var item in ViewBag.CustomerByReps)
+                                        {
+                                            <option value="@item.CustomerId">@item.CustomerName</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="text-center"><button id="show-btn" class="btn btn-primary">Show</button></td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-8 text-right">
-        <h6>Total : <span id="total">0.00</span></h6>
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-4 text-right d-none" id="advised-list-controls-div">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-1">
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Customer:</td>
+                                <td class="text-center" style="font-size:12px !important" id="customer-name"></td>
+                                <td class="text-center" style="font-size:12px !important">
+                                    Total : <span id="total">0.00</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Remarks:</td>
+                                <td colspan="2" class="text-center p-0">
+                                    <textarea class="form-control mb-0" id="remarks" style="font-size:9px;" placeholder="Enter your remarks here.." rows="1"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Retailer:</td>
+                                <td class="text-center p-0">
+                                    <select id="retailer-field" class="form-control form-control-sm">
+                                        <option selected disabled>Select Retailer</option>
+                                    </select>
+                                </td>
+                                <td class="text-center"><button id="save-btn" class="btn btn-sm btn-primary">Save</button></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-12 col-xl-6" id="advise-pi-from-rep-details-div">
+    @* div with loading image in center *@
+    <div class="col-lg-12 col-xl-8 text-center align-center">
+        <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;"><img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." /></div>
+        <div id="advise-pi-from-rep-details-div"></div>
         @*this is where the partial view loads*@
     </div>
 
-    <div class="col-lg-12 col-xl-6">
+    <div class="col-lg-12 col-xl-4 d-none" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="customer-name">Customer Name:</label>
-                        <input type="text" id="customer-name" class="form-control" readonly>
+            @*<div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customer-name">Customer Name:</label>
+                            <input type="text" id="customer-name" class="form-control" readonly>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="retailer-field">Retailer:</label>
-                        <select id="retailer-field" class="form-control">
-                            <option selected disabled>Select Retailer</option>
-                        </select>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="retailer-field">Retailer:</label>
+                            <select id="retailer-field" class="form-control">
+                                <option selected disabled>Select Retailer</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div>*@
             <div class="card-body p-1">
-                <h5 class="card-title">Advise List</h5>
-                <div class="col-lg-12 col-xl-6">
-                    <div class="table-responsive">
-                        <table class="mb-0 table table-sm table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Booking No</th>
-                                    <th class="text-center">Category Name</th>
-                                    <th class="text-center">Booking Qty</th>
-                                    <th class="text-center">Booking Value</th>
-                                    <th class="text-center">Retailer Name</th>
-                                </tr>
-                            </thead>
-                            <tbody id="advise-pi-from-rep-selected"></tbody>
-                        </table>
-                    </div>
+                <h5 class="card-title">Advised List</h5>
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Retailer Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -196,63 +151,83 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
         $(document).ready(function () {
             $('#show-btn').click(function () {
                 let customerId = $('#CustomerId').val();
                 let employeeId = '@ViewBag.EmployeeId';
+                let loadingSpinner = $('#loading-spinner');
+                clearForms();
                 if (customerId == 0) {
                     $('#advise-pi-from-rep-details-div').empty();
-                    alert("Please select a customer");
+                    Swal.fire(
+                        'Error!',
+                        'Please select a customer!',
+                        'danger');
                     return;
                 } else {
+                    //loadingSpinner d-flex
+                    loadingSpinner.removeClass('d-none');
                     $.post("@Url.Action("AdvisePiFromRepDetailsPartial", "Sales")", { customerId: customerId, employeeId: employeeId }, function (result) {
                         $('#advise-pi-from-rep-details-div').empty();
                         $('#advise-pi-from-rep-details-div').html(result);
+                        loadingSpinner.addClass('d-none');
+                        $('#advised-list-div').removeClass('d-none');
+                        $('#advised-list-controls-div').removeClass('d-none');
                     });
                 }
             });
 
-            //$(document).on('change', '.selected-item', function () {
-            //    var bookingId = $(this).val();
-            //    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
-            //    var BookingQty = $(this).closest('tr').find('.BookingQty').text();
-            //    var CategoryName = $(this).closest('tr').find('.CategoryName').text();
-            //    var BookingValue = $(this).closest('tr').find('.BookingValue').text();
-            //    var RetailerName = $(this).closest('tr').find('.RetailerName').text();
+            $('#save-btn').click(function () {
+                let customerId = $('#CustomerId').val();
+                let retailerId = $('#retailer-field').val();
+                let remarks = $('#remarks').val();
+                let employeeId = '@ViewBag.EmployeeId';
+                let loadingSpinner = $('#loading-spinner');
+                let bookingList = [];
+                $('.SelectedRows').each(function () {
+                    bookingList.push({
+                        bookingId: $(this).find('.BookingIdSelected').val(),
+                        bookingNo: $(this).find('.BookingNoSelected').text(),
+                        bookingQty: $(this).find('.BookingQtySelected').text().replace(/,/g, ''),
+                        bookingValue: $(this).find('.BookingValueSelected').text().replace(/,/g, ''),
+                        customerId,
+                        retailerId,
+                        remarks,
+                        employeeId
+                    });
+                });
 
-            //    if ($(this).is(':checked')) {
-            //        // Add the row to the right table
-            //        $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
-
-            //        // Populate customer and retailer names
-            //        var customerName = $('.CustomerName').first().text();
-            //        var retailerName = RetailerName;
-
-            //        $('#customer-name').val(customerName);
-            //        $('#retailer-name').val(retailerName);
-
-            //    } else {
-            //        // Remove the row from the right table
-            //        $('#advise-pi-from-rep-selected').find('tr').each(function () {
-            //            if ($(this).find('td:first').text() === bookingNo) {
-            //                $(this).remove();
-            //                return false; // exit the loop
-            //            }
-            //        });
-
-            //        // Check if there are any selected items remaining
-            //        var selectedItemsCount = $('.selected-item:checked').length;
-            //        if (selectedItemsCount === 0) {
-            //            // Clear customer and retailer names
-            //            $('#customer-name').val('');
-            //            $('#retailer-name').val('');
-            //        }
-            //    }
-
-            //    updateTotal();
-            //});
+                if (bookingList.length == 0) {
+                    Swal.fire(
+                        'Error!',
+                        'Please select atleast one booking!',
+                        'danger');
+                    return;
+                } else {
+                    //loadingSpinner d-flex
+                    loadingSpinner.removeClass('d-none');
+                    /*console.log(bookingList);*/
+                    $.post("@Url.Action("SaveAdvisePiFromRep", "Sales")", { request: bookingList }, function (result) {
+                        loadingSpinner.addClass('d-none');
+                        //alert on clicking ok reload page
+                        if (result >=1) {
+                            Swal.fire(
+                                'Success!',
+                                'Save Successful',
+                                'success'
+                            );
+                            clearForms();
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Failed to save!',
+                                'danger');
+                        }
+                    });
+                }
+            });
 
             $(document).on('change', '.selected-item', function () {
                 var bookingId = $(this).val();
@@ -261,20 +236,28 @@
                 var CategoryName = $(this).closest('tr').find('.CategoryName').text();
                 var BookingValue = $(this).closest('tr').find('.BookingValue').text();
                 var RetailerName = $(this).closest('tr').find('.RetailerName').text();
-
+                let RetailerId = $(this).closest('tr').data('retailer-id');
                 if ($(this).is(':checked')) {
                     // Add the row to the right table
-                    $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+                    $('#advise-pi-from-rep-selected').append(
+                        '<tr class="SelectedRows">' +
+                        '<input type="hidden" class="BookingIdSelected" value="' + bookingId +'"/>'+
+                        '<td class="BookingNoSelected">' + bookingNo + '</td>' +
+                        '<td>' + CategoryName + '</td>' +
+                        '<td class="BookingQtySelected">' + BookingQty + '</td>' +
+                        '<td class="BookingValueSelected">' + BookingValue + '</td>' +
+                        '<td>' + RetailerName + '</td>' +
+                        '</tr>');
 
                     // Populate customer and retailer names
                     var customerName = $('.CustomerName').first().text();
                     var retailerName = RetailerName;
 
-                    $('#customer-name').val(customerName);
+                    $('#customer-name').text(customerName);
 
                     // Add retailer name to the dropdown if it doesn't already exist
-                    if ($('#retailer-field option[value="' + retailerName + '"]').length === 0) {
-                        $('#retailer-field').append('<option value="' + retailerName + '">' + retailerName + '</option>');
+                    if ($('#retailer-field option[value="' + RetailerId + '"]').length === 0) {
+                        $('#retailer-field').append('<option value="' + RetailerId + '">' + retailerName + '</option>');
                     }
 
                     // Set the selected retailer if it's the first retailer selected
@@ -303,7 +286,16 @@
             });
 
 
-
+            function clearForms() {
+                $('#advise-pi-from-rep-details-div').empty();
+                $('#advise-pi-from-rep-selected').empty();
+                $('#total').text('0.00');
+                $('#customer-name').text('');
+                $('#retailer-field').empty();
+                $('#retailer-field').append('<option value="">Select a retailer</option>');
+                $('#advised-list-div').addClass('d-none');
+                $('#advised-list-controls-div').addClass('d-none');
+            }
 
             function updateTotal() {
                 var total = 0;

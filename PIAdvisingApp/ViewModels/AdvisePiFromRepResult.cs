@@ -17,6 +17,7 @@ namespace PIAdvisingApp.ViewModels
 
         public decimal BookingQty { get; set; }
         public decimal BookingValue { get; set; }
+        public short RetailerId { get; set; } = 0;
         public string RetailerName { get; set; }
         public decimal DeliveryPercentage { get; set; }
         public string CategoryName { get; set; }
