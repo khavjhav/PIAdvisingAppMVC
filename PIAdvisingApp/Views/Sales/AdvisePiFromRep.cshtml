@@ -141,34 +141,53 @@
         <h6>Total : <span id="total">0.00</span></h6>
     </div>
 </div>
+
 <div class="row">
-    <div class="col-lg-12 col-xl-6 " id="advise-pi-from-rep-details-div">
+    <div class="col-lg-12 col-xl-6" id="advise-pi-from-rep-details-div">
         @*this is where the partial view loads*@
     </div>
-    <div class="col-lg-12 col-xl-6 ">
 
+    <div class="col-lg-12 col-xl-6">
         <div class="main-card mb-1 card p-1">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="customer-name">Customer Name:</label>
+                        <input type="text" id="customer-name" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="retailer-field">Retailer:</label>
+                        <select id="retailer-field" class="form-control">
+                            <option selected disabled>Select Retailer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="card-body p-1">
-                <h5 class="card-title">Table bordered</h5>
-                <div class=" table-responsive">
-                    <table class="mb-0 table table-sm table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Booking No</th>
-                                <th class="text-center">Category Name</th>
-                                <th class="text-center">Booking Qty</th>
-                                <th class="text-center">Booking Value</th>
-                                <th class="text-center">Retailer Name</th>
-                            </tr>
-                        </thead>
-                        <tbody id="advise-pi-from-rep-selected"></tbody>
-                    </table>
+                <h5 class="card-title">Advise List</h5>
+                <div class="col-lg-12 col-xl-6">
+                    <div class="table-responsive">
+                        <table class="mb-0 table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Booking No</th>
+                                    <th class="text-center">Category Name</th>
+                                    <th class="text-center">Booking Qty</th>
+                                    <th class="text-center">Booking Value</th>
+                                    <th class="text-center">Retailer Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="advise-pi-from-rep-selected"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
 
 
 @section Scripts {
@@ -194,7 +213,47 @@
                     });
                 }
             });
-     
+
+            //$(document).on('change', '.selected-item', function () {
+            //    var bookingId = $(this).val();
+            //    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+            //    var BookingQty = $(this).closest('tr').find('.BookingQty').text();
+            //    var CategoryName = $(this).closest('tr').find('.CategoryName').text();
+            //    var BookingValue = $(this).closest('tr').find('.BookingValue').text();
+            //    var RetailerName = $(this).closest('tr').find('.RetailerName').text();
+
+            //    if ($(this).is(':checked')) {
+            //        // Add the row to the right table
+            //        $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+
+            //        // Populate customer and retailer names
+            //        var customerName = $('.CustomerName').first().text();
+            //        var retailerName = RetailerName;
+
+            //        $('#customer-name').val(customerName);
+            //        $('#retailer-name').val(retailerName);
+
+            //    } else {
+            //        // Remove the row from the right table
+            //        $('#advise-pi-from-rep-selected').find('tr').each(function () {
+            //            if ($(this).find('td:first').text() === bookingNo) {
+            //                $(this).remove();
+            //                return false; // exit the loop
+            //            }
+            //        });
+
+            //        // Check if there are any selected items remaining
+            //        var selectedItemsCount = $('.selected-item:checked').length;
+            //        if (selectedItemsCount === 0) {
+            //            // Clear customer and retailer names
+            //            $('#customer-name').val('');
+            //            $('#retailer-name').val('');
+            //        }
+            //    }
+
+            //    updateTotal();
+            //});
+
             $(document).on('change', '.selected-item', function () {
                 var bookingId = $(this).val();
                 var bookingNo = $(this).closest('tr').find('.BookingNo').text();
@@ -206,6 +265,22 @@
                 if ($(this).is(':checked')) {
                     // Add the row to the right table
                     $('#advise-pi-from-rep-selected').append('<tr><td>' + bookingNo + '</td><td>' + CategoryName + '</td><td>' + BookingQty + '</td><td class="BookingValueSelected">' + BookingValue + '</td><td>' + RetailerName + '</td></tr>');
+
+                    // Populate customer and retailer names
+                    var customerName = $('.CustomerName').first().text();
+                    var retailerName = RetailerName;
+
+                    $('#customer-name').val(customerName);
+
+                    // Add retailer name to the dropdown if it doesn't already exist
+                    if ($('#retailer-field option[value="' + retailerName + '"]').length === 0) {
+                        $('#retailer-field').append('<option value="' + retailerName + '">' + retailerName + '</option>');
+                    }
+
+                    // Set the selected retailer if it's the first retailer selected
+                    if ($('#retailer-field option:selected').length === 0) {
+                        $('#retailer-field').val(retailerName).trigger('change');
+                    }
                 } else {
                     // Remove the row from the right table
                     $('#advise-pi-from-rep-selected').find('tr').each(function () {
@@ -214,10 +289,21 @@
                             return false; // exit the loop
                         }
                     });
+
+                    // Check if there are any selected items remaining
+                    var selectedItemsCount = $('.selected-item:checked').length;
+                    if (selectedItemsCount === 0) {
+                        // Clear customer and retailer names
+                        $('#customer-name').val('');
+                        $('#retailer-field').val(null).trigger('change');
+                    }
                 }
 
                 updateTotal();
             });
+
+
+
 
             function updateTotal() {
                 var total = 0;
@@ -240,22 +326,6 @@
                     }
                 }
             });
-
-            // Apply Select2 to Retailer Name and Category Name columns
-            $('.RetailerName, .CategoryName').select2();
-
-            // Add filtering functionality to Retailer Name and Category Name columns
-            $('.RetailerName, .CategoryName').on('select2:select', function (e) {
-                var column = table.column($(this).attr('data-column'));
-                var value = $(this).val();
-
-                if (value.length > 0) {
-                    column.search(value.join('|'), true, false).draw();
-                } else {
-                    column.search('').draw();
-                }
-            });
-
 
         });
     </script>
