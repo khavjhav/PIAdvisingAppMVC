@@ -121,11 +121,11 @@ namespace PIAdvisingApp.Controllers
             int rowsAffected = _salesService.SaveAdvisePiFromRep(request);
             return Json(rowsAffected);
         }
-        public ActionResult CmApproval()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-        }
+        //public ActionResult CmApproval()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+        //}
 
         public ActionResult Test()
         {
@@ -154,12 +154,12 @@ namespace PIAdvisingApp.Controllers
         //}
 
 
-        public ActionResult PiAdvisingBond()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
+        //public ActionResult PiAdvisingBond()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
 
-        }
+        //}
 
         public ActionResult GetPamModalBondPartial(string apiNumber)
         {
@@ -248,11 +248,11 @@ namespace PIAdvisingApp.Controllers
             return View(advicePi);
         }
 
-        public ActionResult PiAdvisingBondService()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-        }
+        //public ActionResult PiAdvisingBondService()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+        //}
         [HttpPost]
         public ActionResult LoadPiAdvisingDataPartial(List<string> bookings)
         {

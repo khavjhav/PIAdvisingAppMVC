@@ -134,8 +134,16 @@
                                 <th class="text-center">Booking Value</th>
                                 <th class="text-center">Retailer Name</th>
                             </tr>
+
                         </thead>
                         <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -178,6 +186,13 @@
                     });
                 }
             });
+            // Clear All button click event handler
+            $('#clear-all-btn').click(function () {
+                $('#booking-list-table .selected-item').prop('checked', false).trigger('change');
+                $('#booking-list-table .select-all').prop('checked', false);
+            });
+
+
 
             $('#save-btn').click(function () {
                 let customerId = $('#CustomerId').val();
@@ -297,13 +312,22 @@
                 $('#advised-list-controls-div').addClass('d-none');
             }
 
+            //function updateTotal() {
+            //    var total = 0;
+            //    $('.BookingValueSelected').each(function () {
+            //        total += parseFloat($(this).text());
+            //    });
+            //    $('#total').text(total);
+            //}
             function updateTotal() {
                 var total = 0;
                 $('.BookingValueSelected').each(function () {
-                    total += parseFloat($(this).text());
+                    var value = $(this).text().replace(/,/g, '');
+                    total += parseFloat(value);
                 });
-                $('#total').text(total);
+                $('#total').text(total.toFixed(2)); // Display the total with 2 decimal places
             }
+
             var table = $('#booking-table').DataTable({
                 lengthMenu: [25],
                 language: {
