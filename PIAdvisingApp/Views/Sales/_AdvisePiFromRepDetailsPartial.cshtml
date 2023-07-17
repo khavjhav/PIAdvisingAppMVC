@@ -12,12 +12,12 @@
                         <th>SL</th>
                         <th><input class="select-all m-2" type="checkbox" /></th>
                         <th class="text-center">Booking No</th>
-                        <th class="text-center">Booking Id</th>
+                        <th class="text-center d-none">Booking Id</th>
                         <th class="text-center">Booking Date</th>
                         <th class="text-center">PI Status</th>
-                        <th class="text-center">Customer Name</th>
-                        <th class="text-center">Representative Name</th>
-                        <th class="text-center">Short Name</th>
+                        <th class="text-center  d-none">Customer Name</th>
+                        <th class="text-center  d-none">Representative Name</th>
+                        <th class="text-center  d-none">Short Name</th>
                         <th class="text-center">Booking Qty</th>
                         <th class="text-center">Booking Value</th>
                         <th class="text-center">Retailer Name</th>
@@ -33,13 +33,13 @@
                             <td>@rowNo @{rowNo++;}</td>
                             <td class="text-center"><input class="selected-item" type="checkbox" name="selectedItems" value="@item.BookingId" /></td>
                             <td class="text-center BookingNo">@item.BookingNo</td>
-                            <td class="text-center BookingId">@item.BookingId</td>
+                            <td class="text-center BookingId  d-none">@item.BookingId</td>
 
                             <td class="text-center BookingDate">@item.BookingDate</td>
                             <td class="text-center PIStatus">@item.PIStatus</td>
-                            <td class="text-center CustomerName">@item.CustomerName</td>
-                            <td class="text-center RepresentativeName">@item.RepresentativeName</td>
-                            <td class="text-center ShortName">@item.ShortName</td>
+                            <td class="text-center CustomerName  d-none">@item.CustomerName</td>
+                            <td class="text-center RepresentativeName  d-none">@item.RepresentativeName</td>
+                            <td class="text-center ShortName  d-none">@item.ShortName</td>
 
                             <td class="text-center BookingQty">@item.BookingQty</td>
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green BookingValue")
@@ -56,6 +56,7 @@
     </div>
 </div>
 <script>
+    /*$('#booking-list-table').DataTable();*/
     $('#booking-list-table').DataTable();
     $('.select-all').click(function () {
         if ($(this).is(':checked')) {
