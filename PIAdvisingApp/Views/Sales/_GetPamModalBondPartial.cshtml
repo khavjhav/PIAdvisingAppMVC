@@ -1,25 +1,227 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.PiAdvisingBondViewModel>
 
-<div id="modalPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPageLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPageLabel">Dummy Modal Page</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>API Number: <span id="apiNumberDisplay"></span></p>
-                <p>Other content goes here...</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
+    <div id="loading-animation" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
+
+    <div class="modal-header">
+        <h5 class="modal-title">Bond Approval For Rep. </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    @{
+        var CustomerName = ""; // Initialize the customer name variable
+        var ProductName = ""; // Initialize the product name variable
+        var ShortName = "";
+        var RetailerName = "";
+        var IssuerName = "";
+        var CompanyName = "";
+        var ApiNumber = "";
+
+        if (Model.Any())
+        {
+            // Assuming the customer name and product name are available in the first item of the Model collection
+            var firstItem = Model.First();
+            CustomerName = firstItem.CustomerName;
+            ProductName = firstItem.ProductName;
+            ShortName = firstItem.ShortName;
+            IssuerName = firstItem.IssuerName;
+            RetailerName = firstItem.RetailerName;
+            CompanyName = firstItem.CompanyName;
+            ApiNumber = firstItem.ApiNumber;
+        }
+    }
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" name="customerName" value="@CustomerName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="retailerName">Retailer Name</label>
+                    <input type="text" class="form-control" id="retailerName" name="retailerName" value="@RetailerName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="representativeName">Sales Rep. Name</label>
+                    <input type="text" class="form-control" id="representativeName" name="representativeName" value="@ShortName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" class="form-control" id="companyName" name="companyName" value="@CompanyName" readonly />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="productCategory">Product Category</label>
+                    <select class="form-control" id="productCategory" name="productCategory">
+                        <option value="">Select Category</option>
+                        @foreach (var item in Model.Select(x => x.CategoryName).Distinct())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <select class="form-control" id="productName" name="productName">
+                        <option value="">Select Product</option>
+                        @foreach (var item in Model.Select(x => x.ProductName).Distinct())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>BookingNo</th>
+
+                        <th>CategoryName</th>
+                        <th>ProductName</th>
+                        <th>BondName</th>
+                        <th>InvoiceQty</th>
+                        <th>QuantityUnit</th>
+                        <th>Measurement</th>
+                        <th>MeasureUnit</th>
+                        @*<th>HSCode</th>*@
+
+                        @*<th>CustomerName</th>*@
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    @foreach (var item in Model.GroupBy(x => new { x.BookingNo, x.CategoryName, x.ProductName, x.BondName, x.InvoiceQty, x.QuantityUnit, x.Measurement, x.MeasureUnit, x.HSCode }).Select(g => g.First()))
+                    {
+                        <tr data-category="@item.CategoryName">
+                            <td>@item.BookingNo</td>
+                            <td>@item.CategoryName</td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm productNameInput" name="name" value="@item.ProductName" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.BondName" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.InvoiceQty" />
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.DelValue" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.QuantityUnit" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.Measurement" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="name" value="@item.MeasureUnit" />
+                            </td>
+                            @*<td>
+                                    <input type="text" class="form-control form-control-sm" name="name" value="@item.HSCode" />
+                                </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        @*<button type="button" class="btn btn-primary" id="submitButton">Save Changes</button>
+        *@
+        <button type="button" class="btn btn-primary" id="submitButton" data-api-number="@ApiNumber">Save Changes</button>
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Hide the modal content initially
+        $("#modal-content-wrapper").hide();
+
+        // Show loading animation
+        $("#loading-animation").show();
+
+        // Simulate delay for demonstration purposes
+        setTimeout(function () {
+            // Hide loading animation
+            $("#loading-animation").hide();
+
+            // Show the modal content
+            $("#modal-content-wrapper").show();
+        }, 2000); // Adjust the delay duration as needed
+
+        // Event listener for product category dropdown change
+        $('#productCategory').change(function () {
+            var selectedCategory = $(this).val(); // Get the selected category value
+
+            // Show all rows if no category is selected
+            if (selectedCategory === '') {
+                $('#productTableBody tr').show();
+            } else {
+                // Hide rows that do not matchthe selected category
+                $('#productTableBody tr').hide();
+                $('#productTableBody tr[data-category="' + selectedCategory + '"]').show();
+            }
+        });
+
+        // Event listener for product name dropdown change
+        $('#productName').change(function () {
+            var selectedProduct = $(this).val(); // Get the selected product value
+
+            // Show all rows if no product is selected
+            if (selectedProduct === '') {
+                $('#productTableBody tr').show();
+            } else {
+                // Hide rows that do not match the selected product
+                $('#productTableBody tr').hide();
+                $('.productNameInput').each(function () {
+                    var productValue = $(this).val();
+                    if (productValue === selectedProduct) {
+                        $(this).closest('tr').show();
+                    }
+                });
+            }
+        });
+
+        // Event listener for submit button click
+        $('#submitButton').click(function () {
+           // var piNo = 'API123'; // Replace with the actual API number
+            var piNo = $(this).data('api-number');
+            var name = 'User Name'; // Replace with the user's name (retrieve from your authentication system)
+
+            // Send the notification request
+            $.ajax({
+                url: '/Sales/PiAdvisingBond', // Replace with the actual endpoint to send the notification
+                method: 'POST',
+                data: {
+                    piNo: piNo,
+                    name: name
+                },
+                success: function (response) {
+                    // Handle the success response, e.g., display a success message
+                    alert('PI Approval request received (' + piNo + ') from ' + name);
+                },
+                error: function (error) {
+                    // Handle the error response, e.g., display an error message
+                    console.error('Error sending notification:', error);
+                }
+            });
+        });
+    });
+</script>

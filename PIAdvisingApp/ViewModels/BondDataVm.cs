@@ -11,7 +11,7 @@ namespace PIAdvisingApp.ViewModels
         public decimal TotalValue { get; set; }
         public decimal TotalQty { get; set; }
         public string BookingNo { get; set; }
-        public int BookingId { get; set; }
+        public string BookingId { get; set; }
         public string CategoryName { get; set; }
 
         public string ProductName { get; set; }

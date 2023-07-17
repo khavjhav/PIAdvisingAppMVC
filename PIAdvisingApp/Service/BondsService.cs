@@ -53,12 +53,24 @@ namespace PIAdvisingApp.Service
 
         }
 
+        //public List<BondDataVm> GetBondModal(string apiNumber)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var result = ctx.Database.SqlQuery<BondDataVm>("EXEC GetApiMainBondData  @ApiNumber",
+        //            new SqlParameter("ApiNumber", apiNumber)).ToList();
+
+        //        return result;
+        //    }
+        //}
         public List<BondDataVm> GetBondModal(string apiNumber)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var result = ctx.Database.SqlQuery<BondDataVm>(@"EXEC GetApiMainBondData  @ApiNumber",
-                    new SqlParameter("ApiNumber", apiNumber)).ToList();
+                var result = ctx.Database.SqlQuery<BondDataVm>(@"
+            EXEC GetApiMainBondData @ApiNumber",
+                    new SqlParameter("ApiNumber", apiNumber)
+                ).ToList();
 
                 return result;
             }

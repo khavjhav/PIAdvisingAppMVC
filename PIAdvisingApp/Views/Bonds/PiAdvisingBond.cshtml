@@ -36,49 +36,26 @@
     </tbody>
 </table>
 
-<div id="modalPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPageLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPageLabel">Bond Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="modalContent"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="modal-container"></div>
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
 @section Scripts {
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
+
     <script>
         $(document).ready(function () {
-            $('#pi-advising-bond-table').DataTable();
+            var table = $('#pi-advising-bond-table').DataTable();
 
             $('.view-button').click(function () {
-    var apiNumber = $(this).closest('tr').find('.api-number').text();
-    $.ajax({
-        url: '@Url.Action("GetBondModal", "Bonds")',
-        type: 'GET',
-        data: { apiNumber: apiNumber },
-        success: function (response) {
-            $('#modalContent').html(response);
-            $('#modalPage').modal('show');
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
-});
+                 var apiNumber = $(this).closest('tr').find('.api-number').text();
+                var url = '@Url.Action("GetBondModal", "Bonds")'; // Replace "ControllerName" with your actual controller name
 
+                $.get(url, { apiNumber: apiNumber }, function (data) {
+                    $('#modal-container').html(data);
+                    $('#modal-container .modal').modal('show');
+                });
+            });
         });
     </script>
 }

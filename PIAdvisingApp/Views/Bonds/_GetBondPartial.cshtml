@@ -1,26 +1,69 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
 
-<div class="modal-body">
-    @foreach (var item in Model)
-    {
-        <p>ApiNumber: @item.ApiNumber</p>
-        <p>TotalValue: @item.TotalValue</p>
-        <p>TotalQty: @item.TotalQty</p>
-        <p>BookingNo: @item.BookingNo</p>
-        <p>BookingId: @item.BookingId</p>
-        <p>CategoryName: @item.CategoryName</p>
-        <p>ProductName: @item.ProductName</p>
-        <p>CustomerName: @item.CustomerName</p>
-        <p>RetailerName: @item.RetailerName</p>
-        <p>ShortName: @item.ShortName</p>
-        <p>BondName: @item.BondName</p>
-        <p>Remarks: @item.Remarks</p>
-        <p>Measurement: @item.Measurement</p>
-        <p>MeasureUnit: @item.MeasureUnit</p>
-        <p>UnitPrice: @item.UnitPrice</p>
-        <p>BookingQty: @item.BookingQty</p>
-        <p>QuantityUnit: @item.QuantityUnit</p>
-        <p>val2: @item.Val2</p>
-        <hr>
-    }
+<div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bond-modal-label">Master Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Master Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
+                        <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
+                        <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                        <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th>Booking No</th>
+                                <th>Category Name</th>
+                                <th>Product Name</th>
+                                <th>Measurement</th>
+                                <th>Measure Unit</th>
+                                <th>Unit Price</th>
+                                <th>Booking Qty</th>
+                                <th>Quantity Unit</th>
+                                <th>Value</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.BookingNo</td>
+                                    <td>@item.CategoryName</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.Measurement</td>
+                                    <td>@item.MeasureUnit</td>
+                                    <td>@item.UnitPrice</td>
+                                    <td>@item.BookingQty</td>
+                                    <td>@item.QuantityUnit</td>
+                                    <td>@item.Val2</td>
+                                    <td>
+                                        <!-- Add CRUD options here -->
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
