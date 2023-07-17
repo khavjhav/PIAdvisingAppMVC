@@ -39,8 +39,7 @@
 
     @Styles.Render("~/Content/main.css")
     @RenderSection("Css", required: false)
-    @Styles.Render("~/Content/DevExtremeBundle")
-    @Scripts.Render("~/Scripts/DevExtremeBundle")
+   
 
 
 </head>
@@ -216,16 +215,6 @@
                                     <a class="dropdown-item" href="#">Report</a>
                                 </div>
                             </li>
-
-                            @*<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="nav-link-icon fa fa-edit"></i> Experimental
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">CM Approval</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </li>*@
                         </ul>
                     </div>
 
@@ -243,18 +232,6 @@
                                             </a>
                                             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
 
-                                                @*<a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item">
-                                                        <i class="ni ni-user-run"></i>
-                                                        <span>Logout</span>
-                                                    </a>*@
-                                                @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                                                    {
-                                                        @Html.AntiForgeryToken()
-                                                        <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item">
-                                                            <i class="ni ni-user-run"></i>
-                                                            <span>Logout</span>
-                                                        </a>
-                                                    }*@
                                                 <span class="dropdown-item">
                                                     Name : @(Context.Request.Cookies["UserTitle"].Value)
                                                 </span>
@@ -290,22 +267,6 @@
                 <div class="app-main__inner">
                     @RenderBody()
                 </div>
-
-                @*<div class="app-wrapper-footer">
-                        <div class="app-footer">
-                            <div class="app-footer__inner">
-                                <div class="app-footer-right">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                KDS Accessories
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
             </div>
             @*<script src="http://maps.google.com/maps/api/js?sensor=true"></script>*@
         </div>

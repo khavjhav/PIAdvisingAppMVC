@@ -113,16 +113,16 @@ namespace PIAdvisingApp.Controllers
         }
 
 
-        public ActionResult CmApproval()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-        }
+        //public ActionResult CmApproval()
+        //{
+        //    //var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return ;
+        //}
 
         public ActionResult Test()
         {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
+            var clauseDetails = _salesService.GetAllClauseDetails();
+            return View(clauseDetails);
         }
 
         public ActionResult BondApprovedPiUpdate()
@@ -240,11 +240,11 @@ namespace PIAdvisingApp.Controllers
             return View(advicePi);
         }
 
-        public ActionResult PiAdvisingBondService()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-        }
+        //public ActionResult PiAdvisingBondService()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+        //}
         [HttpPost]
         public ActionResult LoadPiAdvisingDataPartial(List<string> bookings)
         {

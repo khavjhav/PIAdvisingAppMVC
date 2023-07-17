@@ -119,15 +119,15 @@ namespace PIAdvisingApp.Service
             }
         }
 
-        //public List<PiAdvisingBondMainViewModel> GetPiAdvisingBondData()
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var result = ctx.Database.SqlQuery<PiAdvisingBondMainViewModel>(@"EXEC GetPiAdvisingBondMainByApiNumber").ToList();
+        public List<PiAdvisingBondMainViewModel> GetPiAdvisingBondData()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database.SqlQuery<PiAdvisingBondMainViewModel>(@"EXEC GetPiAdvisingBondMainByApiNumber").ToList();
 
-        //        return result;
-        //    }
-        //}
+                return result;
+            }
+        }
 
         public List<PiAdvisingBondViewModel> GetPamModalBond(string apiNumber)
         {

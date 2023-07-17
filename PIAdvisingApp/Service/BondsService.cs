@@ -14,6 +14,16 @@ namespace PIAdvisingApp.Service
 {
     public class BondsService
     {
+         public List<PiAdvisingBondViewModel> GetPamModalBond(string apiNumber)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"EXEC GetPamModalBond  @ApiNumber",
+                    new SqlParameter("ApiNumber", apiNumber)).ToList();
+
+                return result;
+            }
+        }
 
 
     }
