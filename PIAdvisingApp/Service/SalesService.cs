@@ -64,17 +64,7 @@ namespace PIAdvisingApp.Service
         }
 
 
-        //public List<PrcRptLcNotReceived> AdvisePI()
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var result = ctx.Database
-        //           .SqlQuery<PrcRptLcNotReceived>("EXEC PrcAdvisePI '01-feb-2023','09-jul-2023',0,0,0,0,0,null,1,0")
-        //           .ToList();
-
-        //        return result;
-        //    }
-        //}
+        
 
         public List<PrcRptLcNotReceived> AdvisePI()
         {
@@ -129,16 +119,16 @@ namespace PIAdvisingApp.Service
         //    }
         //}
 
-        public List<PiAdvisingBondViewModel> GetPamModalBond(string apiNumber)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"EXEC GetPamModalBond  @ApiNumber",
-                    new SqlParameter("ApiNumber", apiNumber)).ToList();
+        //public List<PiAdvisingBondViewModel> GetPamModalBond(string apiNumber)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var result = ctx.Database.SqlQuery<PiAdvisingBondViewModel>(@"EXEC GetPamModalBond  @ApiNumber",
+        //            new SqlParameter("ApiNumber", apiNumber)).ToList();
 
-                return result;
-            }
-        }
+        //        return result;
+        //    }
+        //}
 
         private static object GenerateDummyData(Type type)
         {

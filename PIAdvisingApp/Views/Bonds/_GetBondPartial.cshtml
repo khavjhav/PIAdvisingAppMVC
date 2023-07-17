@@ -1,0 +1,26 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
+
+<div class="modal-body">
+    @foreach (var item in Model)
+    {
+        <p>ApiNumber: @item.ApiNumber</p>
+        <p>TotalValue: @item.TotalValue</p>
+        <p>TotalQty: @item.TotalQty</p>
+        <p>BookingNo: @item.BookingNo</p>
+        <p>BookingId: @item.BookingId</p>
+        <p>CategoryName: @item.CategoryName</p>
+        <p>ProductName: @item.ProductName</p>
+        <p>CustomerName: @item.CustomerName</p>
+        <p>RetailerName: @item.RetailerName</p>
+        <p>ShortName: @item.ShortName</p>
+        <p>BondName: @item.BondName</p>
+        <p>Remarks: @item.Remarks</p>
+        <p>Measurement: @item.Measurement</p>
+        <p>MeasureUnit: @item.MeasureUnit</p>
+        <p>UnitPrice: @item.UnitPrice</p>
+        <p>BookingQty: @item.BookingQty</p>
+        <p>QuantityUnit: @item.QuantityUnit</p>
+        <p>val2: @item.Val2</p>
+        <hr>
+    }
+</div>

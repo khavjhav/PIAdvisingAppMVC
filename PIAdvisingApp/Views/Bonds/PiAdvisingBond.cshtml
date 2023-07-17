@@ -1,0 +1,84 @@
+﻿@model List<PIAdvisingApp.ViewModels.PiAdvisingBond>
+
+@{
+    ViewBag.Title = "PiAdvisingBond List";
+}
+
+<h2>PiAdvisingBond List</h2>
+
+<table id="pi-advising-bond-table" class="mb-0 table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">ApiNumber</th>
+            <th class="text-center">Val</th>
+            <th class="text-center">Qty</th>
+            <th class="text-center">EntryDate</th>
+            <th class="text-center d-none">BookingNos</th>
+            <th class="text-center">Remarks</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center api-number">@item.ApiNumber</td>
+                <td class="text-center">@item.Val</td>
+                <td class="text-center">@item.Qty</td>
+                <td class="text-center">@item.EntryDate.ToShortDateString()</td>
+                <td class="text-center d-none">@item.BookingNos</td>
+                <td class="text-center">@item.Remarks</td>
+                <td class="text-center">
+                    <button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="modalPage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalPageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPageLabel">Bond Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
+    <script>
+        $(document).ready(function () {
+            $('#pi-advising-bond-table').DataTable();
+
+            $('.view-button').click(function () {
+    var apiNumber = $(this).closest('tr').find('.api-number').text();
+    $.ajax({
+        url: '@Url.Action("GetBondModal", "Bonds")',
+        type: 'GET',
+        data: { apiNumber: apiNumber },
+        success: function (response) {
+            $('#modalContent').html(response);
+            $('#modalPage').modal('show');
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+        });
+    </script>
+}

@@ -338,7 +338,7 @@
             function updateTotalValue() {
                 var totalValue = 0.00;
                 $(apiDataList).each(function () {
-                    totalValue += Number(this.DelValue);
+                    totalValue +=   (this.DelValue);
                 });
                 $('#total-value').html(totalValue.toFixed(2));
                 console.log('totalValue',totalValue);

@@ -161,29 +161,29 @@ namespace PIAdvisingApp.Controllers
 
         //}
 
-        public ActionResult GetPamModalBondPartial(string apiNumber)
-        {
-            var result = _salesService.GetPamModalBond(apiNumber);
-            return PartialView("_GetPamModalBondPartial", result);
+        //public ActionResult GetPamModalBondPartial(string apiNumber)
+        //{
+        //    var result = _salesService.GetPamModalBond(apiNumber);
+        //    return PartialView("_GetPamModalBondPartial", result);
 
-        }
+        //}
 
-        public ActionResult GetPamModalCmPartial(string apiNumber)
-        {
-            var result = _salesService.GetPamModalBond(apiNumber);
-            ViewBag.ClauseModels = _salesService.GetAllClauseDetails();
-            return PartialView("_GetPamModalCmPartial", result);
+        //public ActionResult GetPamModalCmPartial(string apiNumber)
+        //{
+        //    var result = _salesService.GetPamModalBond(apiNumber);
+        //    ViewBag.ClauseModels = _salesService.GetAllClauseDetails();
+        //    return PartialView("_GetPamModalCmPartial", result);
 
-        }
+        //}
 
         [HttpPost]
-        public JsonResult SaveCmApi(CmApprovalModalVm data)
-        {
-            _salesService.SaveCmApi(data);
-            return Json("success");
-        }
+        //public JsonResult SaveCmApi(CmApprovalModalVm data)
+        //{
+        //    _salesService.SaveCmApi(data);
+        //    return Json("success");
+        //}
 
-        //public ActionResult BondApprovedPiUpdate()
+        ////public ActionResult BondApprovedPiUpdate()
         //{
         //    var advicePi = _salesService.AdvisePI();
         //    List<ParentModel> parentList = new List<ParentModel>();
