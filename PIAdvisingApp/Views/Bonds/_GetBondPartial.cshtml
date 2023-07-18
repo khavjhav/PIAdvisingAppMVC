@@ -1,80 +1,266 @@
-﻿    @model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
 
-    <div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bond-modal-label">Master Details: @Model.First().ApiNumber</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bond-modal-label">Master Details: @Model.First().ApiNumber</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
+                        <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
+                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                        <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="companyName"><strong>Beneficiary Name:</strong></label>
+                            <select class="form-control" id="companyName" name="companyName">
+                                <option value="">Select Company</option>
+                                <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
+                                <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+
+                <div class="mt-3">
+                    <h5>Include Info</h5>
                     <div class="row">
-                        <div class="col-md-4">
-                            <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
-                            <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
-                            <p><strong>Remarks:</strong> @Model.First().Remarks</p>
-                        </div>
-                        <div class="col-md-4">
-                            <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
-                            <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="companyName"><strong>Customer Name:</strong></label>
-                                <select class="form-control" id="companyName" name="companyName">
-                                    <option value="">Select Company</option>
-                                    <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
-                                    <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
-                                </select>
+                        <div class="col-md-12">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check1" data-label="PO">
+                                <label class="form-check-label" for="check1">PO</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check2" data-label="Style">
+                                <label class="form-check-label" for="check2">Style</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check3" data-label="Size">
+                                <label class="form-check-label" for="check3">Size</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check4" data-label="Colour">
+                                <label class="form-check-label" for="check4">Colour</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check5" data-label="BreakDown1">
+                                <label class="form-check-label" for="check5">BreakDown1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check6" data-label="BreakDown2">
+                                <label class="form-check-label" for="check6">BreakDown2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check7" data-label="Shade">
+                                <label class="form-check-label" for="check7">Shade</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check8" data-label="WashType">
+                                <label class="form-check-label" for="check8">Wash Type</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check9" data-label="GSM">
+                                <label class="form-check-label" for="check9">GSM</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input include-info" type="checkbox" id="check10" data-label="KBPNo">
+                                <label class="form-check-label" for="check10">KBP No</label>
                             </div>
                         </div>
                     </div>
-
-                    <div class="table-responsive">
-                        <table class="table mt-3">
-                            <thead>
-                                <tr>
-                                    <th class="text-center d-none">Api No.</th>
-                                    <th class="text-center">Booking No</th>
-                                    <th class="text-center">Category Name</th>
-                                    <th class="text-center">Product Name</th>
-                                    <th class="text-center">Measurement</th>
-                                    <th class="text-center">Measure Unit</th>
-                                    <th class="text-center">Unit Price</th>
-                                    <th class="text-center">Booking Qty</th>
-                                    <th class="text-center">Quantity Unit</th>
-                                    <th class="text-center">Value</th>
-                                    <th class="text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td class="text-center d-none">@item.ApiNumber</td>
-                                        <td class="text-center">@item.BookingNo</td>
-                                        <td class="text-center">@item.CategoryName</td>
-                                        <td class="text-center">@item.ProductName</td>
-                                        <td class="text-center">@item.Measurement</td>
-                                        <td class="text-center">@item.MeasureUnit</td>
-                                        <td class="text-center">@item.UnitPrice</td>
-                                        <td class="text-center">@item.BookingQty</td>
-                                        <td class="text-center">@item.QuantityUnit</td>
-                                        <td class="text-center">@item.Val2</td>
-                                        <td class="text-center">
-                                            <!-- Add CRUD options here -->
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                    <div class="mt-2">
+                        <button class="btn btn-primary">Add Item</button>
+                        <button class="btn btn-secondary">Copy</button>
+                        <button class="btn btn-primary">Refresh</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+
+            <div class="table-responsive" style="overflow-y: auto; max-height: calc(80vh - 250px);">
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center d-none">Api No.</th>
+                            <th class="text-center">Booking No</th>
+                            <th class="text-center">Category Name</th>
+                            <th class="text-center">Product Name</th>
+                            <th class="text-center">Measurement</th>
+                            <th class="text-center">Measure Unit</th>
+                            <th class="text-center">Unit Price</th>
+                            <th class="text-center">Booking Qty</th>
+                            <th class="text-center">Quantity Unit</th>
+                            <th class="text-center">Value</th>
+                            <th class="text-center" id="customer-specification-th">Customer Specification</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center d-none">@item.ApiNumber</td>
+                                <td class="text-center">@item.BookingNo</td>
+                                <td class="text-center">@item.CategoryName</td>
+                                <td class="text-center">@item.ProductName</td>
+                                <td class="text-center">@item.Measurement</td>
+                                <td class="text-center">@item.MeasureUnit</td>
+                                <td class="text-center">@item.UnitPrice</td>
+                                <td class="text-center">@item.BookingQty</td>
+                                <td class="text-center">@item.QuantityUnit</td>
+                                <td class="text-center">@item.Val2</td>
+                                <td class="text-center customer-specification">
+                                    <!-- Customer Specification content will be dynamically added here -->
+                                </td>
+                                <td class="text-center">
+                                    <!-- Add CRUD options here -->
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+              
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        // Handle checkbox change event
+        $('.include-info').change(function () {
+            updateCustomerSpecification();
+        });
+
+        // Update Customer Specification column based on checked checkboxes
+        function updateCustomerSpecification() {
+            var checkedItems = [];
+            $('.include-info:checked').each(function () {
+                var label = $(this).data('label');
+                checkedItems.push(label);
+            });
+
+            $('table tbody tr').each(function () {
+                var $row = $(this);
+                var customerSpec = "";
+                $.each(checkedItems, function (index, item) {
+                    customerSpec += '<strong>' + item + ':</strong> <input type="text" class="form-control" name="' + item + '" placeholder="' + item + '"> ';
+                });
+                $row.find('td.customer-specification').html(customerSpec);
+            });
+
+            // Update the Customer Specification column header visibility
+            var $customerSpecTH = $('#customer-specification-th');
+            if (checkedItems.length > 0) {
+                $customerSpecTH.show();
+            } else {
+                $customerSpecTH.hide();
+            }
+        }
+    });
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        // Handle checkbox change event
+        $('.include-info').change(function () {
+            updateCustomerSpecification();
+        });
+
+        // Update Customer Specification column based on checked checkboxes
+        function updateCustomerSpecification() {
+            var checkedItems = [];
+            $('.include-info:checked').each(function () {
+                var label = $(this).data('label');
+                checkedItems.push(label);
+            });
+
+            $('table tbody tr').each(function () {
+                var $row = $(this);
+                var customerSpec = "";
+
+                $.each(checkedItems, function (index, item) {
+                    customerSpec += '<span class="customer-spec-item">' + item + ': </span><span class="customer-spec-text">' + $row.find('td:eq(' + (10 + index) + ')').text() + '</span><br>';
+                });
+
+                $row.find('td.customer-specification').html(customerSpec);
+            });
+
+            // Update the Customer Specification column header visibility
+            var $customerSpecTH = $('#customer-specification-th');
+            if (checkedItems.length > 0) {
+                $customerSpecTH.show();
+            } else {
+                $customerSpecTH.hide();
+            }
+        }
+
+        // Handle double-click event on customer specification cells
+        $(document).on('dblclick', 'td.customer-specification', function () {
+            var $cell = $(this);
+            var $row = $cell.closest('tr');
+            var $specText = $cell.find('.customer-spec-text');
+            var originalText = $specText.text().trim();
+
+            var $inputField = $('<input type="text" class="form-control customer-spec-input">');
+            $inputField.val(originalText);
+
+            $specText.hide();
+            $cell.append($inputField);
+            $inputField.focus();
+
+            $inputField.on('keypress', function (e) {
+                if (e.which === 13) {
+                    saveChanges();
+                }
+            });
+
+            $inputField.on('blur', function () {
+                discardChanges();
+            });
+
+            var $saveButton = $('<button type="button" class="btn btn-success btn-sm customer-spec-save"><i class="fas fa-check"></i></button>');
+            $saveButton.on('click', function () {
+                saveChanges();
+            });
+
+            var $discardButton = $('<button type="button" class="btn btn-danger btn-sm customer-spec-discard"><i class="fas fa-times"></i></button>');
+            $discardButton.on('click', function () {
+                discardChanges();
+            });
+
+            $cell.append($saveButton);
+            $cell.append($discardButton);
+
+            function saveChanges() {
+                var newText = $inputField.val().trim();
+                $specText.text(newText);
+                $specText.show();
+                $inputField.remove();
+                $saveButton.remove();
+                $discardButton.remove();
+            }
+
+            function discardChanges() {
+                $specText.text(originalText);
+                $specText.show();
+                $inputField.remove();
+                $saveButton.remove();
+                $discardButton.remove();
+            }
+        });
+    });
+</script>
