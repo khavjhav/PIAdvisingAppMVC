@@ -20,20 +20,32 @@
 
         /* Increase the z-index of modal backdrop */
         .modal-backdrop {
-            z-index: 1050 !important;
+            z-index: 0 !important;
+        }
+
+        .custom-table {
+            background-color: #f8f9fa; /* Replace with the desired table background color */
+        }
+
+        .table-heading {
+            font-size: 20px; /* Adjust the font size as needed */
+        }
+
+        #pi-advising-bond-table th {
+            font-size: 24px; /* Adjust the font size as needed */
         }
     </style>
 }
 
-<h2>PiAdvisingBond List</h2>
+<h2 class="table-heading">PiAdvisingBond List</h2>
 
-<table id="pi-advising-bond-table" class="mb-0 table table-bordered table-hover">
+<table id="pi-advising-bond-table" class="mb-0 table table-bordered table-hover custom-table">
     <thead>
         <tr>
+            <th class="text-center">EntryDate</th>
             <th class="text-center">ApiNumber</th>
             <th class="text-center">Val</th>
             <th class="text-center">Qty</th>
-            <th class="text-center">EntryDate</th>
             <th class="text-center d-none">BookingNos</th>
             <th class="text-center">Remarks</th>
             <th class="text-center">Actions</th>
@@ -43,10 +55,10 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td class="text-center">@item.EntryDate.ToString("dd-MMM-yy")</td>
                 <td class="text-center api-number">@item.ApiNumber</td>
                 <td class="text-center">@item.Val</td>
                 <td class="text-center">@item.Qty</td>
-                <td class="text-center">@item.EntryDate.ToShortDateString()</td>
                 <td class="text-center d-none">@item.BookingNos</td>
                 <td class="text-center">@item.Remarks</td>
                 <td class="text-center">
@@ -70,7 +82,7 @@
 
             $('.view-button').click(function () {
                 var apiNumber = $(this).closest('tr').find('.api-number').text();
-                var url = '@Url.Action("GetBondModal", "Bonds")'; // Replace "ControllerName" with your actual controller name
+                var url = '@Url.Action("GetBondModal", "Bonds")'; 
 
                 $.get(url, { apiNumber: apiNumber }, function (data) {
                     $('#modal-container').html(data);

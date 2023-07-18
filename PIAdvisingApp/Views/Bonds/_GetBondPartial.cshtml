@@ -1,78 +1,80 @@
-﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
+﻿    @model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
 
-<div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bond-modal-label">Master Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
-                        <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
-                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
-                        <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="companyName"><strong>Customer Name:</strong></label>
-                            <select class="form-control" id="companyName" name="companyName">
-                                <option value="">Select Company</option>
-                                <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
-                                <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
-                            </select>
+    <div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bond-modal-label">Master Details: @Model.First().ApiNumber</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
+                            <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
+                            <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                            <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="companyName"><strong>Customer Name:</strong></label>
+                                <select class="form-control" id="companyName" name="companyName">
+                                    <option value="">Select Company</option>
+                                    <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
+                                    <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="table-responsive">
-                    <table class="table mt-3">
-                        <thead>
-                            <tr>
-                                <th>Booking No</th>
-                                <th>Category Name</th>
-                                <th>Product Name</th>
-                                <th>Measurement</th>
-                                <th>Measure Unit</th>
-                                <th>Unit Price</th>
-                                <th>Booking Qty</th>
-                                <th>Quantity Unit</th>
-                                <th>Value</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
+                    <div class="table-responsive">
+                        <table class="table mt-3">
+                            <thead>
                                 <tr>
-                                    <td>@item.BookingNo</td>
-                                    <td>@item.CategoryName</td>
-                                    <td>@item.ProductName</td>
-                                    <td>@item.Measurement</td>
-                                    <td>@item.MeasureUnit</td>
-                                    <td>@item.UnitPrice</td>
-                                    <td>@item.BookingQty</td>
-                                    <td>@item.QuantityUnit</td>
-                                    <td>@item.Val2</td>
-                                    <td>
-                                        <!-- Add CRUD options here -->
-                                    </td>
+                                    <th class="text-center d-none">Api No.</th>
+                                    <th class="text-center">Booking No</th>
+                                    <th class="text-center">Category Name</th>
+                                    <th class="text-center">Product Name</th>
+                                    <th class="text-center">Measurement</th>
+                                    <th class="text-center">Measure Unit</th>
+                                    <th class="text-center">Unit Price</th>
+                                    <th class="text-center">Booking Qty</th>
+                                    <th class="text-center">Quantity Unit</th>
+                                    <th class="text-center">Value</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center d-none">@item.ApiNumber</td>
+                                        <td class="text-center">@item.BookingNo</td>
+                                        <td class="text-center">@item.CategoryName</td>
+                                        <td class="text-center">@item.ProductName</td>
+                                        <td class="text-center">@item.Measurement</td>
+                                        <td class="text-center">@item.MeasureUnit</td>
+                                        <td class="text-center">@item.UnitPrice</td>
+                                        <td class="text-center">@item.BookingQty</td>
+                                        <td class="text-center">@item.QuantityUnit</td>
+                                        <td class="text-center">@item.Val2</td>
+                                        <td class="text-center">
+                                            <!-- Add CRUD options here -->
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
