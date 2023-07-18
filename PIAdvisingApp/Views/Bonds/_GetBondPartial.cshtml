@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
 
 <div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="bond-modal-label">Master Details</h5>
@@ -9,17 +9,26 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Master Details</h5>
-                    </div>
-                    <div class="card-body">
+            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-4">
                         <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
                         <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
+                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                    </div>
+                    <div class="col-md-4">
                         <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
                         <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
-                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="companyName"><strong>Customer Name:</strong></label>
+                            <select class="form-control" id="companyName" name="companyName">
+                                <option value="">Select Company</option>
+                                <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
+                                <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 

@@ -4,16 +4,26 @@
     ViewBag.Title = "PiAdvisingBond List";
 }
 
-<style>
-    .tbody, td, th {
-        padding: 2px !important;
-        font-size: 11px !important;
-    }
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
 
-    .modal-backdrop {
-        z-index: 10 !important
-    }
-</style>
+    <style>
+        .tbody,
+        td,
+        th {
+            padding: 2px !important;
+            font-size: 11px !important;
+        }
+
+        /* Increase the z-index of modal backdrop */
+        .modal-backdrop {
+            z-index: 1050 !important;
+        }
+    </style>
+}
 
 <h2>PiAdvisingBond List</h2>
 
@@ -59,12 +69,12 @@
             var table = $('#pi-advising-bond-table').DataTable();
 
             $('.view-button').click(function () {
-                 var apiNumber = $(this).closest('tr').find('.api-number').text();
+                var apiNumber = $(this).closest('tr').find('.api-number').text();
                 var url = '@Url.Action("GetBondModal", "Bonds")'; // Replace "ControllerName" with your actual controller name
 
                 $.get(url, { apiNumber: apiNumber }, function (data) {
                     $('#modal-container').html(data);
-                    $('#modal-container .modal').modal('show');
+                    $('#bond-modal').modal('show');
                 });
             });
         });
