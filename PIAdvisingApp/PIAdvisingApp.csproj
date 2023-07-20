@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BondsController.cs" />
+    <Compile Include="Controllers\CmController.cs" />
     <Compile Include="Controllers\DataGridController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -298,6 +299,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Service\BondsService.cs" />
+    <Compile Include="Service\CmService.cs" />
     <Compile Include="Service\SalesService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="UserMenuPermission.cs">
@@ -372,11 +374,13 @@
     <Compile Include="ViewModels\AdvisePiFromRepResult.cs" />
     <Compile Include="ViewModels\BondDataVm.cs" />
     <Compile Include="ViewModels\CmApprovalModalVm.cs" />
+    <Compile Include="ViewModels\CompanyAccountVm.cs" />
     <Compile Include="ViewModels\CustomerByRepVm.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PiAdvisingBond.cs" />
     <Compile Include="ViewModels\PrcRptLcNotReceived.cs" />
     <Compile Include="ViewModels\SaveAdvisePiFromRepRequest.cs" />
+    <Compile Include="ViewModels\SaveApiFromBondRequest.cs" />
     <Compile Include="viewMonthPAvgPrice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -709,6 +713,9 @@
     <Content Include="Views\Sales\AdvisePiFromRep.cshtml" />
     <Content Include="Views\Sales\_AdvisePiFromRepDetailsPartial.cshtml" />
     <Content Include="Views\Bonds\_GetBondPartial.cshtml" />
+    <Content Include="Views\Bonds\ApprovedPiFromBond.cshtml" />
+    <Content Include="Views\CM\CmApproval.cshtml" />
+    <Content Include="Views\CM\CmApprovedPi.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

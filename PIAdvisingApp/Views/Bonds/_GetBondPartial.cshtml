@@ -22,13 +22,18 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="companyName"><strong>Beneficiary Name:</strong></label>
+                            <label for="companyName"><strong>Company Name:</strong></label>
                             <select class="form-control" id="companyName" name="companyName">
-                                <option value="">Select Company</option>
-                                <option value="KDS Accessories, Unit-1">KDS Accessories, Unit-1</option>
-                                <option value="KDS Accessories, Unit-2">KDS Accessories, Unit-2</option>
+                                <option value="">Choose Company</option>
+                                <option value="1">KDS Accessories Ltd.</option>
+                                <option value="2">KDS Thread Ltd.</option>
+                                <option value="3">KDS Poly Industries Ltd.</option>
+                                <option value="4">Dominox IM</option>
+                                <option value="5">KDS Accessories Ltd. (Unit 2)</option>
+                                <option value="6">KDS Thread Ltd. (Unit 2)</option>
                             </select>
                         </div>
+                        <button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>
                     </div>
                 </div>
 
@@ -81,7 +86,7 @@
                     <div class="mt-2">
                         <button class="btn btn-primary">Add Item</button>
                         <button class="btn btn-secondary">Copy</button>
-                        <button class="btn btn-primary">Refresh</button>
+                        <button class="btn btn-primary refresh-button">Refresh</button>
                     </div>
                 </div>
             </div>
@@ -107,22 +112,24 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr data-row-id="@item.RowId">
                                 <td class="text-center d-none">@item.ApiNumber</td>
-                                <td class="text-center">@item.BookingNo</td>
-                                <td class="text-center">@item.CategoryName</td>
-                                <td class="text-center">@item.ProductName</td>
-                                <td class="text-center">@item.Measurement</td>
-                                <td class="text-center">@item.MeasureUnit</td>
-                                <td class="text-center">@item.UnitPrice</td>
-                                <td class="text-center">@item.BookingQty</td>
-                                <td class="text-center">@item.QuantityUnit</td>
-                                <td class="text-center">@item.Val2</td>
+                                <td class="text-center editable-cell">@item.BookingNo</td>
+                                <td class="text-center editable-cell">@item.CategoryName</td>
+                                <td class="text-center editable-cell">@item.ProductName</td>
+                                <td class="text-center editable-cell">@item.Measurement</td>
+                                <td class="text-center editable-cell">@item.MeasureUnit</td>
+                                <td class="text-center editable-cell">@item.UnitPrice</td>
+                                <td class="text-center editable-cell">@item.BookingQty</td>
+                                <td class="text-center editable-cell">@item.QuantityUnit</td>
+                                <td class="text-center editable-cell">@item.Val2</td>
                                 <td class="text-center customer-specification">
                                     <!-- Customer Specification content will be dynamically added here -->
                                 </td>
                                 <td class="text-center">
-                                    <!-- Add CRUD options here -->
+                                    <button class="btn btn-sm btn-primary edit-button">Edit</button>
+                                    <button class="btn btn-sm btn-success save-button" style="display: none;">Save</button>
+                                    <button class="btn btn-sm btn-danger delete-button">Delete</button>
                                 </td>
                             </tr>
                         }
@@ -130,48 +137,16 @@
                 </table>
             </div>
 
-              
+
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveButton" disabled>Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-@*<script>
-    $(document).ready(function () {
-        // Handle checkbox change event
-        $('.include-info').change(function () {
-            updateCustomerSpecification();
-        });
 
-        // Update Customer Specification column based on checked checkboxes
-        function updateCustomerSpecification() {
-            var checkedItems = [];
-            $('.include-info:checked').each(function () {
-                var label = $(this).data('label');
-                checkedItems.push(label);
-            });
-
-            $('table tbody tr').each(function () {
-                var $row = $(this);
-                var customerSpec = "";
-                $.each(checkedItems, function (index, item) {
-                    customerSpec += '<strong>' + item + ':</strong> <input type="text" class="form-control" name="' + item + '" placeholder="' + item + '"> ';
-                });
-                $row.find('td.customer-specification').html(customerSpec);
-            });
-
-            // Update the Customer Specification column header visibility
-            var $customerSpecTH = $('#customer-specification-th');
-            if (checkedItems.length > 0) {
-                $customerSpecTH.show();
-            } else {
-                $customerSpecTH.hide();
-            }
-        }
-    });
-</script>*@
 
 <script>
     $(document).ready(function () {
@@ -179,6 +154,19 @@
         $('.include-info').change(function () {
             updateCustomerSpecification();
         });
+
+     // Save the original data for each row when the page loads or when a new row is added
+        function saveOriginalData($row) {
+        const originalData = [];
+        $row.find('td.editable-cell').each(function () {
+            originalData.push($(this).text().trim());
+        });
+        $row.data('original-data', originalData);
+    }
+
+    $('table tbody tr').each(function () {
+        saveOriginalData($(this));
+    });
 
         // Update Customer Specification column based on checked checkboxes
         function updateCustomerSpecification() {
@@ -208,58 +196,163 @@
             }
         }
 
-        // Handle double-click event on customer specification cells
-        $(document).on('dblclick', 'td.customer-specification', function () {
-            var $cell = $(this);
-            var $row = $cell.closest('tr');
-            var $specText = $cell.find('.customer-spec-text');
-            var originalText = $specText.text().trim();
 
-            var $inputField = $('<input type="text" class="form-control customer-spec-input">');
-            $inputField.val(originalText);
+        $(document).on('click', '.edit-button', function () {
+            const $row = $(this).closest('tr');
+            const rowId = $row.data('row-id'); // Assign a unique identifier to the row
+            const $tds = $row.find('td.editable-cell');
+            $tds.each(function () {
+                const $td = $(this);
+                const text = $td.text().trim();
+                $td.html('<input type="text" class="form-control" value="' + text + '">');
+            });
 
-            $specText.hide();
-            $cell.append($inputField);
-            $inputField.focus();
+            // Hide edit button and show save button for the clicked row
+            $row.find('.edit-button').hide();
+            $row.find('.save-button').show();
+        });
 
-            $inputField.on('keypress', function (e) {
-                if (e.which === 13) {
-                    saveChanges();
+        // Delete button click event handler
+        $(document).on('click', '.delete-button', function () {
+            const $row = $(this).closest('tr');
+            const rowId = $row.data('row-id');
+
+            // Show a confirmation dialog before deleting the row
+            const isConfirmed = confirm('Are you sure you want to delete this row?');
+            if (isConfirmed) {
+                // Remove the row from the table
+                $row.remove();
+
+                // You can also perform additional actions here, like sending a request to the server to delete the data from the database.
+            }
+        });
+
+        $(document).on('click', '.save-button', function () {
+            const $row = $(this).closest('tr');
+            const rowId = $row.data('row-id'); // Assign a unique identifier to the row
+            const $tds = $row.find('td.editable-cell');
+            $tds.each(function () {
+                const $td = $(this);
+                const newValue = $td.find('input').val().trim();
+                $td.html(newValue);
+            });
+
+            // Hide save button and show edit button for the clicked row
+            $row.find('.save-button').hide();
+            $row.find('.edit-button').show();
+        });
+
+        let selectedCompanyId = null;
+
+        // Handle company name dropdown change event
+        $('#companyName').change(function () {
+            selectedCompanyId = $(this).val();
+            const isCompanySelected = !!selectedCompanyId;
+            $('#setCompanyButton').prop('disabled', !isCompanySelected);
+            $('#saveButton').prop('disabled', !isCompanySelected);
+        });
+
+        // Handle Set button click event
+        $('#setCompanyButton').click(function () {
+            // If you want to do something when the Set button is clicked,
+            // you can perform additional actions here.
+            // For example, you can update the UI to reflect the selected company.
+        });
+
+        $('.btn-primary.refresh-button').click(function () {
+            // Iterate through each row in the table
+            $('table tbody tr').each(function () {
+                var $row = $(this);
+
+                // Check if the row has the data attribute indicating it's a new row
+                // If it's a new row, remove it
+                if ($row.data('is-new-row')) {
+                    $row.remove();
+                } else {
+                    // Reset the row to its original state
+                    const originalData = $row.data('original-data');
+                    const $tds = $row.find('td.editable-cell');
+                    $tds.each(function (index) {
+                        $(this).text(originalData[index]);
+                    });
+
+                    // Hide the Save button and show the Edit button
+                    $row.find('.save-button').hide();
+                    $row.find('.edit-button').show();
                 }
             });
+        });
 
-            $inputField.on('blur', function () {
-                discardChanges();
-            });
 
-            var $saveButton = $('<button type="button" class="btn btn-success btn-sm customer-spec-save"><i class="fas fa-check"></i></button>');
-            $saveButton.on('click', function () {
-                saveChanges();
-            });
+        // Handle Save button click event
+        $('#saveButton').click(function () {
+            const isConfirmed = confirm("Are you sure you want to save?");
+            if (isConfirmed) {
 
-            var $discardButton = $('<button type="button" class="btn btn-danger btn-sm customer-spec-discard"><i class="fas fa-times"></i></button>');
-            $discardButton.on('click', function () {
-                discardChanges();
-            });
+                // Get the current date and time
+                let currentDate = new Date();
 
-            $cell.append($saveButton);
-            $cell.append($discardButton);
+                // Format the date as "YYYY-MM-DD HH:mm:ss"
+                let formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
 
-            function saveChanges() {
-                var newText = $inputField.val().trim();
-                $specText.text(newText);
-                $specText.show();
-                $inputField.remove();
-                $saveButton.remove();
-                $discardButton.remove();
-            }
+                let masterData = {
+                    ApiNumber: '@Model.First().ApiNumber', // Use Razor syntax to fetch API number from the view model
+                    SubmittedDate: formattedDate, // Use Razor syntax to fetch the submitted date from the view model
+                    CustomerName: '@Model.First().CustomerName',
+                     RetailerName: '@Model.First().RetailerName',
+                     Remarks: '@Model.First().Remarks',
+                     TotalValue: '@Model.First().TotalValue',
+                     TotalQuantity: '@Model.First().TotalQty',
+                    CompanyName: $('#companyName').val(),
+                    Details : []
+                    // Add other master data properties here
+                };
+                console.log("Master Data:", masterData); // Log the masterData object
+               
 
-            function discardChanges() {
-                $specText.text(originalText);
-                $specText.show();
-                $inputField.remove();
-                $saveButton.remove();
-                $discardButton.remove();
+                let subData = [];
+                $('table tbody tr').each(function () {
+                    let $row = $(this);
+                    let rowData = {
+                        ApiNumber: $row.find('td:eq(0)').text().trim(),
+                        BookingNo: $row.find('td:eq(1)').text().trim(),
+                        CategoryName: $row.find('td:eq(2)').text().trim(),
+                        ProductName: $row.find('td:eq(3)').text().trim(),
+                        Measurement: $row.find('td:eq(4)').text().trim(),
+                        MeasureUnit: $row.find('td:eq(5)').text().trim(),
+                        UnitPrice: $row.find('td:eq(6)').text().trim(),
+                        BookingQty: $row.find('td:eq(7)').text().trim(),
+                        QuantityUnit: $row.find('td:eq(8)').text().trim(),
+                        Val2: $row.find('td:eq(9)').text().trim(),
+                        BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                    };
+                    subData.push(rowData);
+                });
+                masterData.Details = subData;
+                console.log("Master Data:", masterData); // Log the masterData object
+                console.log("Sub Data:", subData); // Log the subData array
+
+
+
+                // Call the API to save master data
+                $.post("@Url.Action("SaveApiFromBond", "Bonds")", masterData, function (response) {
+                    // Handle success response
+                    console.log("Master data saved successfully!");
+                }).fail(function (error) {
+                    // Handle error response
+                    console.error("Error saving master data: ", error);
+                });
+
+                // Call the API to save sub details data
+                $.post("@Url.Action("SaveApiFromBondSub", "Bonds")", { subData: JSON.stringify(subData) }, function (response) {
+                    // Handle success response
+                    console.log("Sub details data saved successfully!");
+                }).fail(function (error) {
+                    // Handle error response
+                    console.error("Error saving sub details data: ", error);
+                });
+
+                alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
             }
         });
     });

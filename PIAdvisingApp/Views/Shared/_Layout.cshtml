@@ -193,7 +193,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>
                                     @*<a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>*@
-                                    <a class="dropdown-item" href="@Url.Action("AdvisePiUpdate", "Sales")">Advise PI Updated</a>
+                                    <a class="dropdown-item" href="@Url.Action("AdvisePiFromRep", "Sales")">Advise PI Updated</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -203,6 +203,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     @*<a class="dropdown-item" href="@Url.Action("BondApprovedPi", "Sales")">PI Approval</a>*@
                                     <a class="dropdown-item" href="@Url.Action("PiAdvisingBond", "Bonds")">Pending PI for Bond Review</a>
+                                    <a class="dropdown-item" href="@Url.Action("ApprovedPiFromBond", "Bonds")">Approved Api</a>
                                     <a class="dropdown-item" href="#">Report</a>
                                 </div>
                             </li>
@@ -211,21 +212,14 @@
                                     <i class="nav-link-icon fa fa-edit"></i> CM
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">Pending PI For Sending to Customer</a>
+                                    <a class="dropdown-item" href="@Url.Action("CmApproval", "Cm")">Pending PI For Sending to Customer</a>
+                                    <a class="dropdown-item" href="@Url.Action("CmApprovedPi", "Cm")">Approved API (CM)</a>
                                     <a class="dropdown-item" href="@Url.Action("Test", "Sales")">Test</a>
                                     <a class="dropdown-item" href="#">Report</a>
                                 </div>
                             </li>
 
-                            @*<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="nav-link-icon fa fa-edit"></i> Experimental
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("CmApproval", "Sales")">CM Approval</a>
-                                        <a class="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </li>*@
+                          
                         </ul>
                     </div>
 
@@ -365,6 +359,8 @@
 
         }); // jquery end
     </script>
+
+
     @RenderSection("Modal", required: false)
     @Html.EJS().ScriptManager()
 </body>
