@@ -13,16 +13,69 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 
+    @*<style>
+            .tbody, td, th {
+                padding: 2px !important;
+                font-size: 9px !important;
+            }
+
+            .modal-backdrop {
+                z-index: 10 !important
+            }
+
+        </style>*@
     <style>
-        .tbody, td, th {
+        .tbody,
+        td,
+        th {
             padding: 2px !important;
             font-size: 9px !important;
         }
 
         .modal-backdrop {
-            z-index: 10 !important
+            z-index: 10 !important;
+        }
+
+        /* Add CSS styles for tree view */
+        #tree-view {
+            margin-top: 10px;
+        }
+
+        .tree-view-header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f2f2f2;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .tree-view-node {
+            margin-left: 20px;
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .tree-view-details {
+            margin-left: 20px;
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            display: none; /* Hide details by default */
+        }
+
+        .tree-view-node.active .tree-view-details {
+            display: block; /* Show details when the node is active (expanded) */
+        }
+
+        .tree-view-total {
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
     </style>
+
 }
 <div class="app-page-title">
     <div class="page-title-wrapper">
@@ -82,13 +135,17 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-center" style="font-size:12px !important">Retailer:</td>
+                                <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
                                 <td class="text-center p-0">
                                     <select id="retailer-field" class="form-control form-control-sm">
-                                        <option selected disabled>Select Retailer</option>
+                                        <option selected disabled>Select Beneficiary</option>
                                     </select>
                                 </td>
-                                <td class="text-center"><button id="save-btn" class="btn btn-sm btn-primary">Save</button></td>
+
+
+                                <td colspan="6" class="text-right">
+                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
+                                </td>
                             </tr>
                         </thead>
                     </table>
@@ -98,15 +155,9 @@
     </div>
 </div>
 
-<div class="row">
-    @* div with loading image in center *@
-    <div class="col-lg-12 col-xl-8 text-center align-center">
-        <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;"><img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." /></div>
-        <div id="advise-pi-from-rep-details-div"></div>
-        @*this is where the partial view loads*@
-    </div>
+<!--<div class="row">
 
-    <div class="col-lg-12 col-xl-4 d-none" id="advised-list-div">
+    <div class="col-lg-12 col-xl-4   ml-auto d-none" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
 
             <div class="card-body p-1">
@@ -119,7 +170,7 @@
                                 <th class="text-center">Category Name</th>
                                 <th class="text-center">Booking Qty</th>
                                 <th class="text-center">Booking Value</th>
-                                <th class="text-center">Retailer Name</th>
+                                <th class="text-center">Company Name</th>
                             </tr>
 
                         </thead>
@@ -129,6 +180,61 @@
                                 <td colspan="6" class="text-right">
                                     <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
                                 </td>
+
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>-->
+@* div with loading image in center *@
+<!--<div class="col-lg-12 col-xl-12 text-center align-center">
+    <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;"><img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." /></div>
+    <div id="advise-pi-from-rep-details-div"></div>-->
+@*this is where the partial view loads*@
+<!--</div>
+</div>-->
+<div class="row">
+    <div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Tree View)</h5>
+                <div class="table-responsive">
+                    <div id="tree-view">
+                        <div class="tree-view-header">
+                            <span class="tree-view-header-title">Company Name</span>
+                            <span class="tree-view-header-value">Total Booking Value</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Table View)</h5>
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Company Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -137,6 +243,18 @@
         </div>
     </div>
 </div>
+
+
+<!-- div with loading image in center -->
+<div class="col-lg-12 col-xl-12 text-center align-center">
+    <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;">
+        <img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." />
+    </div>
+    <div id="advise-pi-from-rep-details-div"></div>
+    <!-- this is where the partial view loads -->
+</div>
+</div>
+
 
 
 
@@ -231,13 +349,66 @@
                 }
             });
 
+            // Add an event handler for row selection in the booking list table
+            $(document).on('change', '.selected-item', function () {
+                // Clear the tree view
+                $('#tree-view').empty();
+
+                // Calculate the total booking value
+                var totalBookingValue = 0;
+
+                // Loop through the selected rows in the table
+                $('.selected-item:checked').each(function () {
+                    // Get the values for each row
+                    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                    var categoryName = $(this).closest('tr').find('.CategoryName').text();
+                    var bookingQty = $(this).closest('tr').find('.BookingQty').text();
+                    var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
+                    var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
+
+                    // Add the booking value to the total
+                    totalBookingValue += bookingValue;
+
+                    // Check if the company name already exists in the tree view
+                    var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
+                    if (companyNode.length === 0) {
+                        // If the company name doesn't exist, create a new node for it
+                        var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
+                            '<span class="tree-view-node-title">' + companyName + '</span>' +
+                            '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
+                            '</div>';
+                        $('#tree-view').append(companyRow);
+                    } else {
+                        // If the company name already exists, update the total booking value
+                        var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
+                        companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
+                    }
+
+                    // Add the row details as a child node under the company name
+                    var rowDetails = '<div class="tree-view-details">' +
+                        '<span>Booking No: ' + bookingNo + '</span>' +
+                        '<span>Category Name: ' + categoryName + '</span>' +
+                        '<span>Booking Qty: ' + bookingQty + '</span>' +
+                        '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
+                        '</div>';
+                    companyNode.append(rowDetails);
+                });
+
+                // Add the total booking value at the end of the tree view
+                var totalRow = '<div class="tree-view-total">' +
+                    '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
+                    '</div>';
+                $('#tree-view').append(totalRow);
+            });
+
+
             $(document).on('change', '.selected-item', function () {
                 var bookingId = $(this).val();
                 var bookingNo = $(this).closest('tr').find('.BookingNo').text();
                 var BookingQty = $(this).closest('tr').find('.BookingQty').text();
                 var CategoryName = $(this).closest('tr').find('.CategoryName').text();
                 var BookingValue = $(this).closest('tr').find('.BookingValue').text();
-                var RetailerName = $(this).closest('tr').find('.RetailerName').text();
+                var RetailerName = $(this).closest('tr').find('.CompanyName').text();
                 let RetailerId = $(this).closest('tr').data('retailer-id');
                 if ($(this).is(':checked')) {
                     // Add the row to the right table
@@ -294,11 +465,11 @@
                 $('#total').text('0.00');
                 $('#customer-name').text('');
                 $('#retailer-field').empty();
-                $('#retailer-field').append('<option value="">Select a retailer</option>');
+                $('#retailer-field').append('<option value="">Select a Beneficiary</option>');
                 $('#advised-list-div').addClass('d-none');
                 $('#advised-list-controls-div').addClass('d-none');
             }
-            
+
             function updateTotal() {
                 var total = 0;
                 $('.BookingValueSelected').each(function () {

@@ -375,6 +375,7 @@
     <Compile Include="ViewModels\BondDataVm.cs" />
     <Compile Include="ViewModels\CmApprovalModalVm.cs" />
     <Compile Include="ViewModels\CompanyAccountVm.cs" />
+    <Compile Include="ViewModels\CategoryByRepVm.cs" />
     <Compile Include="ViewModels\CustomerByRepVm.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PiAdvisingBond.cs" />

@@ -11,6 +11,11 @@ namespace PIAdvisingApp.ViewModels
         public DateTime BookingDate { get; set; }
         public string PIStatus { get; set; }
         public string CustomerName { get; set; }
+        public string CompanyName { get; set; }
+        public string LocationName { get; set; }
+
+
+
         public string RepresentativeName { get; set; }
 
         public string ShortName { get; set; }
@@ -21,6 +26,6 @@ namespace PIAdvisingApp.ViewModels
         public string RetailerName { get; set; }
         public decimal DeliveryPercentage { get; set; }
         public string CategoryName { get; set; }
-        public string CompanyName { get; set; }
+     
     }
 }
