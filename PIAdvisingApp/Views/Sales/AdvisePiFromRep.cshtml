@@ -214,6 +214,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
@@ -349,6 +350,19 @@
                 }
             });
 
+
+            // Event delegation to handle the click events for tree view nodes
+            $(document).on('click', '.tree-view-node', function () {
+                // Toggle the expansion of the clicked node
+                $(this).toggleClass('expanded');
+
+                // If the node is expanded, show the inner details; otherwise, hide them
+                if ($(this).hasClass('expanded')) {
+                    $(this).find('.tree-view-details').show();
+                } else {
+                    $(this).find('.tree-view-details').hide();
+                }
+            });
             // Add an event handler for row selection in the booking list table
             $(document).on('change', '.selected-item', function () {
                 // Clear the tree view
