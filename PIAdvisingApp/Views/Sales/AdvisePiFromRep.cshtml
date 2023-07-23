@@ -108,34 +108,7 @@
                                 <td class="text-center"><button id="show-btn" class="btn btn-primary">Show</button></td>
                             </tr>
                         </thead>
-                        <!--<thead>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Product Type</td>
-                                <td class="text-center">
-                                    <select id="product-type-filter" class="form-control-sm form-control">-->
-                                        @*<option value="">All</option>
-                                        @foreach (var category in Model.Select(x => x.CategoryName).Distinct())
-                                        {
-                                            <option value="@category">@category</option>
-                                        }*@
-                                    <!--</select>
-                                </td>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Retailer</td>
-                                <td class="text-center">
-                                    <select id="retailer-filter" class="form-control-sm form-control">
-                                        <option value="">All</option>-->
-                                        @*@foreach (var retailer in Model.Select(x => x.RetailerName).Distinct())
-                                        {
-                                            <option value="@retailer">@retailer</option>
-                                        }*@
-                                    <!--</select>
-                                </td>
-                            </tr>
-                        </thead>-->
+                        
                     </table>
                 </div>
             </div>
@@ -588,19 +561,23 @@
                 }
             });
 
-            var table = $('#booking-list-table').DataTable();
-
-            // Initialize the product type filter
-            $('#product-type-filter').on('change', function () {
-                var categoryFilter = $(this).val();
-                table.column(14).search(categoryFilter).draw();
+            var table = $('#booking-list-table').DataTable({
+                "search": {
+                    "smart": true
+                }
             });
 
-            // Initialize the retailer filter
-            $('#retailer-filter').on('change', function () {
-                var retailerFilter = $(this).val();
-                table.column(11).search(retailerFilter).draw();
-            });
+            //// Initialize the product type filter
+            //$('#product-type-filter').on('change', function () {
+            //    var categoryFilter = $(this).val();
+            //    table.column(14).search(categoryFilter).draw();
+            //});
+
+            //// Initialize the retailer filter
+            //$('#retailer-filter').on('change', function () {
+            //    var retailerFilter = $(this).val();
+            //    table.column(11).search(retailerFilter).draw();
+            //});
 
         });
     </script>

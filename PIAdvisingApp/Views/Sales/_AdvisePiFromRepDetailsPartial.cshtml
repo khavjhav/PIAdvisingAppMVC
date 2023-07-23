@@ -30,7 +30,7 @@
     <div class="form-group">
         <label for="retailer-filter">Retailer:</label>
         <select id="retailer-filter" class="form-control">
-            <option value="">All</option>
+            <option value="All">All</option>
             @foreach (var retailer in ViewBag.Retailers)
             {
                 <option value="@retailer">@retailer</option>
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label for="company-filter">Beneficiary:</label>
         <select id="company-filter" class="form-control">
-            <option value="">All</option>
+            <option value="All">All</option>
             @foreach (var company in ViewBag.CompanyNames)
             {
                 <option value="@company">@company</option>
@@ -115,56 +115,20 @@
 </div>
 
 
-@*<script>
 
-        // Move the DataTable initialization to the end of the script block
-        $(document).ready(function () {
-            // Initialize the DataTable
-            var table = $('#booking-list-table').DataTable();
-
-            // Filter event handler for product type
-            $('#product-type-filter').on('change', function () {
-                var categoryFilter = $(this).val();
-                table.column(14).search(categoryFilter).draw();
-            });
-
-            // Filter event handler for retailer
-            $('#retailer-filter').on('change', function () {
-                var retailerFilter = $(this).val();
-                table.column(12).search(retailerFilter).draw();
-            });
-
-            // Filter event handler for contact
-            $('#contact-filter').on('change', function () {
-                var contactFilter = $(this).val();
-                table.column(13).search(contactFilter).draw();
-            });
-
-            // Filter event handler for company
-            $('#company-filter').on('change', function () {
-                var companyFilter = $(this).val();
-                table.column(15).search(companyFilter).draw();
-            });
-        });
-
-        $('.select-all').click(function () {
-            if ($(this).is(':checked')) {
-                $('.selected-item').prop('checked', true);
-            } else {
-                $('.selected-item').prop('checked', false);
-            }
-            //trigger selected-item onchange
-            $('.selected-item').trigger('change');
-        });
-
-
-    </script>*@
 
 <script>
     // Move the DataTable initialization to the end of the script block
     $(document).ready(function () {
         // Initialize the DataTable
-        var table = $('#booking-list-table').DataTable();
+        //var table = $('#booking-list-table').DataTable();
+        var table = $('#booking-list-table').DataTable({
+            "columnDefs": [{
+                "targets": [0, 2, 3, 6, 7, 8], // Add the column indices that you don't want to be searchable
+                "searchable": false
+            }]
+        });
+       
 
         // Filter event handler for product type
         $('#product-type-filter').on('change', function () {
@@ -173,18 +137,47 @@
             table.column(14).search(categoryFilter).draw();
         });
 
-        // Filter event handler for retailer
-        $('#retailer-filter').on('change', function () {
-            var retailerFilter = $(this).val();
-            console.log('Retailer Filter Value:', retailerFilter);
-            table.column(10).search(retailerFilter).draw();
-        });
         //// Filter event handler for retailer
         //$('#retailer-filter').on('change', function () {
         //    var retailerFilter = $(this).val();
         //    console.log('Retailer Filter Value:', retailerFilter);
-        //    table.column('Retailer Name:name').search(retailerFilter).draw();
+        //    table.column(11).search(retailerFilter).draw();
         //});
+        // Filter event handler for retailer
+        //$('#retailer-filter').on('change', function () {
+        //    var retailerFilter = $(this).val();
+        //    console.log('Retailer Filter Value:', retailerFilter);
+
+        //    // Check if the selected value is "All" and update the search accordingly
+        //    if (retailerFilter === "All") {
+        //        table.column(11).search("").draw();
+        //    } else {
+        //        // Use custom filtering function for case-insensitive match
+        //        table.column(11).search(
+        //            '^' + retailerFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
+        //            true, false
+        //        ).draw();
+        //    }
+        //});
+        // Custom filtering function for retailer
+        function filterRetailer(retailerFilter) {
+            if (retailerFilter === "All") {
+                table.column(11).search("").draw(); // Show all data for "Retailer Name" column
+            } else {
+                // Use custom filtering function for case-insensitive match
+                table.column(11).search(
+                    '^' + retailerFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
+                    true, false
+                ).draw();
+            }
+        }
+
+        // Filter event handler for retailer
+        $('#retailer-filter').on('change', function () {
+            var retailerFilter = $(this).val();
+            console.log('Retailer Filter Value:', retailerFilter);
+            filterRetailer(retailerFilter);
+        });
 
         // Filter event handler for contact
         $('#contact-filter').on('change', function () {
@@ -193,11 +186,31 @@
             table.column(12).search(contactFilter).draw();
         });
 
+        //// Filter event handler for company
+        //$('#company-filter').on('change', function () {
+        //    var companyFilter = $(this).val();
+        //    console.log('Company Filter Value:', companyFilter);
+        //    table.column(15).search(companyFilter).draw();
+        //});
+        // Filter event handler for company
+        // Custom filtering function for company
+        function filterCompany(companyFilter) {
+            if (companyFilter === "All") {
+                table.column(15).search("").draw(); // Show all data for "Company Name" column
+            } else {
+                // Use custom filtering function for case-insensitive match
+                table.column(15).search(
+                    '^' + companyFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
+                    true, false
+                ).draw();
+            }
+        }
+
         // Filter event handler for company
         $('#company-filter').on('change', function () {
             var companyFilter = $(this).val();
             console.log('Company Filter Value:', companyFilter);
-            table.column(15).search(companyFilter).draw();
+            filterCompany(companyFilter);
         });
     });
 
