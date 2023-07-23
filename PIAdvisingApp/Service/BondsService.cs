@@ -21,7 +21,7 @@ namespace PIAdvisingApp.Service
             {
                 var query = @"
                 SELECT
-                    api.ApiNumber,
+                    api.ApiNumber,cgi.CustomerName, rp.ShortName,
                     api.val,
                     api.qty,
                     CAST(apibk.EntryTime AS DATE) AS EntryDate,
@@ -40,8 +40,10 @@ namespace PIAdvisingApp.Service
                     FROM dbo.ApiMainBond
                     GROUP BY ApiNumber) AS api
                 LEFT JOIN dbo.ApiMainBond AS apibk ON apibk.ApiNumber = api.ApiNumber
+                LEFT JOIN dbo.CustomerGenInfo AS cgi ON cgi.CustomerId = apibk.CustomerId
+				LEFT JOIN dbo.Representative AS rp ON rp.EmployeeId = apibk.EmployeeId
                 GROUP BY CAST(apibk.EntryTime AS DATE),
-                         api.ApiNumber,
+                         api.ApiNumber,cgi.CustomerName, rp.ShortName,
                          api.val,
                          api.qty,
                          apibk.Remarks";

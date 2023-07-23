@@ -18,6 +18,7 @@ namespace PIAdvisingApp.ViewModels
         public string ProductName { get; set; }
         public string CustomerName { get; set; }
         public string RetailerName { get; set; }
+        public string CompanyName { get; set; }
         public string ShortName { get; set; }
 
         public string Size { get; set; }

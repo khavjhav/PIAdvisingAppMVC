@@ -44,6 +44,7 @@
         <tr>
             <th class="text-center">EntryDate</th>
             <th class="text-center">ApiNumber</th>
+            <th class="text-center">Customer</th>
             <th class="text-center">Val</th>
             <th class="text-center">Qty</th>
             <th class="text-center d-none">BookingNos</th>
@@ -57,6 +58,7 @@
             <tr>
                 <td class="text-center">@item.EntryDate.ToString("dd-MMM-yy")</td>
                 <td class="text-center api-number">@item.ApiNumber</td>
+                <td class="text-center">@item.CustomerName</td>
                 <td class="text-center">@item.Val</td>
                 <td class="text-center">@item.Qty</td>
                 <td class="text-center d-none">@item.BookingNos</td>

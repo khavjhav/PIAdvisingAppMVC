@@ -9,6 +9,8 @@ namespace PIAdvisingApp.ViewModels
     public class PiAdvisingBond
     {
         public string ApiNumber { get; set; }
+        public string CustomerName { get; set; }
+        public string ShortName { get; set; }
         public decimal Val { get; set; }
         public decimal Qty { get; set; }
 
