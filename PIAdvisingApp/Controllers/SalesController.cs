@@ -104,13 +104,35 @@ namespace PIAdvisingApp.Controllers
             return View(result);
         }
 
+        //[HttpPost]
+        //public ActionResult AdvisePiFromRepDetailsPartial(int customerId ,int employeeId)
+        //{
+        //    //var advicePi = _salesService.AdvisePI();
+        //    DateTime fromDate = DateTime.Now.AddYears(-2);
+        //    DateTime toDate = DateTime.Now;
+        //    List<AdvisePiFromRepResult> result = _salesService.GetAdvisePiFromRepDetails(customerId, employeeId, fromDate, toDate);
+
+        //    // Populate ViewBag with the filter data
+        //    ViewBag.ProductTypes = result.Select(x => x.CategoryName).Distinct().ToList();
+        //    ViewBag.Retailers = result.Select(x => x.RetailerName).Distinct().ToList();
+
+        //    return PartialView("_AdvisePiFromRepDetailsPartial", result);
+        //}
+
         [HttpPost]
-        public ActionResult AdvisePiFromRepDetailsPartial(int customerId ,int employeeId)
+        public ActionResult AdvisePiFromRepDetailsPartial(int customerId, int employeeId)
         {
-            //var advicePi = _salesService.AdvisePI();
             DateTime fromDate = DateTime.Now.AddYears(-2);
             DateTime toDate = DateTime.Now;
             List<AdvisePiFromRepResult> result = _salesService.GetAdvisePiFromRepDetails(customerId, employeeId, fromDate, toDate);
+
+            // Populate ViewBag with the filter data
+            ViewBag.ProductTypes = result.Select(x => x.CategoryName).Distinct().ToList();
+            ViewBag.Retailers = result.Select(x => x.RetailerName).Distinct().ToList();
+            ViewBag.ContactPersons = result.Select(x => x.ContactName).Distinct().ToList();
+            ViewBag.CompanyNames = result.Select(x => x.CompanyName).Distinct().ToList();
+
+
             return PartialView("_AdvisePiFromRepDetailsPartial", result);
         }
 

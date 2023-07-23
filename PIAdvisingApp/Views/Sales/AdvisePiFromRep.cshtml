@@ -81,7 +81,7 @@
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                Advise PI Update
+                Advise PI 
             </div>
         </div>
     </div>
@@ -108,14 +108,43 @@
                                 <td class="text-center"><button id="show-btn" class="btn btn-primary">Show</button></td>
                             </tr>
                         </thead>
+                        <!--<thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Product Type</td>
+                                <td class="text-center">
+                                    <select id="product-type-filter" class="form-control-sm form-control">-->
+                                        @*<option value="">All</option>
+                                        @foreach (var category in Model.Select(x => x.CategoryName).Distinct())
+                                        {
+                                            <option value="@category">@category</option>
+                                        }*@
+                                    <!--</select>
+                                </td>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Retailer</td>
+                                <td class="text-center">
+                                    <select id="retailer-filter" class="form-control-sm form-control">
+                                        <option value="">All</option>-->
+                                        @*@foreach (var retailer in Model.Select(x => x.RetailerName).Distinct())
+                                        {
+                                            <option value="@retailer">@retailer</option>
+                                        }*@
+                                    <!--</select>
+                                </td>
+                            </tr>
+                        </thead>-->
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
-    </div>
-    <div class="col-lg-4 text-right d-none" id="advised-list-controls-div">
+    @*<div class="col-lg-4 text-right" id="advised-list-div">*@
+    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">*@
+
+    <div class="col-lg-6 col-xl-4 ml-auto d-none" id="advised-list-controls-div">
         <div class="main-card mb-2 card">
             <div class="card-body p-1">
                 <div class="table-responsive">
@@ -138,7 +167,7 @@
                                 <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
                                 <td class="text-center p-0">
                                     <select id="retailer-field" class="form-control form-control-sm">
-                                        <option selected disabled>Select Beneficiary</option>
+                                        <option selected disabled>Select Prime Beneficiary</option>
                                     </select>
                                 </td>
 
@@ -153,6 +182,38 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4 text-right ml-auto d-none" id="advised-list-div">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Table View)</h5>
+                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Company Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-lg-4 text-right d-none" id="advised-list-controls-div">*@
+
 </div>
 
 <!--<div class="row">
@@ -198,8 +259,8 @@
 @*this is where the partial view loads*@
 <!--</div>
 </div>-->
-<div class="row">
-    <div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+<!--<div class="row">-->
+    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Advised List (Tree View)</h5>
@@ -213,13 +274,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
-    <div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
+    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Advised List (Table View)</h5>
-                <div class="table-responsive">
+                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
                     <table class="mb-0 table table-sm table-bordered">
                         <thead>
                             <tr>
@@ -242,8 +303,9 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
+
+<!--</div>-->
 
 
 <!-- div with loading image in center -->
@@ -254,7 +316,7 @@
     <div id="advise-pi-from-rep-details-div"></div>
     <!-- this is where the partial view loads -->
 </div>
-</div>
+
 
 
 
@@ -289,7 +351,25 @@
                         loadingSpinner.addClass('d-none');
                         $('#advised-list-div').removeClass('d-none');
                         $('#advised-list-controls-div').removeClass('d-none');
-                    });
+
+                        //// Initialize the DataTable and filter options after loading the partial view
+                        //$('#booking-list-table').DataTable({
+                        //    "initComplete": function () {
+                        //        // Initialize the product type filter
+                        //        $('#product-type-filter').on('change', function () {
+                        //            var categoryFilter = $(this).val();
+                        //            $('#booking-list-table').DataTable().column(14).search(categoryFilter).draw();
+                        //        });
+
+                        //        // Initialize the retailer filter
+                        //        $('#retailer-filter').on('change', function () {
+                        //            var retailerFilter = $(this).val();
+                        //            $('#booking-list-table').DataTable().column(12).search(retailerFilter).draw();
+                        //        });
+                        //    }
+                        //});
+
+                    }); /*--x*/
                 }
             });
             // Clear All button click event handler
@@ -479,7 +559,7 @@
                 $('#total').text('0.00');
                 $('#customer-name').text('');
                 $('#retailer-field').empty();
-                $('#retailer-field').append('<option value="">Select a Beneficiary</option>');
+                $('#retailer-field').append('<option value="">Select Prime Beneficiary</option>');
                 $('#advised-list-div').addClass('d-none');
                 $('#advised-list-controls-div').addClass('d-none');
             }
@@ -506,6 +586,20 @@
                         previous: '&larr;'
                     }
                 }
+            });
+
+            var table = $('#booking-list-table').DataTable();
+
+            // Initialize the product type filter
+            $('#product-type-filter').on('change', function () {
+                var categoryFilter = $(this).val();
+                table.column(14).search(categoryFilter).draw();
+            });
+
+            // Initialize the retailer filter
+            $('#retailer-filter').on('change', function () {
+                var retailerFilter = $(this).val();
+                table.column(11).search(retailerFilter).draw();
             });
 
         });

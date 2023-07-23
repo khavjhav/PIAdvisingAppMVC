@@ -367,6 +367,17 @@ namespace PIAdvisingApp.Service
             }
         }
 
+        //public List<CustomerByRepVm> GetCategory()
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        //var @EmployeeId = new SqlParameter("EmployeeId", employeeId);
+        //        var query = @"SELECT CAST(cgi.CustomerId AS INT) AS CustomerId, cgi.CustomerName FROM dbo.CustomerGenInfo AS cgi INNER JOIN dbo.Representative AS r ON r.RepresentativeId = cgi.RepresentativeId WHERE r.EmployeeId = @EmployeeId";
+        //        var result = ctx.Database.SqlQuery<CategoryByRepVm>(query, @EmployeeId).ToList();
+        //        return result;
+        //    }
+        //}
+
         public List<AdvisePiFromRepResult> GetAdvisePiFromRepDetails(int customerId, int employeeId, DateTime fromDate, DateTime toDate)
         {
 
