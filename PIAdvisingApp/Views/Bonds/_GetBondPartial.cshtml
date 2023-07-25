@@ -116,48 +116,47 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
-                            @*<th type="hidden" class="text-center ">Api No.</th>
-        <th type="hidden" class="text-center ">Booking No</th>*@
-                            @*<th class="text-center">Category Name</th>*@
                             <th class="text-center">Product Name</th>
-                            @*<th class="text-center">Our Ref</th>
-        <th class="text-center">Customer Ref</th>*@
                             <th class="text-center">Measurement</th>
                             <th class="text-center">Measure Unit</th>
                             <th class="text-center">Booking Qty</th>
                             <th class="text-center">Unit Price</th>
-
                             <th class="text-center">Quantity Unit</th>
                             <th class="text-center">Value</th>
                             <th class="text-center" id="customer-specification-th">Customer Specification</th>
+                            <!-- ... Include Info columns if needed ... -->
+                            <!-- ... -->
                             @*<th class="text-center">Actions</th>*@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr data-row-id="@item.RowId">
-                                @*<td type="hidden" class="text-center">@item.ApiNumber</td>
-        <td type="hidden" class="text-center">@item.BookingNo</td>*@
-                                @*<td class="text-center editable-cell">@item.CategoryName</td>*@
-                                <td class="text-center editable-cell">@item.ProductName</td>
-                                @*<td class="text-center editable-cell">@item.OurRef</td>
-        <td class="text-center editable-cell">@item.CustomerRef</td>*@
-                                <td class="text-center editable-cell">@item.Measurement</td>
-                                <td class="text-center editable-cell">@item.MeasureUnit</td>
-                                <td class="text-center editable-cell">@item.BookingQty</td>
-                                <td class="text-center editable-cell">@item.UnitPrice</td>
+                        @{
+                            // Grouping the data by Product Name, Measurement, and Measure Unit while summing the Booking Qty
+                            var groupedData = Model.GroupBy(x => new { x.ProductName, x.Measurement, x.MeasureUnit })
+                                                  .Select(g => new
+                                                  {
+                                                      ProductName = g.Key.ProductName,
+                                                      Measurement = g.Key.Measurement,
+                                                      MeasureUnit = g.Key.MeasureUnit,
+                                                      BookingQty = g.Sum(x => x.BookingQty),
+                                                      Val2 = g.Sum(x => x.Val2),
+                                                      // Add other properties if needed...
+                                                  });
+                        }
 
-                                <td class="text-center editable-cell">@item.QuantityUnit</td>
-                                <td class="text-center editable-cell">@item.Val2</td>
+                        @foreach (var item in groupedData)
+                        {
+                            <tr>
+                                <td class="text-center">@item.ProductName</td>
+                                <td class="text-center">@item.Measurement</td>
+                                <td class="text-center">@item.MeasureUnit</td>
+                                <td class="text-center">@item.BookingQty</td>
+                                @*<td class="text-center">@item.UnitPrice</td>
+                                <td class="text-center">@item.QuantityUnit</td>*@
+                                <td class="text-center">@item.Val2</td>
                                 <td class="text-center customer-specification">
                                     <!-- Customer Specification content will be dynamically added here -->
                                 </td>
-                                @*<td class="text-center">
-            <button class="btn btn-sm btn-primary edit-button">Edit</button>
-            <button class="btn btn-sm btn-success save-button" style="display: none;">Save</button>
-            <button class="btn btn-sm btn-danger delete-button">Delete</button>
-        </td>*@
                             </tr>
                         }
                     </tbody>
@@ -177,52 +176,8 @@
 
 <script>
     $(document).ready(function () {
-        // Array to store distinct booking numbers
-        const distinctBookingNumbers = [];
-
-        // Save the original data for each row when the page loads or when a new row is added
-        function saveOriginalData($row) {
-            const originalData = [];
-            $row.find('td.editable-cell').each(function () {
-                originalData.push($(this).text().trim());
-            });
-            $row.data('original-data', originalData);
-
-            // Function to generate comma-separated string of distinct booking numbers
-            function generateDistinctBookingNumbersString() {
-                return distinctBookingNumbers.join(', ');
-            }
-
-            // Set the value of the "Our Reference" text input field
-            $('#our-reference').val(generateDistinctBookingNumbersString());
-
-            // Function to update the "Our Reference" field when booking numbers are changed
-            function updateOurReferenceField() {
-                const selectedBookingNumbers = $('table tbody tr:not(.hide-column)').map(function () {
-                    return $(this).find('td:eq(1)').text().trim();
-                }).get();
-                $('#our-reference').val(selectedBookingNumbers.join(', '));
-            }
-
-            // Handle booking number checkboxes change event
-            $('table tbody').on('change', '.include-info', function () {
-                const checkboxLabel = $(this).data('label');
-                const columnIndex = $(this).closest('div.form-check-inline').index();
-                const isColumnVisible = $(this).prop('checked');
-
-                if (isColumnVisible) {
-                    // Show the column
-                    $('table th:nth-child(' + (columnIndex + 1) + ')').removeClass('hide-column');
-                    $('table td:nth-child(' + (columnIndex + 1) + ')').removeClass('hide-column');
-                } else {
-                    // Hide the column
-                    $('table th:nth-child(' + (columnIndex + 1) + ')').addClass('hide-column');
-                    $('table td:nth-child(' + (columnIndex + 1) + ')').addClass('hide-column');
-                }
-
-                // Update the "Our Reference" field
-                updateOurReferenceField();
-            });
+        
+            
 
         let selectedCompanyId = null;
 
