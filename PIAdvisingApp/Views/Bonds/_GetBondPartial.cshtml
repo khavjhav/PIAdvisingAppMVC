@@ -120,8 +120,9 @@
                             <th class="text-center">Measurement</th>
                             <th class="text-center">Measure Unit</th>
                             <th class="text-center">Booking Qty</th>
-                            <th class="text-center">Unit Price</th>
+                            <th class="text-center">Qty In KG</th>
                             <th class="text-center">Quantity Unit</th>
+                            <th class="text-center">Unit Price</th>
                             <th class="text-center">Value</th>
                             <th class="text-center" id="customer-specification-th">Customer Specification</th>
                             <!-- ... Include Info columns if needed ... -->
@@ -132,15 +133,20 @@
                     <tbody>
                         @{
                             // Grouping the data by Product Name, Measurement, and Measure Unit while summing the Booking Qty
-                            var groupedData = Model.GroupBy(x => new { x.ProductName, x.Measurement, x.MeasureUnit })
+                            var groupedData = Model.GroupBy(x => new { x.ProductName, x.Measurement, x.MeasureUnit, x.QuantityUnit, x.UnitPrice, })
                                                   .Select(g => new
                                                   {
                                                       ProductName = g.Key.ProductName,
                                                       Measurement = g.Key.Measurement,
                                                       MeasureUnit = g.Key.MeasureUnit,
                                                       BookingQty = g.Sum(x => x.BookingQty),
+
+                                                      QtyInKG = g.Sum(x => x.QtyInKG),
+                                                      QuantityUnit = g.Key.QuantityUnit,
+                                                      UnitPrice = g.Key.UnitPrice,
                                                       Val2 = g.Sum(x => x.Val2),
-                                                      // Add other properties if needed...
+
+                                                      // Add other properties ...
                                                   });
                         }
 
@@ -151,12 +157,15 @@
                                 <td class="text-center">@item.Measurement</td>
                                 <td class="text-center">@item.MeasureUnit</td>
                                 <td class="text-center">@item.BookingQty</td>
-                                @*<td class="text-center">@item.UnitPrice</td>
-                                <td class="text-center">@item.QuantityUnit</td>*@
+                                <td class="text-center">@item.QtyInKG</td>
+                                <td class="text-center">@item.QuantityUnit</td>
+                                <td class="text-center">@item.UnitPrice</td>
                                 <td class="text-center">@item.Val2</td>
+
                                 <td class="text-center customer-specification">
                                     <!-- Customer Specification content will be dynamically added here -->
                                 </td>
+
                             </tr>
                         }
                     </tbody>
