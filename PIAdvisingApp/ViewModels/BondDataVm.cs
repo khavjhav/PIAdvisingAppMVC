@@ -14,6 +14,8 @@ namespace PIAdvisingApp.ViewModels
         public string BookingNo { get; set; }
         public string BookingId { get; set; }
         public string CategoryName { get; set; }
+        public string OurRef { get; set; }
+        public string CustomerRef { get; set; }
 
         public string ProductName { get; set; }
         public string CustomerName { get; set; }
