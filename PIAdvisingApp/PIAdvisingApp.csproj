@@ -717,6 +717,8 @@
     <Content Include="Views\Bonds\ApprovedPiFromBond.cshtml" />
     <Content Include="Views\CM\CmApproval.cshtml" />
     <Content Include="Views\CM\CmApprovedPi.cshtml" />
+    <Content Include="Views\Bonds\_ProductAdd.cshtml" />
+    <Content Include="Views\Bonds\BondData.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

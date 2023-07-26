@@ -68,7 +68,10 @@
                 <td class="text-center d-none">@item.BookingNos</td>
                 <td class="text-center">@item.Remarks</td>
                 <td class="text-center">
-                    <button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>
+                    @*  <button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>*@
+                    <!-- Change the button to a link that redirects to the new page -->
+                    <a href="@Url.Action("BondData", "Bonds", new { apiNumber = item.ApiNumber })" class="btn btn-primary">View</a>
+
                 </td>
             </tr>
         }

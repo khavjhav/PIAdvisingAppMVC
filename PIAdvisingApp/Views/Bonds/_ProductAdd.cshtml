@@ -1,0 +1,111 @@
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
+
+div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel"
+    aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">Product Information</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- Product Information Section -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" class="form-control" id="productName">
+                    </div>
+                    <div class="form-group">
+                        <label for="gsm">GSM</label>
+                        <input type="text" class="form-control" id="gsm">
+                    </div>
+                    <div class="form-group">
+                        <label for="poNumber">PO Number</label>
+                        <input type="text" class="form-control" id="poNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="ply">Ply</label>
+                        <input type="text" class="form-control" id="ply">
+                    </div>
+                    <div class="form-group">
+                        <label for="shadeNumber">Shade Number</label>
+                        <input type="text" class="form-control" id="shadeNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="styleRef">Style/Ref.</label>
+                        <input type="text" class="form-control" id="styleRef">
+                    </div>
+                    <div class="form-group">
+                        <label for="measureUnit">Measure Unit</label>
+                        <input type="text" class="form-control" id="measureUnit">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="washType">Wash Type</label>
+                        <input type="text" class="form-control" id="washType">
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <input type="text" class="form-control" id="color">
+                    </div>
+                    <div class="form-group">
+                        <label for="length">Length</label>
+                        <input type="text" class="form-control" id="length">
+                    </div>
+                    <div class="form-group">
+                        <label for="width">Width</label>
+                        <input type="text" class="form-control" id="width">
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height</label>
+                        <input type="text" class="form-control" id="height">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantity and Pricing Section -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="quantityUnit">Quantity Unit</label>
+                        <input type="text" class="form-control" id="quantityUnit">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="weightInKG">Weight In KG</label>
+                        <input type="text" class="form-control" id="weightInKG">
+                    </div>
+                    <div class="form-group">
+                        <label for="gastLength">Gast. Length</label>
+                        <input type="text" class="form-control" id="gastLength">
+                    </div>
+                    <div class="form-group">
+                        <label for="gastWidth">Gast. Width</label>
+                        <input type="text" class="form-control" id="gastWidth">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="unitPrice">Unit Price</label>
+                        <input type="text" class="form-control" id="unitPrice">
+                    </div>
+                    <div class="form-group">
+                        <label for="totalAmount">Total Amount</label>
+                        <input type="text" class="form-control" id="totalAmount">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+            <button type="button" class="btn btn-primary" id="saveProduct">OK</button>
+        </div>
+    </div>
+</div>

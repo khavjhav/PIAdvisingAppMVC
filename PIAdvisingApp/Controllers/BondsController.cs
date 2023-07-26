@@ -56,6 +56,30 @@ namespace PIAdvisingApp.Controllers
 
             return PartialView("_GetBondPartial", bondData);
         }
+
+
+
+        public ActionResult BondData(string apiNumber)
+        {
+            // Assuming you have logic to retrieve the bond data based on the API number.
+            // Here, you'll get the bond data and pass it to the view.
+            var bondData = _bondsService.GetBondModal(apiNumber);
+
+            // Assigning a unique identifier to each row in the bondData list
+            for (int i = 0; i < bondData.Count; i++)
+            {
+                bondData[i].RowId = i; // Using the index as the unique identifier
+            }
+
+            return View("BondData", bondData);
+        }
+
+        //public ActionResult LoadProductAddModal()
+        //{
+        //    return PartialView("_ProductAdd");
+        //}
+
+
         [HttpPost]
         public ActionResult SaveApiFromBond(SaveApiFromBondRequest request)
         {
