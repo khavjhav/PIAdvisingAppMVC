@@ -78,6 +78,41 @@ namespace PIAdvisingApp.Controllers
         //{
         //    return PartialView("_ProductAdd");
         //}
+        [HttpGet]
+        public ActionResult GetProductName()
+        {
+            var productNameList = _bondsService.GetProductDropdownList();
+            ViewBag.ProductNameList = productNameList;
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ProductForm(ProductFormVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Save the selected product ID and proceed to display other fields.
+                var productId = model.SelectedProductId;
+                // Use the product ID to fetch combination and weight dropdown lists.
+                var combinationDropdownList = _bondsService.GetCombinationDropdownList(productId);
+                var weightDropdownList = _bondsService.GetWeightDropdownList(productId);
+
+                // Update the model with fetched dropdown lists.
+                model.CombinationDropdownList = combinationDropdownList;
+                model.WeightDropdownList = weightDropdownList;
+            }
+
+            // Re-populate the product dropdown list.
+            model.ProductDropdownList = _bondsService.GetProductDropdownList();
+            return View(model);
+        }
+
+        //public ActionResult ClauseDetails()
+        //{
+        //    var clauseDetails = _bondsService.GetAllClauseDetails();
+        //    return View(clauseDetails);
+        //}
 
 
         [HttpPost]

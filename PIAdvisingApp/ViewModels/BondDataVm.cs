@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -42,5 +43,64 @@ namespace PIAdvisingApp.ViewModels
         public string WashType { get; set; }
         public string GSM { get; set; }
         public decimal QtyInKG { get; set; }
+    }
+
+    public class ClauseModel
+    {
+        //public int ClauseId { get; set; }
+        //public string ClauseCode { get; set; }
+        public string ClauseName { get; set; }
+
+        //public int TermId { get; set; }
+        public string TermName { get; set; }
+        //public int ConditionId { get; set; }
+        public string ConditionDetails { get; set; }
+        //public string ConditionDetailsHTML { get; set; }
+        //public int RowNo { get; set; }
+        //public int IsActive { get; set; }
+
+    }
+
+    public class Product
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+    }
+
+    public class PaperCombinationMain
+    {
+        public string CombinationDetails { get; set; }
+        public int Ply { get; set; }
+        public decimal NetWeight { get; set; }
+    }
+
+    public class ProductDropdownVm
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+    }
+
+    public class CombinationDropdownVm
+    {
+        public string CombinationDetails { get; set; }
+        public int Ply { get; set; }
+    }
+
+    public class WeightDropdownVm
+    {
+        public decimal NetWeight { get; set; }
+    }
+    public class ProductFormVm
+    {
+        [Required(ErrorMessage = "Please select a product.")]
+        public int SelectedProductId { get; set; }
+
+        public List<ProductDropdownVm> ProductDropdownList { get; set; }
+
+        public List<CombinationDropdownVm> CombinationDropdownList { get; set; }
+
+        public List<WeightDropdownVm> WeightDropdownList { get; set; }
+
+        // Add other properties and validation as needed...
     }
 }

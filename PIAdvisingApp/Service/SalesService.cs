@@ -318,14 +318,14 @@ namespace PIAdvisingApp.Service
         //    }
         //}
 
-        public List<ClauseModel> GetAllClauseDetails()
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var result = ctx.Database.SqlQuery<ClauseModel>("SELECT ClauseName, TermName, ConditionDetails FROM dbo.viewClauseDetails GROUP BY ClauseName,\r\n                                                                                  TermName,\r\n                                                                                  ConditionDetails").ToList();
-                return result;
-            }
-        }
+        //public List<ClauseModel> GetAllClauseDetails()
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var result = ctx.Database.SqlQuery<ClauseModel>("SELECT ClauseName, TermName, ConditionDetails FROM dbo.viewClauseDetails GROUP BY ClauseName,\r\n                                                                                  TermName,\r\n                                                                                  ConditionDetails").ToList();
+        //        return result;
+        //    }
+        //}
 
         public void SaveCmApi(CmApprovalModalVm data)
         {

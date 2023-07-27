@@ -149,11 +149,11 @@ namespace PIAdvisingApp.Controllers
         //    return View(advicePi);
         //}
 
-        public ActionResult Test()
-        {
-            var clauseDetails = _salesService.GetAllClauseDetails();
-            return View(clauseDetails);
-        }
+        //public ActionResult Test()
+        //{
+        //    var clauseDetails = _salesService.GetAllClauseDetails();
+        //    return View(clauseDetails);
+        //}
 
         public ActionResult BondApprovedPiUpdate()
         {
@@ -162,11 +162,11 @@ namespace PIAdvisingApp.Controllers
 
         }
 
-        public ActionResult ClauseDetails()
-        {
-            var clauseDetails = _salesService.GetAllClauseDetails();
-            return View(clauseDetails);
-        }
+        //public ActionResult ClauseDetails()
+        //{
+        //    var clauseDetails = _salesService.GetAllClauseDetails();
+        //    return View(clauseDetails);
+        //}
 
 
         //public ActionResult ShowClauseDetails(string searchTerm)

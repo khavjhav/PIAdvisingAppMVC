@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<PIAdvisingApp.ViewModels.BondDataVm>
 
 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<!-- Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     .table-container {
         position: relative;
@@ -13,6 +17,10 @@
             background-color: #343a40;
             color: #fff;
         }
+
+    #productModal {
+        z-index: 9999;
+    }
 </style>
 
 <!-- Master Section Card -->
@@ -23,11 +31,19 @@
             <div class="col-md-4">
                 <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
                 <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
-                <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                <p><strong>Advising Bank:</strong> @Model.First().RetailerName</p>
+                <p><strong>Representative:</strong> @Model.First().RetailerName</p>
+                <p><strong>Issued To:</strong> @Model.First().RetailerName</p>
+                <p><strong>CM Rep:</strong> @Model.First().RetailerName</p>
+               
+                
+                
             </div>
             <div class="col-md-4">
                 <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
                 <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+                <p><strong>Address:</strong> @Model.First().RetailerName</p>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
@@ -120,6 +136,164 @@
     </div>
 </div>
 
+<!-- Modal -->
+<!--<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">-->
+<!-- Modal content as you provided -->
+<!--</div>-->
+<!-- Hidden Window -->
+<!-- Hidden Window -->
+<div class="hidden-window" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <!-- First Column -->
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" class="form-control" id="productName">
+                                @if (ViewBag.ProductNameList != null)
+    {
+                                <select class="form-control select2" id="productId" name="productId">
+                                    <option value="">Select Product</option>
+                                    @foreach (var item in ViewBag.ProductNameList)
+            {
+                                    <option value="@item.ProductId">@item.ProductName</option>
+            }
+                                </select>
+    }
+                            </div>
+                            <div class="form-group">
+                                <label for="combination">Combination</label>
+                                <input type="text" class="form-control" id="combination">
+                            </div>
+                            <div class="form-group">
+                                <label for="ply">Ply</label>
+                                <input type="text" class="form-control" id="ply">
+                            </div>
+                            <div class="form-group">
+                                <label for="shadeNumber">Shade Number</label>
+                                <input type="text" class="form-control" id="shadeNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="measureUnit">Measure Unit</label>
+                                <input type="text" class="form-control" id="measureUnit">
+                            </div>
+                            <div class="form-group">
+                                <label for="washType">Wash Type</label>
+                                <input type="text" class="form-control" id="washType">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Second Column -->
+                            <div class="form-group">
+                                <label for="length">Length</label>
+                                <input type="text" class="form-control" id="length">
+                            </div>
+                            <div class="form-group">
+                                <label for="width">Width</label>
+                                <input type="text" class="form-control" id="width">
+                            </div>
+                            <div class="form-group">
+                                <label for="height">Height</label>
+                                <input type="text" class="form-control" id="height">
+                            </div>
+                            <div class="form-group">
+                                <label for="gastLength">Gast. Length</label>
+                                <input type="text" class="form-control" id="gastLength">
+                            </div>
+                            <div class="form-group">
+                                <label for="gastWidthL">Gast. Width (L)</label>
+                                <input type="text" class="form-control" id="gastWidthL">
+                            </div>
+                            <div class="form-group">
+                                <label for="gastWidthR">Gast. Width (R)</label>
+                                <input type="text" class="form-control" id="gastWidthR">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Third Column -->
+                            <div class="form-group">
+                                <label for="printed">Printed</label>
+                                <input type="text" class="form-control" id="printed">
+                            </div>
+                            <div class="form-group">
+                                <label for="perforated">Perforated</label>
+                                <input type="text" class="form-control" id="perforated">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantityUnit">Quantity Unit</label>
+                                <input type="text" class="form-control" id="quantityUnit">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="text" class="form-control" id="quantity">
+                            </div>
+                            <div class="form-group">
+                                <label for="unitPrice">Unit Price</label>
+                                <input type="text" class="form-control" id="unitPrice">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalAmount">Total Amount</label>
+                                <input type="text" class="form-control" id="totalAmount">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- Fourth Column -->
+                            <div class="form-group">
+                                <label for="printed">GSM</label>
+                                <input type="text" class="form-control" id="printed">
+                            </div>
+                            <div class="form-group">
+                                <label for="perforated">PO Number</label>
+                                <input type="text" class="form-control" id="perforated">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantityUnit">Style Ref</label>
+                                <input type="text" class="form-control" id="quantityUnit">
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Color</label>
+                                <input type="text" class="form-control" id="quantity">
+                            </div>
+                            <div class="form-group">
+                                <label for="unitPrice">Size</label>
+                                <input type="text" class="form-control" id="unitPrice">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalAmount">Break Down 1</label>
+                                <input type="text" class="form-control" id="totalAmount">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalAmount">Break Down 2</label>
+                                <input type="text" class="form-control" id="totalAmount">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalAmount">Weight (KG)</label>
+                                <input type="text" class="form-control" id="totalAmount">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                <button type="button" class="btn btn-primary" id="saveProduct">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- Table Section -->
 <div class="card">
     <div class="card-body">
@@ -182,7 +356,7 @@
                                                   // Add other properties ...
                                               });
 
-                        
+
                         var totalBookingQty = groupedData.Sum(g => g.BookingQty);
                         var totalQtyInKG = groupedData.Sum(g => g.QtyInKG);
                         var totalValue = groupedData.Sum(g => g.Val2);
@@ -208,13 +382,14 @@
                         <td class="text-center">@item.WashType</td>
                         <td class="text-center">@item.GSM</td>
 
-                    
+
 
                     </tr>
                     }
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 
@@ -225,8 +400,8 @@
             <tfoot class="thead-dark">
                 <tr>
                     @*<td colspan="3" class="text-center"><strong>Totals:</strong></td>
-                    <td class="text-center">@totalBookingQty</td>
-                    <td class="text-center"><strong>Total Qty (KG):</strong>@totalQtyInKG</td>*@
+                        <td class="text-center">@totalBookingQty</td>
+                        <td class="text-center"><strong>Total Qty (KG):</strong>@totalQtyInKG</td>*@
                     <td colspan="3" class="text-center"><strong>Total Booking Quantity:</strong> @totalBookingQty</td>
                     <td colspan="3" class="text-center"><strong>Total Quantity (KG):</strong> @totalQtyInKG</td>
                     <td colspan="3" class="text-center"><strong>Total Value:</strong> @totalValue</td>
@@ -307,8 +482,32 @@
             bindCheckboxEvent('check8', 14); // Wash Type, 14th column
             bindCheckboxEvent('check9', 15); // GSM, 15th column
         });
+ $('#addItemButton').click(function () {
+            // Show the hidden window when the Add button is clicked
+            $('.hidden-window').show();
+        });
 
+        // Handle the click event of the OK button inside the hidden window
+        $(document).on('click', '#saveProduct', function () {
+            // Do something with the data entered in the hidden window, e.g., save it or update the main view
+            // You can access the input fields in the hidden window and get their values like this:
+            var productName = $('#productName').val();
+            var gsm = $('#gsm').val();
+            // ... and so on for other input fields
 
+            // You can also add the data to the table on the main view, similar to how you are adding data from the model
+            // For example:
+            $('table tbody').append('<tr><td class="text-center">' + productName + '</td><td class="text-center">...</td></tr>');
+
+            // Hide the hidden window after handling the data
+            $('.hidden-window').hide();
+        });
+
+        // Handle the click event of the CANCEL button inside the hidden window
+        $(document).on('click', '.hidden-window .btn-secondary', function () {
+            // Hide the hidden window when the CANCEL button is clicked
+            $('.hidden-window').hide();
+        });
             // Handle Save button click event
             $('#saveButton').click(function () {
                 const isConfirmed = confirm("Are you sure you want to save?");
@@ -339,17 +538,34 @@
                     $('table tbody tr').each(function () {
                         let $row = $(this);
                         let rowData = {
-                            ApiNumber: $row.find('td:eq(0)').text().trim(),
-                            BookingNo: $row.find('td:eq(1)').text().trim(),
-                            CategoryName: $row.find('td:eq(2)').text().trim(),
-                            ProductName: $row.find('td:eq(3)').text().trim(),
-                            Measurement: $row.find('td:eq(4)').text().trim(),
-                            MeasureUnit: $row.find('td:eq(5)').text().trim(),
-                            UnitPrice: $row.find('td:eq(6)').text().trim(),
-                            BookingQty: $row.find('td:eq(7)').text().trim(),
-                            QuantityUnit: $row.find('td:eq(8)').text().trim(),
-                            Val2: $row.find('td:eq(9)').text().trim(),
-                            BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                          ////  ApiNumber: $row.find('td:eq(0)').text().trim(),
+                          ////  BookingNo: $row.find('td:eq(1)').text().trim(),
+                          ////  CategoryName: $row.find('td:eq(2)').text().trim(),
+                          //  ProductName: $row.find('td:eq(3)').text().trim(),
+                          //  Measurement: $row.find('td:eq(4)').text().trim(),
+                          //  MeasureUnit: $row.find('td:eq(5)').text().trim(),
+                          //  UnitPrice: $row.find('td:eq(6)').text().trim(),
+                          //  BookingQty: $row.find('td:eq(7)').text().trim(),
+                          //  QuantityUnit: $row.find('td:eq(8)').text().trim(),
+                          //  Val2: $row.find('td:eq(9)').text().trim(),
+                          //  BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                             ProductName: $row.find('td:eq(0)').text().trim(),
+                             Measurement: $row.find('td:eq(1)').text().trim(),
+                             MeasureUnit: $row.find('td:eq(2)').text().trim(),
+                             BookingQty: parseFloat($row.find('td:eq(3)').text().trim()) || 0,
+            QtyInKG: parseFloat($row.find('td:eq(4)').text().trim()) || 0,
+            QuantityUnit: $row.find('td:eq(5)').text().trim(),
+            UnitPrice: parseFloat($row.find('td:eq(6)').text().trim()) || 0,
+            Val2: parseFloat($row.find('td:eq(7)').text().trim()) || 0,
+            PONumber: $row.find('td:eq(8)').text().trim(),
+            StyleRef: $row.find('td:eq(9)').text().trim(),
+            Color: $row.find('td:eq(10)').text().trim(),
+            BreakDown1: $row.find('td:eq(11)').text().trim(),
+            BreakDown2: $row.find('td:eq(12)').text().trim(),
+            ShadeNumber: $row.find('td:eq(13)').text().trim(),
+            WashType: $row.find('td:eq(14)').text().trim(),
+            GSM: $row.find('td:eq(15)').text().trim(),
+            BondRemarks: $row.find('td.customer-spec-text').text().trim(),
                         };
                         subData.push(rowData);
                     });
@@ -381,4 +597,4 @@
                 }
             });
         });
-    </script>
+</script>
