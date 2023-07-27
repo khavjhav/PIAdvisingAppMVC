@@ -2,215 +2,259 @@
 
 
 
-<div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          
-            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                <div class="row">
-                    <div class="col-md-4">
-                        <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
-                        <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
-                        <p><strong>Remarks:</strong> @Model.First().Remarks</p>
-                        <div class="mt-3">
-                            <label for="customer-reference">Customer Reference:</label>
-                            <div class="input-group">
-                                <!-- Set width to 550px and height to 90px -->
-                                <textarea class="form-control" id="customer-reference" name="customer-reference" rows="3" style="width: 550px; height: 90px;">@Model.First().CustomerRef</textarea>
-                                <div class="input-group-append">
-                                    <!-- "Set" Button -->
-                                    <button class="btn btn-primary" id="setButton">Set</button>
-                                    <!-- "Edit" Button -->
-                                    <button class="btn btn-primary" id="editButton">Edit</button>
-                                </div>
-                            </div>
-                        </div>
+<style>
+    .table-container {
+        position: relative;
+    }
 
-                    </div>
-                    <div class="col-md-4">
-                        <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
-                        <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="companyName"><strong>Company Name:</strong></label>
-                            <select class="form-control" id="companyName" name="companyName">
-                                <option value="">Choose Company</option>
-                                <option value="1">KDS Accessories Ltd.</option>
-                                <option value="2">KDS Thread Ltd.</option>
-                                <option value="3">KDS Poly Industries Ltd.</option>
-                                @*<option value="4">Dominox IM</option>*@
-                                <option value="5">KDS Accessories Ltd. (Unit 2)</option>
-                                <option value="6">KDS Thread Ltd. (Unit 2)</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>
-                        <!-- Our Reference text input field -->
-                        <div class="mt-3">
-                            <label for="our-reference">Our Reference:</label>
-                            <textarea class="form-control" id="our-reference" name="our-reference" rows="3" style="width: 300px; height: 100px; resize: both;">
-                    @Model.First().OurRef
-                </textarea>
+        .table-container thead {
+            position: sticky;
+            top: 0;
+            background-color: #343a40;
+            color: #fff;
+        }
+</style>
+
+<!-- Master Section Card -->
+<div class="card mb-3">
+    <div class="card-header">ADVISE NO. @Model.First().ApiNumber</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
+                <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
+                <p><strong>Remarks:</strong> @Model.First().Remarks</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="companyName"><strong>Company Name:</strong></label>
+                    <div class="input-group">
+                        <select class="form-control" id="companyName" name="companyName">
+                            <option value="">Choose Company</option>
+                            <option value="1">KDS Accessories Ltd.</option>
+                            <option value="2">KDS Thread Ltd.</option>
+                            <option value="3">KDS Poly Industries Ltd.</option>
+                            @*<option value="4">Dominox IM</option>*@
+                            <option value="5">KDS Accessories Ltd. (Unit 2)</option>
+                            <option value="6">KDS Thread Ltd. (Unit 2)</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="mt-3">
-                    <h5>Include Info</h5>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check1" data-label="PO">
-                                <label class="form-check-label" for="check1">PO</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check2" data-label="Style">
-                                <label class="form-check-label" for="check2">Style</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check3" data-label="Size">
-                                <label class="form-check-label" for="check3">Size</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check4" data-label="Colour">
-                                <label class="form-check-label" for="check4">Colour</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check5" data-label="BreakDown1">
-                                <label class="form-check-label" for="check5">BreakDown1</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check6" data-label="BreakDown2">
-                                <label class="form-check-label" for="check6">BreakDown2</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check7" data-label="Shade">
-                                <label class="form-check-label" for="check7">Shade</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check8" data-label="WashType">
-                                <label class="form-check-label" for="check8">Wash Type</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check9" data-label="GSM">
-                                <label class="form-check-label" for="check9">GSM</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input include-info" type="checkbox" id="check10" data-label="KBPNo">
-                                <label class="form-check-label" for="check10">KBP No</label>
-                            </div>
-                        </div>
+                <!-- Our Reference text input field -->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="our-reference">Our Reference:</label>
+                        <textarea class="form-control" id="our-reference" name="our-reference" rows="3" style="width: 250px; height: 90px; resize: both;">@Model.First().OurRef</textarea>
                     </div>
-                    <div class="mt-2">
-                        <button class="btn btn-primary" id="addItemButton" data-toggle="modal" data-target="#productModal">Add Item</button>
-                        <button class="btn btn-secondary">Copy</button>
-                        <button class="btn btn-primary refresh-button">Refresh</button>
+                    <div class="col-md-6">
+                        <label for="customer-reference">Customer Reference:</label>
+                        <textarea class="form-control" id="customer-reference" name="customer-reference" rows="3" style="width: 250px; height: 90px; resize: both;">@Model.First().CustomerRef</textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="table-responsive" style="overflow-y: auto; max-height: calc(80vh - 250px);">
-                <table class="table mt-3">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Product Name</th>
-                            <th class="text-center">Measurement</th>
-                            <th class="text-center">Measure Unit</th>
-                            <th class="text-center">Booking Qty</th>
-                            <th class="text-center">Qty In KG</th>
-                            <th class="text-center">Quantity Unit</th>
-                            <th class="text-center">Unit Price</th>
-                            <th class="text-center">Value</th>
-                            <th class="text-center" id="customer-specification-th">Customer Specification</th>
-                            <!-- ... Include Info columns if needed ... -->
-                            <!-- ... -->
-                            @*<th class="text-center">Actions</th>*@
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            // Grouping the data by Product Name, Measurement, and Measure Unit while summing the Booking Qty
-                            var groupedData = Model.GroupBy(x => new { x.ProductName, x.Measurement, x.MeasureUnit, x.QuantityUnit, x.UnitPrice, })
-                                                  .Select(g => new
-                                                  {
-                                                      ProductName = g.Key.ProductName,
-                                                      Measurement = g.Key.Measurement,
-                                                      MeasureUnit = g.Key.MeasureUnit,
-                                                      BookingQty = g.Sum(x => x.BookingQty),
-
-                                                      QtyInKG = g.Sum(x => x.QtyInKG),
-                                                      QuantityUnit = g.Key.QuantityUnit,
-                                                      UnitPrice = g.Key.UnitPrice,
-                                                      Val2 = g.Sum(x => x.Val2),
-
-                                                      // Add other properties ...
-                                                  });
-                        }
-
-                        @foreach (var item in groupedData)
-                        {
-                        <tr>
-                            <td class="text-center">@item.ProductName</td>
-                            <td class="text-center">@item.Measurement</td>
-                            <td class="text-center">@item.MeasureUnit</td>
-                            <td class="text-center">@item.BookingQty</td>
-                            <td class="text-center">@item.QtyInKG</td>
-                            <td class="text-center">@item.QuantityUnit</td>
-                            <td class="text-center">@item.UnitPrice</td>
-                            <td class="text-center">@item.Val2</td>
-
-                            <td class="text-center customer-specification">
-                                <!-- Customer Specification content will be dynamically added here -->
-                            </td>
-
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveButton" disabled>Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
 </div>
 
-<div id="product-modal-container"></div>
+<!-- Include Info Section Card -->
+<div class="card mb-3">
+    <div class="card-header">Include Info</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check1" data-label="PO">
+                    <label class="form-check-label" for="check1">PO</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check2" data-label="Style">
+                    <label class="form-check-label" for="check2">Style</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check3" data-label="Size">
+                    <label class="form-check-label" for="check3">Size</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check4" data-label="Colour">
+                    <label class="form-check-label" for="check4">Colour</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check5" data-label="BreakDown1">
+                    <label class="form-check-label" for="check5">BreakDown1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check6" data-label="BreakDown2">
+                    <label class="form-check-label" for="check6">BreakDown2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check7" data-label="Shade">
+                    <label class="form-check-label" for="check7">Shade</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check8" data-label="WashType">
+                    <label class="form-check-label" for="check8">Wash Type</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check9" data-label="GSM">
+                    <label class="form-check-label" for="check9">GSM</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input include-info" type="checkbox" id="check10" data-label="KBPNo">
+                    <label class="form-check-label" for="check10">KBP No</label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-primary" id="addItemButton">Add</button>
+            <button class="btn btn-secondary">Copy</button>
+            <button class="btn btn-primary refresh-button">Refresh</button>
+        </div>
+    </div>
+</div>
+
+<!-- Table Section -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-container" style="max-height: calc(80vh - 250px); overflow-y: auto;">
+            <table class="table mt-3 table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center">Product Name</th>
+                        <th class="text-center">Measurement</th>
+                        <th class="text-center">Measure Unit</th>
+                        <th class="text-center">Booking Qty</th>
+                        <th class="text-center">Qty In KG</th>
+                        <th class="text-center">Quantity Unit</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Value</th>
+                        <th class="text-center">PO Number</th>
+                        <th class="text-center">Style Ref</th>
+                        <th class="text-center">Color</th>
+                        <th class="text-center">BreakDown1</th>
+                        <th class="text-center">BreakDown2</th>
+                        <th class="text-center">Shade Number</th>
+                        <th class="text-center">Wash Type</th>
+                        <th class="text-center">GSM</th>
 
 
+                        <!-- ... Include Info columns if needed ... -->
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+
+                       var groupedData = Model.GroupBy(x => new
+                {
+                    x.ProductName,
+                    x.Measurement,
+                    x.MeasureUnit,
+                    x.QuantityUnit,
+                    x.UnitPrice
+                })
+                                              .Select(g => new
+                                              {
+                                                  ProductName = g.Key.ProductName,
+                                         PONumber = string.Join(",", g.Select(x => x.PONumber).Distinct()), // Merge PO Numbers
+                                                 StyleRef = string.Join(",", g.Select(x => x.StyleRef).Distinct()), // Merge Style Refs
+                    Color = string.Join(",", g.Select(x => x.Color).Distinct()), // Merge Colors
+                    BreakDown1 = string.Join(",", g.Select(x => x.BreakDown1).Distinct()), // Merge BreakDown1s
+                    BreakDown2 = string.Join(",", g.Select(x => x.BreakDown2).Distinct()), // Merge BreakDown2s
+                    ShadeNumber = string.Join(",", g.Select(x => x.ShadeNumber).Distinct()), // Merge Shade Numbers
+                    WashType = string.Join(",", g.Select(x => x.WashType).Distinct()), // Merge Wash Types
+                    GSM = string.Join(",", g.Select(x => x.GSM).Distinct()), // Merge GSMs
+                                                  Measurement = g.Key.Measurement,
+                                                  MeasureUnit = g.Key.MeasureUnit,
+                                                  BookingQty = g.Sum(x => x.BookingQty),
+                                                  QtyInKG = g.Sum(x => x.QtyInKG),
+                                                  QuantityUnit = g.Key.QuantityUnit,
+                                                  UnitPrice = g.Key.UnitPrice,
+                                                  Val2 = g.Sum(x => x.Val2),
+
+                                                  // Add other properties ...
+                                              });
+
+                        
+                        var totalBookingQty = groupedData.Sum(g => g.BookingQty);
+                        var totalQtyInKG = groupedData.Sum(g => g.QtyInKG);
+                        var totalValue = groupedData.Sum(g => g.Val2);
+                    }
+
+                    @foreach (var item in groupedData)
+                    {
+                    <tr>
+                        <td class="text-center">@item.ProductName</td>
+                        <td class="text-center">@item.Measurement</td>
+                        <td class="text-center">@item.MeasureUnit</td>
+                        <td class="text-center">@item.BookingQty</td>
+                        <td class="text-center">@item.QtyInKG</td>
+                        <td class="text-center">@item.QuantityUnit</td>
+                        <td class="text-center">@item.UnitPrice</td>
+                        <td class="text-center">@item.Val2</td>
+                        <td class="text-center">@item.PONumber</td>
+                        <td class="text-center">@item.StyleRef</td>
+                        <td class="text-center">@item.Color</td>
+                        <td class="text-center">@item.BreakDown1</td>
+                        <td class="text-center">@item.BreakDown2</td>
+                        <td class="text-center">@item.ShadeNumber</td>
+                        <td class="text-center">@item.WashType</td>
+                        <td class="text-center">@item.GSM</td>
+
+                    
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Total Footer -->
+<div class="card mt-3">
+    <div class="card-body">
+        <table class="table table-bordered mb-0">
+            <tfoot class="thead-dark">
+                <tr>
+                    @*<td colspan="3" class="text-center"><strong>Totals:</strong></td>
+                    <td class="text-center">@totalBookingQty</td>
+                    <td class="text-center"><strong>Total Qty (KG):</strong>@totalQtyInKG</td>*@
+                    <td colspan="3" class="text-center"><strong>Total Booking Quantity:</strong> @totalBookingQty</td>
+                    <td colspan="3" class="text-center"><strong>Total Quantity (KG):</strong> @totalQtyInKG</td>
+                    <td colspan="3" class="text-center"><strong>Total Value:</strong> @totalValue</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" id="saveButton" disabled>Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+
+@*<div id="product-modal-container"></div>*@
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-$(document).ready(function () {
-        // Initially, set the textarea as read-only
-        $("#customer-reference").prop("readonly", true);
-
-        // "Set" Button click event handler
-        $("#setButton").click(function () {
-            $("#customer-reference").prop("readonly", true);
-        });
-
-        // "Edit" Button click event handler
-        $("#editButton").click(function () {
-            $("#customer-reference").prop("readonly", false);
-        });
-});
-</script>
-
-
-
-
-
-
-
-
-@*<script>
         $(document).ready(function () {
-
-
-
             let selectedCompanyId = null;
 
             // Handle company name dropdown change event
@@ -227,6 +271,42 @@ $(document).ready(function () {
                 // you can perform additional actions here.
                 // For example, you can update the UI to reflect the selected company.
             });
+             // Function to toggle column visibility based on checkbox state
+        function toggleColumn(columnIndex, visible) {
+            $('table tr').each(function () {
+                $(this).find('td, th').eq(columnIndex).toggle(visible);
+            });
+        }
+
+        // Function to bind checkbox change event
+        function bindCheckboxEvent(checkboxId, columnIndex) {
+            // Get the checkbox element
+            var checkbox = $('#' + checkboxId);
+
+            // Get the initial state of the checkbox (checked or unchecked)
+            var isChecked = checkbox.prop('checked');
+
+            // Hide or show the corresponding column based on the initial checkbox state
+            toggleColumn(columnIndex, isChecked);
+
+            // Bind change event to the checkbox
+            checkbox.on('change', function () {
+                var isVisible = $(this).prop('checked');
+                toggleColumn(columnIndex, isVisible);
+            });
+        }
+
+        // Bind checkboxes to their respective columns
+        $(document).ready(function () {
+            bindCheckboxEvent('check1', 8);  // PO Number, 8th column
+            bindCheckboxEvent('check2', 9);  // Style Ref, 9th column
+            bindCheckboxEvent('check4', 10); // Color, 10th column
+            bindCheckboxEvent('check5', 11); // BreakDown1, 11th column
+            bindCheckboxEvent('check6', 12); // BreakDown2, 12th column
+            bindCheckboxEvent('check7', 13); // Shade Number, 13th column
+            bindCheckboxEvent('check8', 14); // Wash Type, 14th column
+            bindCheckboxEvent('check9', 15); // GSM, 15th column
+        });
 
 
             // Handle Save button click event
@@ -301,4 +381,4 @@ $(document).ready(function () {
                 }
             });
         });
-    </script>*@
+    </script>
