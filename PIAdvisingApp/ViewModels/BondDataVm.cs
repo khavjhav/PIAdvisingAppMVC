@@ -76,14 +76,14 @@ namespace PIAdvisingApp.ViewModels
 
     public class ProductDropdownVm
     {
-        public int ProductId { get; set; }
+        public short ProductId { get; set; }
         public string ProductName { get; set; }
     }
 
     public class CombinationDropdownVm
     {
         public string CombinationDetails { get; set; }
-        public int Ply { get; set; }
+        //public int Ply { get; set; }
     }
 
     public class WeightDropdownVm

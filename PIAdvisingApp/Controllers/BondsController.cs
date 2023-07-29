@@ -70,7 +70,7 @@ namespace PIAdvisingApp.Controllers
             {
                 bondData[i].RowId = i; // Using the index as the unique identifier
             }
-
+            ViewBag.ProductNameList = _bondsService.GetProductDropdownList();
             return View("BondData", bondData);
         }
 
@@ -120,6 +120,13 @@ namespace PIAdvisingApp.Controllers
         {
             int rowAffected = _bondsService.SaveApiFromBond(request);
             return Json(rowAffected);
+        }
+
+        [HttpPost]
+        public JsonResult GetCombination(int productId)
+        {
+            var result = _bondsService.GetCombinationDropdownList(productId);
+            return Json(result);
         }
     }
 }

@@ -116,7 +116,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var query = @"
-                    SELECT pcm.CombinationDetails, pcm.Ply ,pcm.NetWeight
+                    SELECT pcm.CombinationDetails, pcm.Ply ,pd.NetWeight
                     FROM dbo.Product AS pd 
                     LEFT JOIN dbo.PaperCombinationMain AS pcm ON pcm.ProductId = pd.ProductId
                     WHERE pd.ProductId = @ProductId";
@@ -131,7 +131,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var query = @"
-                    SELECT pcm.NetWeight
+                    SELECT pd.NetWeight
                     FROM dbo.Product AS pd 
                     LEFT JOIN dbo.PaperCombinationMain AS pcm ON pcm.ProductId = pd.ProductId
                     WHERE pd.ProductId = @ProductId";
@@ -217,6 +217,8 @@ namespace PIAdvisingApp.Service
                         ",[ShadeNumber]" +
                         ",[WashType]" +
                         ",[GSM]" +
+                        ",[OurRef]" +
+                        ",[CustomerRef]" +
                         ",[BondRemarks])" +
                         "VALUES (@ApiNumber" +
                         ",@ProductName" +
@@ -235,6 +237,8 @@ namespace PIAdvisingApp.Service
                         ",@ShadeNumber" +
                         ",@WashType" +
                         ",@GSM" +
+                        ",@OurRef" +
+                        ",@CustomerRef" +
                         ",@BondRemarks)";
                     rowsAffected += ctx.Database.ExecuteSqlCommand(
                         command,
@@ -247,15 +251,17 @@ namespace PIAdvisingApp.Service
                         new SqlParameter("QuantityUnit", item.QuantityUnit),
                         new SqlParameter("UnitPrice", item.UnitPrice),
                         new SqlParameter("Val2", item.Val2),
-                        new SqlParameter("PONumber", item.PONumber),
-                        new SqlParameter("StyleRef", item.StyleRef),
-                        new SqlParameter("Color", item.Color),
-                        new SqlParameter("BreakDown1", item.BreakDown1),
-                        new SqlParameter("BreakDown2", item.BreakDown2),
-                        new SqlParameter("ShadeNumber", item.ShadeNumber),
-                        new SqlParameter("WashType", item.WashType),
-                        new SqlParameter("GSM", item.GSM),
-                        new SqlParameter("BondRemarks", item.BondRemarks));
+                        new SqlParameter("PONumber", item.PONumber ?? ""),
+                        new SqlParameter("StyleRef", item.StyleRef ?? "" ),
+                        new SqlParameter("Color", item.Color ?? ""),
+                        new SqlParameter("BreakDown1", item.BreakDown1 ?? ""),
+                        new SqlParameter("BreakDown2", item.BreakDown2 ?? ""),
+                        new SqlParameter("ShadeNumber", item.ShadeNumber ?? ""),
+                        new SqlParameter("WashType", item.WashType ?? ""),
+                        new SqlParameter("GSM", item.GSM ?? ""),
+                        new SqlParameter("OurRef", item.OurRef ?? ""),
+                        new SqlParameter("CustomerRef", item.CustomerRef ?? ""),
+                        new SqlParameter("BondRemarks", item.BondRemarks ?? ""));
                 }
                 return rowsAffected;
             }

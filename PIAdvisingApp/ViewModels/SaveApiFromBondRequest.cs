@@ -41,5 +41,7 @@ namespace PIAdvisingApp.ViewModels
         public string  ShadeNumber { get; set; }
         public string WashType { get; set; }
         public string GSM { get; set; }
+        public string OurRef { get; set; }
+        public string CustomerRef { get; set; }
     }
 }

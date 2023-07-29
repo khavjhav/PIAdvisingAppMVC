@@ -35,9 +35,9 @@
                 <p><strong>Representative:</strong> @Model.First().ShortName</p>
                 <p><strong>Issued To:</strong> @Model.First().RetailerName</p>
                 <p><strong>CM Rep:</strong> @Model.First().RetailerName</p>
-               
-                
-                
+
+
+
             </div>
             <div class="col-md-4">
                 <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
@@ -158,21 +158,22 @@
                             <!-- First Column -->
                             <div class="form-group">
                                 <label for="productName">Product Name</label>
-                                <input type="text" class="form-control" id="productName">
                                 @if (ViewBag.ProductNameList != null)
-    {
-                                <select class="form-control select2" id="productId" name="productId">
-                                    <option value="">Select Product</option>
-                                    @foreach (var item in ViewBag.ProductNameList)
-            {
-                                    <option value="@item.ProductId">@item.ProductName</option>
-            }
-                                </select>
-    }
+                                {
+                                    <select class="form-control select2" id="productId" name="productId">
+                                        <option value="">Select Product</option>
+                                        @foreach (var item in ViewBag.ProductNameList)
+                                        {
+                                            <option value="@item.ProductId">@item.ProductName</option>
+                                        }
+                                    </select>
+                                }
                             </div>
                             <div class="form-group">
                                 <label for="combination">Combination</label>
-                                <input type="text" class="form-control" id="combination">
+                                <select class="form-control select2" id="combinationId" name="combinationId">
+                                    <option value="">Select combination</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="ply">Ply</label>
@@ -327,36 +328,37 @@
                 <tbody>
                     @{
 
-                       var groupedData = Model.GroupBy(x => new
-                {
-                    x.ProductName,
-                    x.Measurement,
-                    x.MeasureUnit,
-                    x.QuantityUnit,
-                    x.UnitPrice,
-                    x.ApiNumber
-                })
-                                              .Select(g => new
-                                              {
-                                                  ProductName = g.Key.ProductName, ApiNumber = g.Key.ApiNumber,
-                                         PONumber = string.Join(",", g.Select(x => x.PONumber).Distinct()), // Merge PO Numbers
-                                                 StyleRef = string.Join(",", g.Select(x => x.StyleRef).Distinct()), // Merge Style Refs
-                    Color = string.Join(",", g.Select(x => x.Color).Distinct()), // Merge Colors
-                    BreakDown1 = string.Join(",", g.Select(x => x.BreakDown1).Distinct()), // Merge BreakDown1s
-                    BreakDown2 = string.Join(",", g.Select(x => x.BreakDown2).Distinct()), // Merge BreakDown2s
-                    ShadeNumber = string.Join(",", g.Select(x => x.ShadeNumber).Distinct()), // Merge Shade Numbers
-                    WashType = string.Join(",", g.Select(x => x.WashType).Distinct()), // Merge Wash Types
-                    GSM = string.Join(",", g.Select(x => x.GSM).Distinct()), // Merge GSMs
-                                                  Measurement = g.Key.Measurement,
-                                                  MeasureUnit = g.Key.MeasureUnit,
-                                                  BookingQty = g.Sum(x => x.BookingQty),
-                                                  QtyInKG = g.Sum(x => x.QtyInKG),
-                                                  QuantityUnit = g.Key.QuantityUnit,
-                                                  UnitPrice = g.Key.UnitPrice,
-                                                  Val2 = g.Sum(x => x.Val2),
+                        var groupedData = Model.GroupBy(x => new
+                        {
+                            x.ProductName,
+                            x.Measurement,
+                            x.MeasureUnit,
+                            x.QuantityUnit,
+                            x.UnitPrice,
+                            x.ApiNumber
+                        })
+                                               .Select(g => new
+                                               {
+                                                   ProductName = g.Key.ProductName,
+                                                   ApiNumber = g.Key.ApiNumber,
+                                                   PONumber = string.Join(",", g.Select(x => x.PONumber).Distinct()), // Merge PO Numbers
+                                                   StyleRef = string.Join(",", g.Select(x => x.StyleRef).Distinct()), // Merge Style Refs
+                                                   Color = string.Join(",", g.Select(x => x.Color).Distinct()), // Merge Colors
+                                                   BreakDown1 = string.Join(",", g.Select(x => x.BreakDown1).Distinct()), // Merge BreakDown1s
+                                                   BreakDown2 = string.Join(",", g.Select(x => x.BreakDown2).Distinct()), // Merge BreakDown2s
+                                                   ShadeNumber = string.Join(",", g.Select(x => x.ShadeNumber).Distinct()), // Merge Shade Numbers
+                                                   WashType = string.Join(",", g.Select(x => x.WashType).Distinct()), // Merge Wash Types
+                                                   GSM = string.Join(",", g.Select(x => x.GSM).Distinct()), // Merge GSMs
+                                                   Measurement = g.Key.Measurement,
+                                                   MeasureUnit = g.Key.MeasureUnit,
+                                                   BookingQty = g.Sum(x => x.BookingQty),
+                                                   QtyInKG = g.Sum(x => x.QtyInKG),
+                                                   QuantityUnit = g.Key.QuantityUnit,
+                                                   UnitPrice = g.Key.UnitPrice,
+                                                   Val2 = g.Sum(x => x.Val2),
 
-                                                  // Add other properties ...
-                                              });
+                                                   // Add other properties ...
+                                               });
 
 
                         var totalBookingQty = groupedData.Sum(g => g.BookingQty);
@@ -366,28 +368,28 @@
 
                     @foreach (var item in groupedData)
                     {
-                    <tr>
-                        <td class="text-center d-none">@item.ApiNumber</td>
-                        <td class="text-center">@item.ProductName</td>
-                        <td class="text-center">@item.Measurement</td>
-                        <td class="text-center">@item.MeasureUnit</td>
-                        <td class="text-center">@item.BookingQty</td>
-                        <td class="text-center">@item.QtyInKG</td>
-                        <td class="text-center">@item.QuantityUnit</td>
-                        <td class="text-center">@item.UnitPrice</td>
-                        <td class="text-center">@item.Val2</td>
-                        <td class="text-center">@item.PONumber</td>
-                        <td class="text-center">@item.StyleRef</td>
-                        <td class="text-center">@item.Color</td>
-                        <td class="text-center">@item.BreakDown1</td>
-                        <td class="text-center">@item.BreakDown2</td>
-                        <td class="text-center">@item.ShadeNumber</td>
-                        <td class="text-center">@item.WashType</td>
-                        <td class="text-center">@item.GSM</td>
+                        <tr>
+                            <td class="text-center d-none">@item.ApiNumber</td>
+                            <td class="text-center">@item.ProductName</td>
+                            <td class="text-center">@item.Measurement</td>
+                            <td class="text-center">@item.MeasureUnit</td>
+                            <td class="text-center">@item.BookingQty</td>
+                            <td class="text-center">@item.QtyInKG</td>
+                            <td class="text-center">@item.QuantityUnit</td>
+                            <td class="text-center">@item.UnitPrice</td>
+                            <td class="text-center">@item.Val2</td>
+                            <td class="text-center">@item.PONumber</td>
+                            <td class="text-center">@item.StyleRef</td>
+                            <td class="text-center">@item.Color</td>
+                            <td class="text-center">@item.BreakDown1</td>
+                            <td class="text-center">@item.BreakDown2</td>
+                            <td class="text-center">@item.ShadeNumber</td>
+                            <td class="text-center">@item.WashType</td>
+                            <td class="text-center">@item.GSM</td>
 
 
 
-                    </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -512,92 +514,112 @@
             $('.hidden-window').hide();
         });
             // Handle Save button click event
-            $('#saveButton').click(function () {
-                const isConfirmed = confirm("Are you sure you want to save?");
-                if (isConfirmed) {
+        $('#saveButton').click(function () {
+            const isConfirmed = confirm("Are you sure you want to save?");
+            if (isConfirmed) {
 
-                    // Get the current date and time
-                    let currentDate = new Date();
+                // Get the current date and time
+                let currentDate = new Date();
 
-                    // Format the date as "YYYY-MM-DD HH:mm:ss"
-                    let formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+                // Format the date as "YYYY-MM-DD HH:mm:ss"
+                let formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
 
-                    let masterData = {
-                        ApiNumber: '@Model.First().ApiNumber', // Use Razor syntax to fetch API number from the view model
-                        SubmittedDate: formattedDate, // Use Razor syntax to fetch the submitted date from the view model
-                        CustomerName: '@Model.First().CustomerName',
-                         RetailerName: '@Model.First().RetailerName',
-                         Remarks: '@Model.First().Remarks',
-                         TotalValue: '@Model.First().TotalValue',
-                         TotalQuantity: '@Model.First().TotalQty',
-                        CompanyName: $('#companyName').val(),
-                        Details : []
-                        // Add other master data properties here
+                let masterData = {
+                    ApiNumber: '@Model.First().ApiNumber', // Use Razor syntax to fetch API number from the view model
+                    SubmittedDate: formattedDate, // Use Razor syntax to fetch the submitted date from the view model
+                    CustomerName: '@Model.First().CustomerName',
+                        RetailerName: '@Model.First().RetailerName',
+                        Remarks: '@Model.First().Remarks',
+                        TotalValue: '@Model.First().TotalValue',
+                        TotalQuantity: '@Model.First().TotalQty',
+                    CompanyName: $('#companyName').val(),
+                    Details : []
+                    // Add other master data properties here
+                };
+                console.log("Master Data:", masterData); // Log the masterData object
+
+
+                let subData = [];
+                $('table tbody tr').each(function () {
+                    let $row = $(this);
+                    let rowData = {
+                        ApiNumber: $row.find('td:eq(0)').text().trim(),
+                        ////  BookingNo: $row.find('td:eq(1)').text().trim(),
+                        ////  CategoryName: $row.find('td:eq(2)').text().trim(),
+                        //  ProductName: $row.find('td:eq(3)').text().trim(),
+                        //  Measurement: $row.find('td:eq(4)').text().trim(),
+                        //  MeasureUnit: $row.find('td:eq(5)').text().trim(),
+                        //  UnitPrice: $row.find('td:eq(6)').text().trim(),
+                        //  BookingQty: $row.find('td:eq(7)').text().trim(),
+                        //  QuantityUnit: $row.find('td:eq(8)').text().trim(),
+                        //  Val2: $row.find('td:eq(9)').text().trim(),
+                        //  BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                            ProductName: $row.find('td:eq(1)').text().trim(),
+                            Measurement: $row.find('td:eq(2)').text().trim(),
+                            MeasureUnit: $row.find('td:eq(3)').text().trim(),
+                            BookingQty: parseFloat($row.find('td:eq(4)').text().trim()) || 0,
+                            QtyInKG: parseFloat($row.find('td:eq(5)').text().trim()) || 0,
+                            QuantityUnit: $row.find('td:eq(6)').text().trim(),
+                            UnitPrice: parseFloat($row.find('td:eq(7)').text().trim()) || 0,
+                            Val2: parseFloat($row.find('td:eq(8)').text().trim()) || 0,
+                            PONumber: $row.find('td:eq(9)').text().trim(),
+                            StyleRef: $row.find('td:eq(10)').text().trim(),
+                            Color: $row.find('td:eq(11)').text().trim(),
+                            BreakDown1: $row.find('td:eq(12)').text().trim(),
+                            BreakDown2: $row.find('td:eq(13)').text().trim(),
+                            ShadeNumber: $row.find('td:eq(14)').text().trim(),
+                            WashType: $row.find('td:eq(15)').text().trim(),
+                            GSM: $row.find('td:eq(16)').text().trim(),
+                            OurRef: $('#our-reference').val(),
+                            CustomerRef: $('#customer-reference').val(),
+                            BondRemarks :""
+                            // BondRemarks: $row.find('td.customer-spec-text').text().trim(),
                     };
-                    console.log("Master Data:", masterData); // Log the masterData object
-
-
-                    let subData = [];
-                    $('table tbody tr').each(function () {
-                        let $row = $(this);
-                        let rowData = {
-                            ApiNumber: $row.find('td:eq(0)').text().trim(),
-                          ////  BookingNo: $row.find('td:eq(1)').text().trim(),
-                          ////  CategoryName: $row.find('td:eq(2)').text().trim(),
-                          //  ProductName: $row.find('td:eq(3)').text().trim(),
-                          //  Measurement: $row.find('td:eq(4)').text().trim(),
-                          //  MeasureUnit: $row.find('td:eq(5)').text().trim(),
-                          //  UnitPrice: $row.find('td:eq(6)').text().trim(),
-                          //  BookingQty: $row.find('td:eq(7)').text().trim(),
-                          //  QuantityUnit: $row.find('td:eq(8)').text().trim(),
-                          //  Val2: $row.find('td:eq(9)').text().trim(),
-                          //  BondRemarks: $row.find('td.customer-spec-text').text().trim(),
-                              ProductName: $row.find('td:eq(1)').text().trim(),
-                              Measurement: $row.find('td:eq(2)').text().trim(),
-                              MeasureUnit: $row.find('td:eq(3)').text().trim(),
-                              BookingQty: parseFloat($row.find('td:eq(4)').text().trim()) || 0,
-                              QtyInKG: parseFloat($row.find('td:eq(5)').text().trim()) || 0,
-                              QuantityUnit: $row.find('td:eq(6)').text().trim(),
-                              UnitPrice: parseFloat($row.find('td:eq(7)').text().trim()) || 0,
-                              Val2: parseFloat($row.find('td:eq(8)').text().trim()) || 0,
-                              PONumber: $row.find('td:eq(9)').text().trim(),
-                              StyleRef: $row.find('td:eq(10)').text().trim(),
-                              Color: $row.find('td:eq(11)').text().trim(),
-                              BreakDown1: $row.find('td:eq(12)').text().trim(),
-                              BreakDown2: $row.find('td:eq(13)').text().trim(),
-                              ShadeNumber: $row.find('td:eq(14)').text().trim(),
-                              WashType: $row.find('td:eq(15)').text().trim(),
-                              GSM: $row.find('td:eq(16)').text().trim(),
-                             // BondRemarks: $row.find('td.customer-spec-text').text().trim(),
-                        };
-                        subData.push(rowData);
-                    });
-                    masterData.Details = subData;
-                    console.log("Master Data:", masterData); // Log the masterData object
-                    console.log("Sub Data:", subData); // Log the subData array
+                    subData.push(rowData);
+                });
+                masterData.Details = subData;
+                console.log("Master Data:", masterData); // Log the masterData object
+                console.log("Sub Data:", subData); // Log the subData array
 
 
 
-                    // Call the API to save master data
-                    $.post("@Url.Action("SaveApiFromBond", "Bonds")", masterData, function (response) {
-                        // Handle success response
-                        console.log("Master data saved successfully!");
-                    }).fail(function (error) {
-                        // Handle error response
-                        console.error("Error saving master data: ", error);
-                    });
+                // Call the API to save master data
+                $.post("@Url.Action("SaveApiFromBond", "Bonds")", masterData, function (response) {
+                    // Handle success response
+                    console.log("Master data saved successfully!");
+                }).fail(function (error) {
+                    // Handle error response
+                    console.error("Error saving master data: ", error);
+                });
 
-                    // Call the API to save sub details data
-                    $.post("@Url.Action("SaveApiFromBondSub", "Bonds")", { subData: JSON.stringify(subData) }, function (response) {
-                        // Handle success response
-                        console.log("Sub details data saved successfully!");
-                    }).fail(function (error) {
-                        // Handle error response
-                        console.error("Error saving sub details data: ", error);
-                    });
+                // Call the API to save sub details data
+                $.post("@Url.Action("SaveApiFromBondSub", "Bonds")", { subData: JSON.stringify(subData) }, function (response) {
+                    // Handle success response
+                    console.log("Sub details data saved successfully!");
+                }).fail(function (error) {
+                    // Handle error response
+                    console.error("Error saving sub details data: ", error);
+                });
 
-                    alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
+                alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
+            }
+        });
+        });
+        $('#productId').change(function () {
+            $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
+                // Handle success response
+                console.log(response);
+                if (response) {
+                    $('#combinationId').empty();
+                    let options = '<option value ="">Select</option>';
+                    $(response).each(function () {
+                        options += '<option value ="' + this.CombinationDetails + '">' + this.CombinationDetails + '</option>';
+                    })
+                    $('#combinationId').append(options);
                 }
+            }).fail(function (error) {
+                // Handle error response
+                console.error("Error saving master data: ", error);
             });
         });
 </script>

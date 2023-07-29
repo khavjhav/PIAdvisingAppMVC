@@ -1,4 +1,4 @@
-﻿@model List<PIAdvisingApp.ViewModels.PiAdvisingBond>
+﻿@model List<PIAdvisingApp.ViewModels.CmAdvisingBond>
 
 @{
     ViewBag.Title = "Approved List";
@@ -42,14 +42,15 @@
 <table id="pi-advising-bond-table" class="mb-0 table table-bordered table-hover custom-table">
     <thead>
         <tr>
-            <th class="text-center">API Date</th>
-            <th class="text-center">Bond Submission Date</th>
+            <th class="text-center">Advise Date</th>
+            <th class="text-center">Commercial Submission Date</th>
             <th class="text-center">ApiNumber</th>
             <th class="text-center">Val</th>
             <th class="text-center">Qty</th>
-            <th class="text-center d-none">BookingNos</th>
+            @*<th class="text-center d-none">BookingNos</th>*@
             <th class="text-center">Remarks</th>
-            <th class="text-center">Actions</th>
+            @*<th class="text-center">Actions</th>*@
+
         </tr>
     </thead>
     <tbody>
@@ -57,14 +58,17 @@
         {
             <tr>
                 <td class="text-center">@item.EntryDate.ToString("dd-MMM-yy")</td>
+                <td class="text-center">@item.BondSDate.ToString("dd-MMM-yy")</td>
                 <td class="text-center">@item.EntryDate.ToString("dd-MMM-yy")</td>
+                    <td class="text-center current-date-time"></td>
+                <td class="text-center current-date-time"></td>
                 <td class="text-center api-number">@item.ApiNumber</td>
-                <td class="text-center">@item.Val</td>
-                <td class="text-center">@item.Qty</td>
-                <td class="text-center d-none">@item.BookingNos</td>
+                <td class="text-center">@item.TotalValue</td>
+                <td class="text-center">@item.TotalQuantity</td>
+                @*<td class="text-center d-none">@item.BookingNos</td>*@
                 <td class="text-center">@item.Remarks</td>
                 <td class="text-center">
-                    <button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>
+                    @*<button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>*@
                 </td>
             </tr>
         }
@@ -91,6 +95,18 @@
                     $('#bond-modal').modal('show');
                 });
             });
+            // Get the current date and time
+            let currentDate = new Date();
+
+            // Format the date to the desired format (e.g., "dd-MMM-yy")
+            let formattedDate = currentDate.toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "2-digit",
+            });
+
+            // Set the formatted date to the <td> element
+            $(".current-date-time").text(formattedDate);
         });
     </script>
 }

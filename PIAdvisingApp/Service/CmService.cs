@@ -1,4 +1,6 @@
-﻿using PIAdvisingApp.Models;
+﻿using DevExpress.XtraRichEdit.Import.Html;
+using Microsoft.Ajax.Utilities;
+using PIAdvisingApp.Models;
 using PIAdvisingApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,15 @@ namespace PIAdvisingApp.Service
     public class CmService
     {
 
-        public List<PiAdvisingBond> GetPiAdvisingBondListForCm()
+        public List<CmAdvisingBond> GetPiAdvisingBondListForCm()
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query = @"
-                SELECT
-                    api.ApiNumber,
-                    api.val,
+               		 SELECT ablm.ApiNumber, CAST(ab.EntryDate AS DATETIME) as EntryDate,CAST(ablm.SubmittedDate  AS DATETIME)  AS BondSDate, ci.CompanyName, ablm.Remarks, ablm.TotalValue, CAST(ablm.TotalQuantity AS DECIMAL(18,2)) AS TotalQuantity, ab.ShortName FROM dbo.ApiBondListMain AS ablm
+						 LEFT JOIN (SELECT 
+                    api.ApiNumber, 
+                    api.val,rp.ShortName,
                     api.qty,
                     CAST(apibk.EntryTime AS DATE) AS EntryDate,
                     STUFF((
@@ -29,23 +32,56 @@ namespace PIAdvisingApp.Service
                     apibk.Remarks
                 FROM
                     (SELECT
-                        ApiNumber,
+                        ApiNumber, EmployeeId, 
                         SUM(BookingValue) AS val,
                         SUM(BookingQty) AS qty
                     FROM dbo.ApiMainBond
-                    GROUP BY ApiNumber) AS api
+                    GROUP BY ApiNumber, EmployeeId) AS api
                 LEFT JOIN dbo.ApiMainBond AS apibk ON apibk.ApiNumber = api.ApiNumber
+				LEFT JOIN dbo.Representative AS rp ON rp.EmployeeId = api.EmployeeId 
                 GROUP BY CAST(apibk.EntryTime AS DATE),
-                         api.ApiNumber,
+                         api.ApiNumber,rp.ShortName,
                          api.val,
                          api.qty,
-                         apibk.Remarks";
+                         apibk.Remarks) AS ab ON ab.ApiNumber = ablm.ApiNumber
+						 LEFT JOIN dbo.CompanyInfo AS ci ON ci.CompanyId = ablm.CompanyName
+				
+					
+					
 
-                var result = ctx.Database.SqlQuery<PiAdvisingBond>(query).ToList();
+
+";
+
+                var result = ctx.Database.SqlQuery<CmAdvisingBond>(query).ToList();
                 return result;
             }
-
-
         }
+
+
+        ////        SELECT
+        //api.ApiNumber,
+        //            api.val,
+        //            api.qty,
+        //            CAST(apibk.EntryTime AS DATE) AS EntryDate,
+        //            STUFF((
+        //                SELECT ', ' + apibk.BookingNo
+        //                FROM dbo.ApiMainBond AS apibk
+        //                WHERE apibk.ApiNumber = api.ApiNumber
+        //                FOR XML PATH(''), TYPE
+        //            ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS BookingNos,
+        //            apibk.Remarks
+        //FROM
+        //(SELECT
+        //                ApiNumber,
+        //                SUM(BookingValue) AS val,
+        //                SUM(BookingQty) AS qty
+        //            FROM dbo.ApiMainBond
+        //            GROUP BY ApiNumber) AS api
+        //        LEFT JOIN dbo.ApiMainBond AS apibk ON apibk.ApiNumber = api.ApiNumber
+        //        GROUP BY CAST(apibk.EntryTime AS DATE),
+        //                 api.ApiNumber,
+        //                 api.val,
+        //                 api.qty,
+        //                 apibk.Remarks
     }
 }
