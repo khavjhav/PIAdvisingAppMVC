@@ -32,7 +32,7 @@
                 <p><strong>Customer Name:</strong> @Model.First().CustomerName</p>
                 <p><strong>Retailer Name:</strong> @Model.First().RetailerName</p>
                 <p><strong>Advising Bank:</strong> @Model.First().RetailerName</p>
-                <p><strong>Representative:</strong> @Model.First().RetailerName</p>
+                <p><strong>Representative:</strong> @Model.First().ShortName</p>
                 <p><strong>Issued To:</strong> @Model.First().RetailerName</p>
                 <p><strong>CM Rep:</strong> @Model.First().RetailerName</p>
                
@@ -301,6 +301,7 @@
             <table class="table mt-3 table-bordered">
                 <thead class="thead-dark">
                     <tr>
+                        <th class="text-center d-none">Api No.</th>
                         <th class="text-center">Product Name</th>
                         <th class="text-center">Measurement</th>
                         <th class="text-center">Measure Unit</th>
@@ -332,11 +333,12 @@
                     x.Measurement,
                     x.MeasureUnit,
                     x.QuantityUnit,
-                    x.UnitPrice
+                    x.UnitPrice,
+                    x.ApiNumber
                 })
                                               .Select(g => new
                                               {
-                                                  ProductName = g.Key.ProductName,
+                                                  ProductName = g.Key.ProductName, ApiNumber = g.Key.ApiNumber,
                                          PONumber = string.Join(",", g.Select(x => x.PONumber).Distinct()), // Merge PO Numbers
                                                  StyleRef = string.Join(",", g.Select(x => x.StyleRef).Distinct()), // Merge Style Refs
                     Color = string.Join(",", g.Select(x => x.Color).Distinct()), // Merge Colors
@@ -365,6 +367,7 @@
                     @foreach (var item in groupedData)
                     {
                     <tr>
+                        <td class="text-center d-none">@item.ApiNumber</td>
                         <td class="text-center">@item.ProductName</td>
                         <td class="text-center">@item.Measurement</td>
                         <td class="text-center">@item.MeasureUnit</td>
@@ -473,14 +476,14 @@
 
         // Bind checkboxes to their respective columns
         $(document).ready(function () {
-            bindCheckboxEvent('check1', 8);  // PO Number, 8th column
-            bindCheckboxEvent('check2', 9);  // Style Ref, 9th column
-            bindCheckboxEvent('check4', 10); // Color, 10th column
-            bindCheckboxEvent('check5', 11); // BreakDown1, 11th column
-            bindCheckboxEvent('check6', 12); // BreakDown2, 12th column
-            bindCheckboxEvent('check7', 13); // Shade Number, 13th column
-            bindCheckboxEvent('check8', 14); // Wash Type, 14th column
-            bindCheckboxEvent('check9', 15); // GSM, 15th column
+            bindCheckboxEvent('check1', 9);  // PO Number, 8th column
+            bindCheckboxEvent('check2', 10);  // Style Ref, 9th column
+            bindCheckboxEvent('check4', 11); // Color, 10th column
+            bindCheckboxEvent('check5', 12); // BreakDown1, 11th column
+            bindCheckboxEvent('check6', 13); // BreakDown2, 12th column
+            bindCheckboxEvent('check7', 14); // Shade Number, 13th column
+            bindCheckboxEvent('check8', 15); // Wash Type, 14th column
+            bindCheckboxEvent('check9', 16); // GSM, 15th column
         });
  $('#addItemButton').click(function () {
             // Show the hidden window when the Add button is clicked
@@ -538,7 +541,7 @@
                     $('table tbody tr').each(function () {
                         let $row = $(this);
                         let rowData = {
-                          ////  ApiNumber: $row.find('td:eq(0)').text().trim(),
+                            ApiNumber: $row.find('td:eq(0)').text().trim(),
                           ////  BookingNo: $row.find('td:eq(1)').text().trim(),
                           ////  CategoryName: $row.find('td:eq(2)').text().trim(),
                           //  ProductName: $row.find('td:eq(3)').text().trim(),
@@ -549,23 +552,23 @@
                           //  QuantityUnit: $row.find('td:eq(8)').text().trim(),
                           //  Val2: $row.find('td:eq(9)').text().trim(),
                           //  BondRemarks: $row.find('td.customer-spec-text').text().trim(),
-                             ProductName: $row.find('td:eq(0)').text().trim(),
-                             Measurement: $row.find('td:eq(1)').text().trim(),
-                             MeasureUnit: $row.find('td:eq(2)').text().trim(),
-                             BookingQty: parseFloat($row.find('td:eq(3)').text().trim()) || 0,
-            QtyInKG: parseFloat($row.find('td:eq(4)').text().trim()) || 0,
-            QuantityUnit: $row.find('td:eq(5)').text().trim(),
-            UnitPrice: parseFloat($row.find('td:eq(6)').text().trim()) || 0,
-            Val2: parseFloat($row.find('td:eq(7)').text().trim()) || 0,
-            PONumber: $row.find('td:eq(8)').text().trim(),
-            StyleRef: $row.find('td:eq(9)').text().trim(),
-            Color: $row.find('td:eq(10)').text().trim(),
-            BreakDown1: $row.find('td:eq(11)').text().trim(),
-            BreakDown2: $row.find('td:eq(12)').text().trim(),
-            ShadeNumber: $row.find('td:eq(13)').text().trim(),
-            WashType: $row.find('td:eq(14)').text().trim(),
-            GSM: $row.find('td:eq(15)').text().trim(),
-            BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                              ProductName: $row.find('td:eq(1)').text().trim(),
+                              Measurement: $row.find('td:eq(2)').text().trim(),
+                              MeasureUnit: $row.find('td:eq(3)').text().trim(),
+                              BookingQty: parseFloat($row.find('td:eq(4)').text().trim()) || 0,
+                              QtyInKG: parseFloat($row.find('td:eq(5)').text().trim()) || 0,
+                              QuantityUnit: $row.find('td:eq(6)').text().trim(),
+                              UnitPrice: parseFloat($row.find('td:eq(7)').text().trim()) || 0,
+                              Val2: parseFloat($row.find('td:eq(8)').text().trim()) || 0,
+                              PONumber: $row.find('td:eq(9)').text().trim(),
+                              StyleRef: $row.find('td:eq(10)').text().trim(),
+                              Color: $row.find('td:eq(11)').text().trim(),
+                              BreakDown1: $row.find('td:eq(12)').text().trim(),
+                              BreakDown2: $row.find('td:eq(13)').text().trim(),
+                              ShadeNumber: $row.find('td:eq(14)').text().trim(),
+                              WashType: $row.find('td:eq(15)').text().trim(),
+                              GSM: $row.find('td:eq(16)').text().trim(),
+                             // BondRemarks: $row.find('td.customer-spec-text').text().trim(),
                         };
                         subData.push(rowData);
                     });
