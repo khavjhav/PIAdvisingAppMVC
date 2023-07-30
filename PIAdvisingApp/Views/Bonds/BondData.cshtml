@@ -623,9 +623,10 @@
                 });
 
                 alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
+                 window.location.href = "@Url.Action("piadvisingbond", "Bonds")";
             }
         });
- 
+
         });
         $('#productId').change(function () {
             $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {

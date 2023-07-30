@@ -381,6 +381,7 @@
     <Compile Include="ViewModels\PiAdvisingBond.cs" />
     <Compile Include="ViewModels\PrcRptLcNotReceived.cs" />
     <Compile Include="ViewModels\SaveAdvisePiFromRepRequest.cs" />
+    <Compile Include="ViewModels\SaveApiFromCmRequest.cs" />
     <Compile Include="ViewModels\SaveApiFromBondRequest.cs" />
     <Compile Include="viewMonthPAvgPrice.cs">
       <DependentUpon>Model1.tt</DependentUpon>

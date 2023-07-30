@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace PIAdvisingApp.ViewModels
+{
+    public class SaveApiFromCmRequest
+    {
+        public string ApiNumber { get; set; }
+        public string SubmittedDate { get; set; }
+        public string CustomerName { get; set; }
+        public string RetailerName { get; set; }
+        public string Remarks { get; set; }
+        public decimal TotalValue { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public int CompanyName { get; set; }
+        public List<SaveApiFromBondRequestDetails> Details { get; set; }
+    }
+    public class SaveApiFromCmRequestDetails
+    {
+        public int PIId { get; set; }
+        public int PISubId { get; set; }
+        public short ProductId { get; set; }
+        public string ProductSpecification { get; set; }
+        public string CustomerSpecification { get; set; }
+        public string NSDNo { get; set; }
+        public short MeasureUnitId { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
+        public decimal Thickness { get; set; }
+        public string Measurement { get; set; }
+        public string PONumber { get; set; }
+        public string StyleRef { get; set; }
+        public string Color { get; set; }
+        public string BreakDown1 { get; set; }
+        public string BreakDown2 { get; set; }
+        public string Size { get; set; }
+        public short PackStyleId { get; set; }
+        public byte Ply { get; set; }
+        public decimal SqrMeter { get; set; }
+        public byte IsPerforated { get; set; }
+        public short PaperComId { get; set; }
+        public string PaperCombination { get; set; }
+        public string GlueType { get; set; }
+        public string ElasticType { get; set; }
+        public byte IsPrinted { get; set; }
+        public byte IsOutDimension { get; set; }
+        public byte IsDyeCutting { get; set; }
+        public string MaterialName { get; set; }
+        public string DeptNoColor { get; set; }
+        public string Sealing { get; set; }
+        public string AirHole { get; set; }
+        public decimal PillowSize { get; set; }
+        public decimal Flap { get; set; }
+        public decimal GsstLength { get; set; }
+        public decimal GsstWidthLeft { get; set; }
+        public decimal GsstWidthRight { get; set; }
+        public decimal PrintCost { get; set; }
+        public decimal AdhesiveCost { get; set; }
+        public string PrintOption { get; set; }
+        public string NoOfColor { get; set; }
+        public string ShadeNumber { get; set; }
+        public string ShadeOption { get; set; }
+        public string WashType { get; set; }
+        public string ItemCode { get; set; }
+        public string LabelCaption { get; set; }
+        public string Brand { get; set; }
+        public string Cut_Fold { get; set; }
+        public string GSM { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal QtyInKG { get; set; }
+        public short QuantityUnitId { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal TotalAmount { get; set; }
+        public short RowNo { get; set; }
+    }
+}

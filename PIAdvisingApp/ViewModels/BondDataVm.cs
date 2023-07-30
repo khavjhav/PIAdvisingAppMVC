@@ -61,6 +61,15 @@ namespace PIAdvisingApp.ViewModels
 
     }
 
+
+    public class IssuerViewModel
+    {
+        public short IssuerId { get; set; }
+        public short CustomerId { get; set; }
+        public string IssuerCode { get; set; }
+        public string IssuerName { get; set; }
+    }
+
     public class Product
     {
         public int ProductId { get; set; }

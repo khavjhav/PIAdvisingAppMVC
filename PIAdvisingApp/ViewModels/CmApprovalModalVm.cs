@@ -44,4 +44,56 @@ namespace PIAdvisingApp.ViewModels
 
         public string Remarks { get; set; }
     }
+
+
+    public class BondApprovedList
+    {
+        public DateTime AdviseDate { get; set; }
+        public DateTime BondDate { get; set; }
+        public string ApiNumber { get; set; }
+        public decimal OriginalValue { get; set; }
+        public decimal TotalValue { get; set; }
+        public decimal OriginalQuantity { get; set; }
+        public string TotalQuantity { get; set; }
+        public string CompanyName { get; set; }
+        public string Address { get; set; }
+    }
+
+
+    public class BondApprovedData
+    {
+        public int TrxId { get; set; }
+        public DateTime AdviseDate { get; set; }
+        public DateTime BondDate { get; set; }
+        public string ApiNumber { get; set; }
+        public decimal OriginalValue { get; set; }
+        public decimal TotalValue { get; set; }
+        public decimal OriginalQuantity { get; set; }
+        public string TotalQuantity { get; set; }
+        public string CompanyName { get; set; }
+        public string Address { get; set; }
+
+        public int TrxSubId { get; set; }
+        public string ProductName { get; set; }
+        public string Measurement { get; set; }
+        public string MeasureUnit { get; set; }
+        public decimal BookingQty { get; set; }
+        public decimal QtyInKG { get; set; }
+        public string QuantityUnit { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal Val2 { get; set; }
+        public string PONumber { get; set; }
+        public string StyleRef { get; set; }
+        public string Color { get; set; }
+        public string BreakDown1 { get; set; }
+        public string BreakDown2 { get; set; }
+        public string ShadeNumber { get; set; }
+        public string WashType { get; set; }
+        public string GSM { get; set; }
+        public string OurRef { get; set; }
+        public string CustomerRef { get; set; }
+        public string BondRemarks { get; set; }
+    }
+
+
 }

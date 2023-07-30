@@ -42,6 +42,7 @@ namespace PIAdvisingApp.Service
                 LEFT JOIN dbo.ApiMainBond AS apibk ON apibk.ApiNumber = api.ApiNumber
                 LEFT JOIN dbo.CustomerGenInfo AS cgi ON cgi.CustomerId = apibk.CustomerId
 				LEFT JOIN dbo.Representative AS rp ON rp.EmployeeId = apibk.EmployeeId
+            WHERE apibk.ApiNumber NOT IN (SELECT ApiNumber FROM dbo.ApiBondListMain)
                 GROUP BY CAST(apibk.EntryTime AS DATE),
                          api.ApiNumber,cgi.CustomerName, rp.ShortName,
                          api.val,
@@ -244,8 +245,8 @@ namespace PIAdvisingApp.Service
                         command,
                         new SqlParameter("ApiNumber", item.ApiNumber),
                         new SqlParameter("ProductName", item.ProductName),
-                        new SqlParameter("Measurement", item.Measurement),
-                        new SqlParameter("MeasureUnit", item.MeasureUnit),
+                        new SqlParameter("Measurement", item.Measurement ?? ""),
+                        new SqlParameter("MeasureUnit", item.MeasureUnit ?? ""),
                         new SqlParameter("BookingQty", item.BookingQty),
                         new SqlParameter("QtyInKG", item.QtyInKG),
                         new SqlParameter("QuantityUnit", item.QuantityUnit),
