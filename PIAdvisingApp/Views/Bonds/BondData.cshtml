@@ -16,10 +16,16 @@
             top: 0;
             background-color: #343a40;
             color: #fff;
+            z-index: 1;
         }
 
     #productModal {
         z-index: 9999;
+    }
+
+    /* Increase the z-index of modal backdrop */
+    .modal-backdrop {
+        z-index: 0 !important;
     }
 </style>
 
@@ -41,7 +47,7 @@
             </div>
             <div class="col-md-4">
                 @*<p><strong>Total Value:</strong> @Model.First().TotalValue</p>
-                <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>*@
+                    <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>*@
 
                 <div id="totalValueDiv">
                     <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
@@ -145,11 +151,8 @@
 
 <!-- Modal -->
 <!--<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">-->
-<!-- Modal content as you provided -->
-<!--</div>-->
 <!-- Hidden Window -->
-<!-- Hidden Window -->
-<div class="hidden-window" style="display: none;">
+<!--<div class="hidden-window" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -161,101 +164,101 @@
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
-                            <!-- First Column -->
-                            <div class="form-group">
-                                <label for="productName">Product Name</label>
-                                @if (ViewBag.ProductNameList != null)
-                                {
-                                    <select class="form-control select2" id="productId" name="productId">
-                                        <option value="">Select Product</option>
-                                        @foreach (var item in ViewBag.ProductNameList)
-                                        {
-                                            <option value="@item.ProductId">@item.ProductName</option>
-                                        }
-                                    </select>
-                                }
-                            </div>
-                            <div class="form-group">
-                                <label for="combination">Combination</label>
-                                <select class="form-control select2" id="combinationId" name="combinationId">
-                                    <option value="">Select combination</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="ply">Ply</label>
-                                <input type="text" class="form-control" id="ply">
-                            </div>
-                            <div class="form-group">
-                                <label for="shadeNumber">Shade Number</label>
-                                <input type="text" class="form-control" id="shadeNumber">
-                            </div>
-                            <div class="form-group">
-                                <label for="measureUnit">Measure Unit</label>
-                                <input type="text" class="form-control" id="measureUnit">
-                            </div>
-                            <div class="form-group">
-                                <label for="washType">Wash Type</label>
-                                <input type="text" class="form-control" id="washType">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <!-- Second Column -->
-                            <div class="form-group">
-                                <label for="length">Length</label>
-                                <input type="text" class="form-control" id="length">
-                            </div>
-                            <div class="form-group">
-                                <label for="width">Width</label>
-                                <input type="text" class="form-control" id="width">
-                            </div>
-                            <div class="form-group">
-                                <label for="height">Height</label>
-                                <input type="text" class="form-control" id="height">
-                            </div>
-                            <div class="form-group">
-                                <label for="gastLength">Gast. Length</label>
-                                <input type="text" class="form-control" id="gastLength">
-                            </div>
-                            <div class="form-group">
-                                <label for="gastWidthL">Gast. Width (L)</label>
-                                <input type="text" class="form-control" id="gastWidthL">
-                            </div>
-                            <div class="form-group">
-                                <label for="gastWidthR">Gast. Width (R)</label>
-                                <input type="text" class="form-control" id="gastWidthR">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <!-- Third Column -->
-                            <div class="form-group">
-                                <label for="printed">Printed</label>
-                                <input type="text" class="form-control" id="printed">
-                            </div>
-                            <div class="form-group">
-                                <label for="perforated">Perforated</label>
-                                <input type="text" class="form-control" id="perforated">
-                            </div>
-                            <div class="form-group">
-                                <label for="quantityUnit">Quantity Unit</label>
-                                <input type="text" class="form-control" id="quantityUnit">
-                            </div>
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="text" class="form-control" id="quantity">
-                            </div>
-                            <div class="form-group">
-                                <label for="unitPrice">Unit Price</label>
-                                <input type="text" class="form-control" id="unitPrice">
-                            </div>
-                            <div class="form-group">
-                                <label for="totalAmount">Total Amount</label>
-                                <input type="text" class="form-control" id="totalAmount">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <!-- Fourth Column -->
-                            <div class="form-group">
+                        <div class="col-md-3">-->
+<!-- First Column -->
+<!--<div class="form-group">
+        <label for="productName">Product Name</label>
+        @if (ViewBag.ProductNameList != null)
+        {
+            <select class="form-control select2" id="productId" name="productId">
+                <option value="">Select Product</option>
+                @foreach (var item in ViewBag.ProductNameList)
+                {
+                    <option value="@item.ProductId">@item.ProductName</option>
+                }
+            </select>
+        }
+    </div>
+    <div class="form-group">
+        <label for="combination">Combination</label>
+        <select class="form-control select2" id="combinationId" name="combinationId">
+            <option value="">Select combination</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ply">Ply</label>
+        <input type="text" class="form-control" id="ply">
+    </div>
+    <div class="form-group">
+        <label for="shadeNumber">Shade Number</label>
+        <input type="text" class="form-control" id="shadeNumber">
+    </div>
+    <div class="form-group">
+        <label for="measureUnit">Measure Unit</label>
+        <input type="text" class="form-control" id="measureUnit">
+    </div>
+    <div class="form-group">
+        <label for="washType">Wash Type</label>
+        <input type="text" class="form-control" id="washType">
+    </div>
+</div>
+<div class="col-md-3">-->
+<!-- Second Column -->
+<!--<div class="form-group">
+        <label for="length">Length</label>
+        <input type="text" class="form-control" id="length">
+    </div>
+    <div class="form-group">
+        <label for="width">Width</label>
+        <input type="text" class="form-control" id="width">
+    </div>
+    <div class="form-group">
+        <label for="height">Height</label>
+        <input type="text" class="form-control" id="height">
+    </div>
+    <div class="form-group">
+        <label for="gastLength">Gast. Length</label>
+        <input type="text" class="form-control" id="gastLength">
+    </div>
+    <div class="form-group">
+        <label for="gastWidthL">Gast. Width (L)</label>
+        <input type="text" class="form-control" id="gastWidthL">
+    </div>
+    <div class="form-group">
+        <label for="gastWidthR">Gast. Width (R)</label>
+        <input type="text" class="form-control" id="gastWidthR">
+    </div>
+</div>
+<div class="col-md-3">-->
+<!-- Third Column -->
+<!--<div class="form-group">
+        <label for="printed">Printed</label>
+        <input type="text" class="form-control" id="printed">
+    </div>
+    <div class="form-group">
+        <label for="perforated">Perforated</label>
+        <input type="text" class="form-control" id="perforated">
+    </div>
+    <div class="form-group">
+        <label for="quantityUnit">Quantity Unit</label>
+        <input type="text" class="form-control" id="quantityUnit">
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="text" class="form-control" id="quantity">
+    </div>
+    <div class="form-group">
+        <label for="unitPrice">Unit Price</label>
+        <input type="text" class="form-control" id="unitPrice">
+    </div>
+    <div class="form-group">
+        <label for="totalAmount">Total Amount</label>
+        <input type="text" class="form-control" id="totalAmount">
+    </div>
+</div>
+<div class="col-md-3">-->
+<!-- Fourth Column -->
+<!--<div class="form-group">
                                 <label for="printed">GSM</label>
                                 <input type="text" class="form-control" id="printed">
                             </div>
@@ -297,8 +300,266 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
+<!-- Edit Modal -->
+<!-- Edit Modal -->
+<!--<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Row</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">-->
+                <!-- Editable fields -->
+                <!--<div class="form-group">
+                    <label for="editProductName">Product Name</label>
+                    <input type="text" class="form-control" id="editProductName" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editCombination">Combination</label>
+                    <input type="text" class="form-control" id="editCombination">
+                </div>
+                <div class="form-group">
+                    <label for="editPly">No. of Ply</label>
+                    <select class="form-control" id="editPly">
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editMeasureUnit">Measure Unit</label>
+                    <select class="form-control" id="editMeasureUnit">
+                        <option value="CM">CM</option>
+                        <option value="INCH">INCH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editLength">Length</label>
+                    <input type="number" step="any" class="form-control" id="editLength">
+                </div>
+                <div class="form-group">
+                    <label for="editWidth">Width</label>
+                    <input type="number" step="any" class="form-control" id="editWidth">
+                </div>
+                <div class="form-group">
+                    <label for="editHeight">Height</label>
+                    <input type="number" step="any" class="form-control" id="editHeight">
+                </div>
+                <div class="form-group">
+                    <label for="editShadeNumber">Shade Number</label>
+                    <input type="text" class="form-control" id="editShadeNumber" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editWashType">Wash Type</label>
+                    <input type="text" class="form-control" id="editWashType" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editPrinted">Printed</label>
+                    <select class="form-control" id="editPrinted">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editPerforated">Perforated</label>
+                    <select class="form-control" id="editPerforated">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editQuantityUnit">Quantity Unit</label>
+                    <select class="form-control" id="editQuantityUnit">
+                        <option value="Pcs">Pcs</option>
+                        <option value="Dozens">Dozens</option>
+                        <option value="KGs">KGs</option>
+                        <option value="SQM">SQM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editUnitPrice">Unit Price</label>
+                    <input type="number" step="any" class="form-control" id="editUnitPrice" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editTotalAmount">Total Amount</label>
+                    <input type="number" step="any" class="form-control" id="editTotalAmount" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editGSM">GSM</label>
+                    <input type="number" step="1" class="form-control" id="editGSM" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editPONumber">PO Number</label>
+                    <input type="text" class="form-control" id="editPONumber" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editStyleRef">Style Ref</label>
+                    <input type="text" class="form-control" id="editStyleRef" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editColor">Color</label>
+                    <input type="text" class="form-control" id="editColor" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editSize">Size</label>
+                    <input type="text" class="form-control" id="editSize" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editBreakDown">Break Down</label>
+                    <input type="text" class="form-control" id="editBreakDown" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editWeightInKG">Weight in KG</label>
+                    <input type="number" step="any" class="form-control" id="editWeightInKG" readonly>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>-->
 
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Row</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Editable fields -->
+                <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="editProductName">Product Name</label>
+                                <input type="text" class="form-control" id="editProductName" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCombination">Combination</label>
+                                <input type="text" class="form-control" id="editCombination">
+                            </div>
+                            <div class="form-group">
+                                <label for="editPly">No. of Ply</label>
+                                <select class="form-control" id="editPly">
+                                    <option value="1">1</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editMeasureUnit">Measure Unit</label>
+                                <select class="form-control" id="editMeasureUnit">
+                                    <option value="CM">CM</option>
+                                    <option value="INCH">INCH</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editLength">Length</label>
+                                <input type="number" step="any" class="form-control" id="editLength">
+                            </div>
+                            <div class="form-group">
+                                <label for="editWidth">Width</label>
+                                <input type="number" step="any" class="form-control" id="editWidth">
+                            </div>
+                            <div class="form-group">
+                                <label for="editHeight">Height</label>
+                                <input type="number" step="any" class="form-control" id="editHeight">
+                            </div>
+                        </div>
+                   
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="editShadeNumber">Shade Number</label>
+                            <input type="text" class="form-control" id="editShadeNumber" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editWashType">Wash Type</label>
+                            <input type="text" class="form-control" id="editWashType" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrinted">Printed</label>
+                            <select class="form-control" id="editPrinted">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPerforated">Perforated</label>
+                            <select class="form-control" id="editPerforated">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editQuantityUnit">Quantity Unit</label>
+                            <select class="form-control" id="editQuantityUnit">
+                                <option value="Pcs">Pcs</option>
+                                <option value="Dozens">Dozens</option>
+                                <option value="KGs">KGs</option>
+                                <option value="SQM">SQM</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUnitPrice">Unit Price</label>
+                            <input type="number" step="any" class="form-control" id="editUnitPrice" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotalAmount">Total Amount</label>
+                            <input type="number" step="any" class="form-control" id="editTotalAmount" readonly>
+                        </div>
+                        <!-- Add more fields here -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="editGSM">GSM</label>
+                            <input type="number" step="1" class="form-control" id="editGSM" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPONumber">PO Number</label>
+                            <input type="text" class="form-control" id="editPONumber" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editStyleRef">Style Ref</label>
+                            <input type="text" class="form-control" id="editStyleRef" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editColor">Color</label>
+                            <input type="text" class="form-control" id="editColor" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSize">Size</label>
+                            <input type="text" class="form-control" id="editSize" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBreakDown">Break Down</label>
+                            <input type="text" class="form-control" id="editBreakDown" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editWeightInKG">Weight in KG</label>
+                            <input type="number" step="any" class="form-control" id="editWeightInKG" readonly>
+                        </div>
+                        <!-- Add more fields here -->
+                    </div>
+                </div>
+                <!-- Add more row-columns as needed -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -326,6 +587,8 @@
                         <th class="text-center">Shade Number</th>
                         <th class="text-center">Wash Type</th>
                         <th class="text-center">GSM</th>
+                        <th class="text-center">Actions</th>
+
 
 
                         <!-- ... Include Info columns if needed ... -->
@@ -396,7 +659,10 @@
                             <td class="text-center">@item.WashType</td>
                             <td class="text-center">@item.GSM</td>
                             <td class="text-center">
-                                <button class="btn btn-danger btn-sm remove-row-button">Remove</button>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-sm edit-row-button" data-toggle="modal" data-target="#editModal" data-row-id="@item.ApiNumber">Edit</button>
+                                    <button class="btn btn-danger btn-sm remove-row-button">Remove</button>
+                                </div>
                             </td>
 
 
@@ -418,7 +684,7 @@
                     <td colspan="3" class="text-center"><strong>Total Booking Quantity:</strong> <span id="totalBookingQtyValue">@totalBookingQty</span></td>
                     <td colspan="3" class="text-center"><strong>Total Quantity (KG):</strong> <span id="totalQtyInKGValue">@totalQtyInKG</span></td>
                     <td colspan="3" class="text-center"><strong>Total Value:</strong> <span id="totalValueValue">@totalValue</span></td>
-                  
+
                 </tr>
             </tfoot>
         </table>
@@ -623,9 +889,10 @@
                 });
 
                 alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
+                window.location.href = "@Url.Action("piadvisingbond", "Bonds")";
             }
         });
- 
+
         });
         $('#productId').change(function () {
             $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
@@ -683,7 +950,80 @@
             removeRow($row);
         }
     });
+ let groupedData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
 
+
+        // Handle the click event of the edit button
+        $('.edit-row-button').click(function () {
+            // Get the row data associated with the clicked button
+            const rowId = $(this).data('row-id');
+            const editedRowData = groupedData.find(item => item.ApiNumber === rowId); // Get the original row data
+
+            // Populate the modal with the row data
+            $('#editProductName').val(editedRowData.ProductName);
+            $('#editCombination').val(editedRowData.Measurement || '');
+            $('#editPly').val(editedRowData['no; of ply']);
+            $('#editMeasureUnit').val(editedRowData.MeasureUnit);
+            $('#editLength').val(editedRowData.Length || '');
+            $('#editWidth').val(editedRowData.Width || '');
+            $('#editHeight').val(editedRowData.Height || '');
+            $('#editShadeNumber').val(editedRowData['Shade Number']);
+            $('#editWashType').val(editedRowData['wash type']);
+            $('#editPrinted').val(editedRowData.printed || 'no');
+            $('#editPerforated').val(editedRowData.perforated || 'no');
+            $('#editQuantityUnit').val(editedRowData['quantity unit']);
+            $('#editUnitPrice').val(editedRowData['Unit Price']);
+            $('#editTotalAmount').val(editedRowData['Total amount'] || '');
+            $('#editGSM').val(editedRowData.GSM || '');
+            $('#editPONumber').val(editedRowData.PONumber || '');
+            $('#editStyleRef').val(editedRowData.styleref);
+            $('#editColor').val(editedRowData.color);
+            $('#editSize').val(editedRowData.size);
+            $('#editBreakDown').val(editedRowData['break down']);
+            $('#editWeightInKG').val(editedRowData['weight in kg'] || '');
+            $('#saveChangesBtn').data('row-id', rowId);
+        });
+    $('#saveChangesBtn').on('click', function () {
+        const editedRowId = $(this).data('row-id');
+        const editedRowData = groupedData.find(item => item.ApiNumber === editedRowId); // Get the original row data
+
+        // Update the editedRowData with the values from the modal fields
+        editedRowData.ProductName = $('#editProductName').val();
+        editedRowData.Measurement = $('#editCombination').val();
+        editedRowData['no; of ply'] = $('#editPly').val();
+        editedRowData.MeasureUnit = $('#editMeasureUnit').val();
+        editedRowData.Length = $('#editLength').val();
+        editedRowData.Width = $('#editWidth').val();
+        editedRowData.Height = $('#editHeight').val();
+        editedRowData['Shade Number'] = $('#editShadeNumber').val();
+        editedRowData['wash type'] = $('#editWashType').val();
+        editedRowData.printed = $('#editPrinted').val();
+        editedRowData.perforated = $('#editPerforated').val();
+        editedRowData['quantity unit'] = $('#editQuantityUnit').val();
+        editedRowData['Unit Price'] = $('#editUnitPrice').val();
+        editedRowData['Total amount'] = $('#editTotalAmount').val();
+        editedRowData.GSM = $('#editGSM').val();
+        editedRowData.PONumber = $('#editPONumber').val();
+        editedRowData.styleref = $('#editStyleRef').val();
+        editedRowData.color = $('#editColor').val();
+        editedRowData.size = $('#editSize').val();
+        editedRowData['break down'] = $('#editBreakDown').val();
+        editedRowData['weight in kg'] = $('#editWeightInKG').val();
+
+        // Update the table row with the edited values (optional)
+        const editedRow = $('tr[data-row-id="' + editedRowId + '"]');
+        editedRow.find('.product-name').text(editedRowData.ProductName);
+        editedRow.find('.combination').text(editedRowData.Measurement || '');
+        editedRow.find('.ply').text(editedRowData['no; of ply']);
+        editedRow.find('.measure-unit').text(editedRowData.MeasureUnit);
+        editedRow.find('.length').text(editedRowData.Length || '');
+        editedRow.find('.width').text(editedRowData.Width || '');
+        editedRow.find('.height').text(editedRowData.Height || '');
+        // ... and so on for other fields.
+
+        // Close the modal
+        $('#editModal').modal('hide');
+    });
     // Call the updateTotals function initially to display the correct initial totals
     updateTotals();
 </script>

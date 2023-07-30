@@ -44,4 +44,16 @@ namespace PIAdvisingApp.ViewModels
 
         public string Remarks { get; set; }
     }
+    public class BondApprovedList
+    {
+        public DateTime AdviseDate { get; set; }
+        public DateTime BondDate { get; set; }
+        public string ApiNumber { get; set; }
+        public decimal OriginalValue { get; set; }
+        public decimal TotalValue { get; set; }
+        public decimal OriginalQuantity { get; set; }
+        public string TotalQuantity { get; set; }
+        public string CompanyName { get; set; }
+        public string Address { get; set; }
+    }
 }

@@ -245,7 +245,7 @@ namespace PIAdvisingApp.Service
                         new SqlParameter("ApiNumber", item.ApiNumber),
                         new SqlParameter("ProductName", item.ProductName),
                         new SqlParameter("Measurement", item.Measurement),
-                        new SqlParameter("MeasureUnit", item.MeasureUnit),
+                        new SqlParameter("MeasureUnit", item.MeasureUnit ?? ""),
                         new SqlParameter("BookingQty", item.BookingQty),
                         new SqlParameter("QtyInKG", item.QtyInKG),
                         new SqlParameter("QuantityUnit", item.QuantityUnit),
