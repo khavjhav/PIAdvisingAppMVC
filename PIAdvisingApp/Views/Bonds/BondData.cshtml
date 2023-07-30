@@ -40,8 +40,15 @@
 
             </div>
             <div class="col-md-4">
-                <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
-                <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                @*<p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>*@
+
+                <div id="totalValueDiv">
+                    <p><strong>Total Value:</strong> @Model.First().TotalValue</p>
+                </div>
+                <div id="totalQtyDiv">
+                    <p><strong>Total Quantity:</strong> @Model.First().TotalQty</p>
+                </div>
                 <p><strong>Remarks:</strong> @Model.First().Remarks</p>
                 <p><strong>Address:</strong> @Model.First().RetailerName</p>
             </div>
@@ -334,7 +341,7 @@
                             x.Measurement,
                             x.MeasureUnit,
                             x.QuantityUnit,
-                            x.UnitPrice,
+                            //x.UnitPrice,
                             x.ApiNumber
                         })
                                                .Select(g => new
@@ -354,7 +361,8 @@
                                                    BookingQty = g.Sum(x => x.BookingQty),
                                                    QtyInKG = g.Sum(x => x.QtyInKG),
                                                    QuantityUnit = g.Key.QuantityUnit,
-                                                   UnitPrice = g.Key.UnitPrice,
+                                                   //UnitPrice = g.Key.UnitPrice,
+                                                   UnitPrice = g.Average(x => x.UnitPrice),
                                                    Val2 = g.Sum(x => x.Val2),
 
                                                    // Add other properties ...
@@ -369,15 +377,16 @@
                     @foreach (var item in groupedData)
                     {
                         <tr>
+
                             <td class="text-center d-none">@item.ApiNumber</td>
                             <td class="text-center">@item.ProductName</td>
                             <td class="text-center">@item.Measurement</td>
                             <td class="text-center">@item.MeasureUnit</td>
-                            <td class="text-center">@item.BookingQty</td>
-                            <td class="text-center">@item.QtyInKG</td>
+                            <td class="text-center booking-qty">@item.BookingQty</td>
+                            <td class="text-center qty-in-kg">@item.QtyInKG</td>
                             <td class="text-center">@item.QuantityUnit</td>
                             <td class="text-center">@item.UnitPrice</td>
-                            <td class="text-center">@item.Val2</td>
+                            <td class="text-center value">@item.Val2</td>
                             <td class="text-center">@item.PONumber</td>
                             <td class="text-center">@item.StyleRef</td>
                             <td class="text-center">@item.Color</td>
@@ -386,7 +395,9 @@
                             <td class="text-center">@item.ShadeNumber</td>
                             <td class="text-center">@item.WashType</td>
                             <td class="text-center">@item.GSM</td>
-
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm remove-row-button">Remove</button>
+                            </td>
 
 
                         </tr>
@@ -404,13 +415,10 @@
         <table class="table table-bordered mb-0">
             <tfoot class="thead-dark">
                 <tr>
-                    @*<td colspan="3" class="text-center"><strong>Totals:</strong></td>
-                        <td class="text-center">@totalBookingQty</td>
-                        <td class="text-center"><strong>Total Qty (KG):</strong>@totalQtyInKG</td>*@
-                    <td colspan="3" class="text-center"><strong>Total Booking Quantity:</strong> @totalBookingQty</td>
-                    <td colspan="3" class="text-center"><strong>Total Quantity (KG):</strong> @totalQtyInKG</td>
-                    <td colspan="3" class="text-center"><strong>Total Value:</strong> @totalValue</td>
-                    <td></td>
+                    <td colspan="3" class="text-center"><strong>Total Booking Quantity:</strong> <span id="totalBookingQtyValue">@totalBookingQty</span></td>
+                    <td colspan="3" class="text-center"><strong>Total Quantity (KG):</strong> <span id="totalQtyInKGValue">@totalQtyInKG</span></td>
+                    <td colspan="3" class="text-center"><strong>Total Value:</strong> <span id="totalValueValue">@totalValue</span></td>
+                  
                 </tr>
             </tfoot>
         </table>
@@ -536,24 +544,37 @@
                     Details : []
                     // Add other master data properties here
                 };
+                // Calculate the updated total value and total quantity
+                let updatedTotalValue = 0;
+                let updatedTotalQty = 0;
+
+                $('table tbody tr').each(function () {
+                    let $row = $(this);
+                    let value = parseFloat($row.find('.value').text().trim()) || 0;
+                    let qty = parseFloat($row.find('.booking-qty').text().trim()) || 0;
+
+
+                    updatedTotalValue += value;
+                    updatedTotalQty += qty;
+                });
+
+                // Update the master data with the updated totals
+                masterData.TotalValue = updatedTotalValue.toFixed(2); // Convert to 2 decimal places if needed
+                masterData.TotalQuantity = updatedTotalQty.toFixed(2); // Convert to 2 decimal places if needed
+
+                // Update the elements in the <div class="col-md-4"> section with the updated values
+                $('#totalValueDiv').html('<p><strong>Total Value:</strong> ' + masterData.TotalValue + '</p>');
+                $('#totalQtyDiv').html('<p><strong>Total Quantity:</strong> ' + masterData.TotalQty + '</p>');
+
                 console.log("Master Data:", masterData); // Log the masterData object
 
 
                 let subData = [];
                 $('table tbody tr').each(function () {
                     let $row = $(this);
-                    let rowData = {
-                        ApiNumber: $row.find('td:eq(0)').text().trim(),
-                        ////  BookingNo: $row.find('td:eq(1)').text().trim(),
-                        ////  CategoryName: $row.find('td:eq(2)').text().trim(),
-                        //  ProductName: $row.find('td:eq(3)').text().trim(),
-                        //  Measurement: $row.find('td:eq(4)').text().trim(),
-                        //  MeasureUnit: $row.find('td:eq(5)').text().trim(),
-                        //  UnitPrice: $row.find('td:eq(6)').text().trim(),
-                        //  BookingQty: $row.find('td:eq(7)').text().trim(),
-                        //  QuantityUnit: $row.find('td:eq(8)').text().trim(),
-                        //  Val2: $row.find('td:eq(9)').text().trim(),
-                        //  BondRemarks: $row.find('td.customer-spec-text').text().trim(),
+                    if ($row.is(":visible")) {
+                        let rowData = {
+                            ApiNumber: $row.find('td:eq(0)').text().trim(),
                             ProductName: $row.find('td:eq(1)').text().trim(),
                             Measurement: $row.find('td:eq(2)').text().trim(),
                             MeasureUnit: $row.find('td:eq(3)').text().trim(),
@@ -572,10 +593,10 @@
                             GSM: $row.find('td:eq(16)').text().trim(),
                             OurRef: $('#our-reference').val(),
                             CustomerRef: $('#customer-reference').val(),
-                            BondRemarks :""
-                            // BondRemarks: $row.find('td.customer-spec-text').text().trim(),
-                    };
-                    subData.push(rowData);
+                            BondRemarks: ""
+                        };
+                        subData.push(rowData);
+                    }
                 });
                 masterData.Details = subData;
                 console.log("Master Data:", masterData); // Log the masterData object
@@ -604,6 +625,7 @@
                 alert("Data saved successfully!"); // You can remove this alert after integrating the API calls.
             }
         });
+ 
         });
         $('#productId').change(function () {
             $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
@@ -622,4 +644,46 @@
                 console.error("Error saving master data: ", error);
             });
         });
+    // Function to update the total values
+    function updateTotals() {
+        let totalBookingQty = 0;
+        let totalQtyInKG = 0;
+        let totalValue = 0;
+
+        // Loop through each row in the table and update the totals
+        $('table tbody tr').each(function () {
+            let $row = $(this);
+            let bookingQty = parseFloat($row.find('.booking-qty').text().trim()) || 0;
+            let qtyInKG = parseFloat($row.find('.qty-in-kg').text().trim()) || 0;
+            let value = parseFloat($row.find('.value').text().trim()) || 0;
+
+            totalBookingQty += bookingQty;
+            totalQtyInKG += qtyInKG;
+            totalValue += value;
+        });
+
+        // Update the footer with the new totals
+        $('#totalBookingQtyValue').text(totalBookingQty);
+        $('#totalQtyInKGValue').text(totalQtyInKG);
+        $('#totalValueValue').text(totalValue);
+    }
+
+    // Function to remove the row from the table
+    function removeRow($row) {
+        $row.remove();
+        updateTotals(); // Update the totals after removing the row
+    }
+
+    // Bind click event to the "Remove" button
+    $(document).on('click', '.remove-row-button', function () {
+        var isConfirmed = confirm("Are you sure you want to remove this row?");
+        if (isConfirmed) {
+            // Get the parent row of the button and remove it
+            var $row = $(this).closest('tr');
+            removeRow($row);
+        }
+    });
+
+    // Call the updateTotals function initially to display the correct initial totals
+    updateTotals();
 </script>
