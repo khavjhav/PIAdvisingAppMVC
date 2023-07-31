@@ -5,36 +5,7 @@
 }
 
 @section Css {
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
-
-    <style>
-        .tbody,
-        td,
-        th {
-            padding: 2px !important;
-            font-size: 11px !important;
-        }
-
-        /* Increase the z-index of modal backdrop */
-        /*.modal-backdrop {
-            z-index: 0 !important;
-        }*/
-
-        .custom-table {
-            background-color: #f8f9fa; /* Replace with the desired table background color */
-        }
-
-        .table-heading {
-            font-size: 20px; /* Adjust the font size as needed */
-        }
-
-        #pi-advising-bond-table th {
-            font-size: 24px; /* Adjust the font size as needed */
-        }
-    </style>
+    <!-- Add your CSS links here -->
 }
 
 <h2 class="table-heading">Pending API For CM Approval</h2>
@@ -71,33 +42,38 @@
                     <!-- Add a button with a unique identifier (e.g., API number) -->
                     <button class="btn btn-primary view-button" data-api-number="@item.ApiNumber">View</button>
                 </td>
-
             </tr>
         }
     </tbody>
 </table>
 
+<!-- Include the modal directly here -->
+<div class="modal fade" id="bond-modal" tabindex="-1" role="dialog" aria-labelledby="bond-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <!-- Add the modal content directly here -->
+        </div>
+    </div>
+</div>
 
-<div id="modal-container"></div>
-
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
 @section Scripts {
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-
     <script>
         $(document).ready(function () {
             var table = $('#pi-advising-bond-table').DataTable();
 
+            // Add a click event for the "View" button
             $('.view-button').click(function () {
-                var apiNumber = $(this).closest('tr').find('.api-number').text();
+                var apiNumber = $(this).data('api-number'); // Use data attribute to get the API number
                 var url = '@Url.Action("GetBondModal", "Bonds")';
 
+                // Use jQuery AJAX to get the modal content and show the modal
                 $.get(url, { apiNumber: apiNumber }, function (data) {
-                    $('#modal-container').html(data);
+                    // Set the modal content and show the modal
+                    $('#bond-modal .modal-content').html(data);
                     $('#bond-modal').modal('show');
                 });
             });
+
             // Get the current date and time
             let currentDate = new Date();
 

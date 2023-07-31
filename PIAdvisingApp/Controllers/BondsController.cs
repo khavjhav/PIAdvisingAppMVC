@@ -72,6 +72,7 @@ namespace PIAdvisingApp.Controllers
             }
             ViewBag.ProductNameList = _bondsService.GetProductDropdownList();
             return View("BondData", bondData);
+
         }
 
         //public ActionResult LoadProductAddModal()

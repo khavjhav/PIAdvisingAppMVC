@@ -45,11 +45,13 @@
             <th class="text-center">Advise Date</th>
             <th class="text-center">Commercial Submission Date</th>
             <th class="text-center">ApiNumber</th>
+            <th class="text-center">Representative</th>
+            <th class="text-center">Customer</th>
             <th class="text-center">Val</th>
             <th class="text-center">Qty</th>
             @*<th class="text-center d-none">BookingNos</th>*@
             <th class="text-center">Remarks</th>
-            @*<th class="text-center">Actions</th>*@
+            <th class="text-center">Actions</th>
 
         </tr>
     </thead>
@@ -60,12 +62,14 @@
                 <td class="text-center">@item.EntryDate.ToString("dd-MMM-yy")</td>
                 <td class="text-center">@item.BondSDate.ToString("dd-MMM-yy")</td>
                 <td class="text-center api-number">@item.ApiNumber</td>
+                <td class="text-center">@item.ShortName</td>
+                <td class="text-center">@item.CustomerName</td>
                 <td class="text-center">@item.TotalValue</td>
                 <td class="text-center">@item.TotalQuantity</td>
                 @*<td class="text-center d-none">@item.BookingNos</td>*@
                 <td class="text-center">@item.Remarks</td>
                 <td class="text-center">
-                    @*<button class="btn btn-primary view-button" data-booking-nos="@item.BookingNos">View</button>*@
+                    <button class="btn btn-primary view-button" data-booking-nos="@item.ApiNumber">View</button>
                 </td>
             </tr>
         }

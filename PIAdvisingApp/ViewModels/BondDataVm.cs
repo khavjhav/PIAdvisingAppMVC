@@ -19,6 +19,8 @@ namespace PIAdvisingApp.ViewModels
         public string CustomerRef { get; set; }
 
         public string ProductName { get; set; }
+        public short ProductId { get; set; }
+        public int BookingSubId { get; set; }
         public string CustomerName { get; set; }
         public string RetailerName { get; set; }
         public string CompanyName { get; set; }
@@ -41,6 +43,11 @@ namespace PIAdvisingApp.ViewModels
         public string BreakDown2 { get; set; }
         public string ShadeNumber { get; set; }
         public string WashType { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
+        public byte IsPerforated { get; set; }
+        public byte IsPrinted { get; set; }
         public string GSM { get; set; }
         public decimal QtyInKG { get; set; }
     }
