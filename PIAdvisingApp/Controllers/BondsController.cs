@@ -57,6 +57,35 @@ namespace PIAdvisingApp.Controllers
             return PartialView("_GetBondPartial", bondData);
         }
 
+        public ActionResult ProductAll(int? bookingSubId)
+        {
+            ProductViewModel productData = null;
+            if (bookingSubId.HasValue)
+            {
+                productData = _bondsService.GetProductByBookingSubId(bookingSubId.Value);
+            }
+
+            ViewBag.BookingSubId = bookingSubId;
+
+            return View(productData);
+        }
+
+        public ActionResult EditProduct(int bookingSubId)
+        {
+            // Get the product data for the specified BookingSubId from your service or database
+            ProductViewModel productData = _bondsService.GetProductByBookingSubId(bookingSubId);
+
+            return PartialView("_EditProduct", productData);
+        }
+
+        public ActionResult AddProduct(ProductViewModel newProduct)
+        {
+            // Add the new product to your database using your service or data access logic
+            // For example: _bondsService.AddNewProduct(newProduct);
+
+            // After adding, you can redirect the user back to the main view or any other view
+            return RedirectToAction("ProductAll");
+        }
 
 
         public ActionResult BondData(string apiNumber)

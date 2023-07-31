@@ -1,0 +1,18 @@
+﻿@model ProductViewModel
+@using PIAdvisingApp.ViewModels
+
+@using (Html.BeginForm("AddProduct", "Bonds", FormMethod.Post))
+{
+    @* Display the fields for adding a new product *@
+    <div>
+        @Html.LabelFor(model => model.ProductName)
+        @Html.TextBoxFor(model => model.ProductName)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Length)
+        @Html.TextBoxFor(model => model.Length)
+    </div>
+    <!-- Add other fields for adding as needed -->
+
+    <input type="submit" value="Add Product" />
+}

@@ -140,6 +140,21 @@ namespace PIAdvisingApp.Service
                 return result;
             }
         }
+        public ProductViewModel GetProductByBookingSubId(int bookingSubId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database.SqlQuery<ProductViewModel>(@"
+            SELECT pd.ProductId, pd.ProductName, bs.*
+            FROM product AS pd
+            LEFT JOIN dbo.BookingSub AS bs ON bs.ProductId = pd.ProductId
+            WHERE bs.BookingSubId = @BookingSubId",
+                    new SqlParameter("BookingSubId", bookingSubId)
+                ).FirstOrDefault();
+
+                return result;
+            }
+        }
 
         //public List<BondDataVm> GetBondModal(string apiNumber)
         //{

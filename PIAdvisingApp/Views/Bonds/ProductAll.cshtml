@@ -1,0 +1,52 @@
+﻿@model ProductViewModel
+@using PIAdvisingApp.ViewModels
+
+@{
+    ViewBag.Title = "Product All";
+}
+
+<h2>Product All</h2>
+
+@using (Html.BeginForm("ProductAll", "Bonds", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("BookingSubId", "Enter Booking Sub ID:")
+        @Html.TextBox("bookingSubId", null, new { @class = "form-control" })
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Row ID</th>
+                <th>Product Name</th>
+                <th>Booking ID</th>
+                <th>Booking Sub ID</th>
+                <th>Booking Relation ID</th>
+                <th>Action</th> @* New column for actions *@
+                <!-- Add other columns here as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.RowId</td>
+                <td>@Model.ProductName</td>
+                <td>@Model.BookingId</td>
+                <td>@Model.BookingSubId</td>
+                <td>@Model.BookingRelationId</td>
+                <td>
+                    <a href="@Url.Action("EditProduct", "Bonds", new { bookingSubId = Model.BookingSubId })" class="btn btn-info">Edit</a>
+                </td> @* Edit button for each row *@
+                <!-- Add other columns here as needed -->
+            </tr>
+        </tbody>
+    </table>
+    <a href="@Url.Action("AddProduct", "Bonds")" class="btn btn-success">Add Product</a> @* Add Product button outside the table *@
+}
+else
+{
+    <p>No data found.</p>
+}
