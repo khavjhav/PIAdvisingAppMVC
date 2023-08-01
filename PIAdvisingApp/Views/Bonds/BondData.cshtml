@@ -329,7 +329,7 @@
                     <tr>
                         <th class="text-center d-none">Api No.</th>
 
-                        <th class="text-center">row</th>
+                        <th class="text-center d-none">row</th>
                         <th class="text-center">Product Name</th>
                         <th class="text-center">Measurement</th>
                         <th class="text-center">Measure Unit</th>
@@ -429,7 +429,7 @@
                         <tr data-row-id="@rowNumber">
 
                             <td class="text-center d-none">@item.ApiNumber</td>
-                            <td class="text-center ">@rowNumber</td>
+                            <td class="text-center d-none">@rowNumber</td>
                             <td class="text-center">@item.ProductName</td>
                             <td class="text-center measurement">@item.Measurement</td>
                             <td class="text-center">@item.MeasureUnit</td>
@@ -548,14 +548,14 @@
 
         // Bind checkboxes to their respective columns
         $(document).ready(function () {
-            bindCheckboxEvent('check1', 9);  // PO Number, 8th column
-            bindCheckboxEvent('check2', 10);  // Style Ref, 9th column
-            bindCheckboxEvent('check4', 11); // Color, 10th column
-            bindCheckboxEvent('check5', 12); // BreakDown1, 11th column
-            bindCheckboxEvent('check6', 13); // BreakDown2, 12th column
-            bindCheckboxEvent('check7', 14); // Shade Number, 13th column
-            bindCheckboxEvent('check8', 15); // Wash Type, 14th column
-            bindCheckboxEvent('check9', 16); // GSM, 15th column
+            bindCheckboxEvent('check1', 10);  // PO Number, 8th column
+            bindCheckboxEvent('check2', 11);  // Style Ref, 9th column
+            bindCheckboxEvent('check4', 12); // Color, 10th column
+            bindCheckboxEvent('check5', 13); // BreakDown1, 11th column
+            bindCheckboxEvent('check6', 14); // BreakDown2, 12th column
+            bindCheckboxEvent('check7', 15); // Shade Number, 13th column
+            bindCheckboxEvent('check8', 16); // Wash Type, 14th column
+            bindCheckboxEvent('check9', 17); // GSM, 15th column
         });
  $('#addItemButton').click(function () {
             // Show the hidden window when the Add button is clicked
