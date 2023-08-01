@@ -329,6 +329,7 @@
                     <tr>
                         <th class="text-center d-none">Api No.</th>
 
+                        <th class="text-center">row</th>
                         <th class="text-center">Product Name</th>
                         <th class="text-center">Measurement</th>
                         <th class="text-center">Measure Unit</th>
@@ -373,9 +374,9 @@
                             //x.UnitPrice,
                             x.ApiNumber,
                             x.ProductId,
-                            x.BookingSubId,
-                            x.IsPerforated,
-                            x.IsPrinted,
+                            //x.BookingSubId,
+                            //x.IsPerforated,
+                            //x.IsPrinted,
                             x.Length,
                             x.Width,
                             x.Height
@@ -392,15 +393,19 @@
                                                    ShadeNumber = string.Join(",", g.Select(x => x.ShadeNumber).Distinct()), // Merge Shade Numbers
                                                    WashType = string.Join(",", g.Select(x => x.WashType).Distinct()), // Merge Wash Types
                                                    GSM = string.Join(",", g.Select(x => x.GSM).Distinct()), // Merge GSMs
+
                                                    Measurement = g.Key.Measurement,
                                                    MeasureUnit = g.Key.MeasureUnit,
                                                    Length = g.Key.Length,
                                                    Width = g.Key.Width,
                                                    Height = g.Key.Height,
-                                                   IsPerforated = g.Key.IsPerforated,
-                                                   IsPrinted = g.Key.IsPrinted,
+                                                   //BookingSubId = g.Key.BookingSubId,
+                                                   //IsPerforated = g.Key.IsPerforated,
+                                                   //IsPrinted = g.Key.IsPrinted,
                                                    ProductId = g.Key.ProductId,
-                                                   BookingSubId = g.Key.BookingSubId,
+                                                   BookingSubId = string.Join(",", g.Select(x => x.BookingSubId).Distinct()), // Merge BookingSubId
+                                                   IsPerforated = string.Join(",", g.Select(x => x.IsPerforated).Distinct()), // Merge IsPerforated
+                                                   IsPrinted = string.Join(",", g.Select(x => x.IsPrinted).Distinct()), // Merge IsPrinted
                                                    BookingQty = g.Sum(x => x.BookingQty),
                                                    QtyInKG = g.Sum(x => x.QtyInKG),
                                                    QuantityUnit = g.Key.QuantityUnit,
@@ -416,12 +421,15 @@
                         var totalQtyInKG = groupedData.Sum(g => g.QtyInKG);
                         var totalValue = groupedData.Sum(g => g.Val2);
                     }
-
+                    @{
+                        var rowNumber = 1; // Initialize a counter variable for the row number
+                    }
                     @foreach (var item in groupedData)
                     {
-                        <tr data-row-id="@item.ApiNumber">
+                        <tr data-row-id="@rowNumber">
 
                             <td class="text-center d-none">@item.ApiNumber</td>
+                            <td class="text-center ">@rowNumber</td>
                             <td class="text-center">@item.ProductName</td>
                             <td class="text-center measurement">@item.Measurement</td>
                             <td class="text-center">@item.MeasureUnit</td>
@@ -453,6 +461,7 @@
                             <td class="text-center d-none is-printed">@item.IsPrinted</td>
 
                         </tr>
+                         rowNumber++; 
                     }
                 </tbody>
             </table>
