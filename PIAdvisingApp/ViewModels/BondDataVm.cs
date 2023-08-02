@@ -94,6 +94,12 @@ namespace PIAdvisingApp.ViewModels
         //public int Ply { get; set; }
     }
 
+    public class PlyDropdownVm
+    {
+        
+        public Byte Ply { get; set; }
+    }
+
     public class WeightDropdownVm
     {
         public decimal NetWeight { get; set; }

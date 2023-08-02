@@ -152,12 +152,16 @@
             </div>
         </div>
         <div class="mt-2">
-            <button class="btn btn-primary" id="addItemButton">Add</button>
+            @*<button class="btn btn-primary" id="addItemButton">Add</button>*@
+            <button class="btn btn-primary" data-toggle="modal" data-target="#editModal">Add</button>
             <button class="btn btn-secondary">Copy</button>
             <button class="btn btn-primary refresh-button">Refresh</button>
         </div>
     </div>
 </div>
+
+
+
 
 
 @*include item section*@
@@ -188,19 +192,20 @@
                             }
                         </div>
 
-                        <div class="form-group">
-                            <label for="editCombination">Combination</label>
-                            <input type="text" class="form-control" id="editCombination">
-                        </div>
+
                         <div class="form-group">
                             <label for="editPly">No. of Ply</label>
                             <select class="form-control" id="editPly">
-                                <option value="1">1</option>
-                                <option value="3">3</option>
-                                <option value="5">5</option>
-                                <option value="7">7</option>
+                               
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="editCombination">Combination</label>
+                            <select class="form-control" id="combinationId">
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="editMeasureUnit">Measure Unit</label>
                             <select class="form-control" id="editMeasureUnit">
@@ -693,7 +698,7 @@
         $('#productId').change(function () {
             $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
                 // Handle success response
-                console.log(response);
+                //console.log(response);
                 if (response) {
                     $('#combinationId').empty();
                     let options = '<option value ="">Select</option>';
@@ -705,6 +710,21 @@
             }).fail(function (error) {
                 // Handle error response
                 console.error("Error saving master data: ", error);
+            });
+
+            $.post(
+                "@Url.Action("GetPlyDropdownList", "Bonds")", { productId: $(this).val() }, function (res) {
+                    if (res) {
+                        $('#editPly').empty();
+                        let options = '<option value ="">Select</option>';
+                        $(res).each(function () {
+                            options += '<option value ="' + this.Ply + '">' + this.Ply + '</option>';
+                        })
+                        $('#editPly').append(options);
+                    }
+            }).fail(function (error) {
+                // Handle error response
+                console.error("Error saving master data:ply ", error);
             });
         });
     // Function to update the total values

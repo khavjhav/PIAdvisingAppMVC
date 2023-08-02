@@ -121,6 +121,21 @@ namespace PIAdvisingApp.Service
             }
         }
 
+        public List<PlyDropdownVm> GetPlyDropdownList(int productId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = @"
+                    SELECT pcm.CombinationDetails, pcm.Ply ,pd.NetWeight
+                    FROM dbo.Product AS pd 
+                    LEFT JOIN dbo.PaperCombinationMain AS pcm ON pcm.ProductId = pd.ProductId
+                    WHERE pd.ProductId = @ProductId";
+
+                var result = ctx.Database.SqlQuery<PlyDropdownVm>(query, new SqlParameter("ProductId", productId)).ToList();
+                return result;
+            }
+        }
+
         public List<WeightDropdownVm> GetWeightDropdownList(int productId)
         {
             using (var ctx = new ApplicationDbContext())

@@ -158,5 +158,13 @@ namespace PIAdvisingApp.Controllers
             var result = _bondsService.GetCombinationDropdownList(productId);
             return Json(result);
         }
+
+        [HttpPost]
+        public JsonResult GetPlyDropdownList(int productId)
+        {
+            var result = _bondsService.GetPlyDropdownList(productId);
+            return Json(result);
+        }
+
     }
 }
