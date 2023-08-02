@@ -1,14 +1,9 @@
 ﻿
 using PIAdvisingApp.Models;
 using PIAdvisingApp.ViewModels;
-
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Web;
-using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace PIAdvisingApp.Service
 {
@@ -267,7 +262,7 @@ namespace PIAdvisingApp.Service
                         new SqlParameter("UnitPrice", item.UnitPrice),
                         new SqlParameter("Val2", item.Val2),
                         new SqlParameter("PONumber", item.PONumber ?? ""),
-                        new SqlParameter("StyleRef", item.StyleRef ?? "" ),
+                        new SqlParameter("StyleRef", item.StyleRef ?? ""),
                         new SqlParameter("Color", item.Color ?? ""),
                         new SqlParameter("BreakDown1", item.BreakDown1 ?? ""),
                         new SqlParameter("BreakDown2", item.BreakDown2 ?? ""),

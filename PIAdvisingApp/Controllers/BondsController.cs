@@ -70,19 +70,12 @@ namespace PIAdvisingApp.Controllers
             return View(productData);
         }
 
-        //public ActionResult EditProduct(int bookingSubId)
-        //{
-        //    // Get the product data for the specified BookingSubId from your service or database
-        //    ProductViewModel productData = _bondsService.GetProductByBookingSubId(bookingSubId);
-
-        //    return PartialView("_EditProduct", productData);
-        //}
-        public ActionResult EditProduct(int rowNumber)
+        public ActionResult EditProduct(int bookingSubId)
         {
-            // Fetch the data for the specified RowNumber from your service or database
-            BondDataVm rowData = _bondsService.GetRowByRowNumber(rowNumber);
+            // Get the product data for the specified BookingSubId from your service or database
+            ProductViewModel productData = _bondsService.GetProductByBookingSubId(bookingSubId);
 
-            return PartialView("_EditProduct", rowData);
+            return PartialView("_EditProduct", productData);
         }
 
         public ActionResult AddProduct(ProductViewModel newProduct)
