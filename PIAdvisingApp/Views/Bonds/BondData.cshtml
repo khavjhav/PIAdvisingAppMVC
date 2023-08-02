@@ -31,7 +31,7 @@
         z-index: 0 !important;
     }
 </style>
-
+@*@Html.Partial("_EditProduct")*@
 <!-- Master Section Card -->
 <div class="card mb-3">
     <div class="card-header">ADVISE NO. @Model.First().ApiNumber</div>
@@ -448,7 +448,7 @@
                             <td class="text-center">@item.GSM</td>
                             <td class="text-center">
                                 <div class="btn-group">
-                                    <button class="btn btn-primary btn-sm edit-row-button" data-toggle="modal" data-target="#editModal" data-row-id="@item.ApiNumber">Edit</button>
+                                    <button class="btn btn-primary btn-sm edit-row-button" data-toggle="modal" data-target="#editModal" data-row-number="@rowNumber">Edit</button>
                                     <button class="btn btn-danger btn-sm remove-row-button">Remove</button>
                                 </div>
                             </td>
@@ -461,7 +461,7 @@
                             <td class="text-center d-none is-printed">@item.IsPrinted</td>
 
                         </tr>
-                         rowNumber++; 
+                        rowNumber++;
                     }
                 </tbody>
             </table>
@@ -759,93 +759,117 @@
     }
 
     // Handle the Edit button click event
-    $('.edit-row-button').click(function () {
+    //$('.edit-row-button').click(function () {
 
-        var bookingSubId = $(this).closest('tr').data('row-id');
-        var editedRow = $(this).closest('tr'); // Get the closest row to the clicked Edit button
+    //    var bookingSubId = $(this).closest('tr').data('row-id');
+    //    var editedRow = $(this).closest('tr'); // Get the closest row to the clicked Edit button
 
-        // Get the data from the main table
-        var productName = editedRow.find('.text-center:nth-child(2)').text();
-        var bookingQty = parseFloat(editedRow.find('.booking-qty').text());
-        var measurement = parseFloat(editedRow.find('.measurement').text());
-        var qtyInKG = parseFloat(editedRow.find('.qty-in-kg').text());
-        var val2 = parseFloat(editedRow.find('.value').text());
-        var rowSerial = editedRow.data('row-serial'); // Get the data-row-serial attribute value as the row serial number
-        // Get other data as needed
+    //    // Get the data from the main table
+    //    var productName = editedRow.find('.text-center:nth-child(2)').text();
+    //    var bookingQty = parseFloat(editedRow.find('.booking-qty').text());
+    //    var measurement = parseFloat(editedRow.find('.measurement').text());
+    //    var qtyInKG = parseFloat(editedRow.find('.qty-in-kg').text());
+    //    var val2 = parseFloat(editedRow.find('.value').text());
+    //    var rowSerial = editedRow.data('row-serial'); // Get the data-row-serial attribute value as the row serial number
+    //    // Get other data as needed
 
-        // Set the data in the modal
-        $('#editModal #editProductName').val(productName);
-        $('#editModal #editMeasurement').val(measurement);
-        $('#editModal #editBookingQty').val(bookingQty);
-        $('#editModal #editQtyInKG').val(qtyInKG);
-        $('#editModal #editVal2').val(val2);
-        // Set other data in the modal
+    //    // Set the data in the modal
+    //    $('#editModal #editProductName').val(productName);
+    //    $('#editModal #editMeasurement').val(measurement);
+    //    $('#editModal #editBookingQty').val(bookingQty);
+    //    $('#editModal #editQtyInKG').val(qtyInKG);
+    //    $('#editModal #editVal2').val(val2);
+    //    // Set other data in the modal
 
-        // Show the modal
-        $('#editModal').modal('show');
+    //    // Show the modal
+    //    $('#editModal').modal('show');
 
-        // Store the bookingSubId of the edited row in the modal data
-        $('#editModal').data('edited-booking-sub-id', bookingSubId);
-    });
+    //    // Store the bookingSubId of the edited row in the modal data
+    //    $('#editModal').data('edited-booking-sub-id', bookingSubId);
+    //});
 
 
-    // Handle the Save Changes button click event
-    $('#saveChangesBtn').click(function () {
-        // Get the edited data from the modal
-        var editedData = {
-            BookingQty: parseFloat($('#editModal #editBookingQty').val()),
-            QtyInKG: parseFloat($('#editModal #editQtyInKG').val()),
-            Val2: parseFloat($('#editModal #editVal2').val()),
-            Measurement: parseFloat($('#editModal #editMeasurement').val()),
-            // Get other edited data from the modal
-        };
+    //// Handle the Save Changes button click event
+    //$('#saveChangesBtn').click(function () {
+    //    // Get the edited data from the modal
+    //    var editedData = {
+    //        BookingQty: parseFloat($('#editModal #editBookingQty').val()),
+    //        QtyInKG: parseFloat($('#editModal #editQtyInKG').val()),
+    //        Val2: parseFloat($('#editModal #editVal2').val()),
+    //        Measurement: parseFloat($('#editModal #editMeasurement').val()),
+    //        // Get other edited data from the modal
+    //    };
 
-        // Get the bookingSubId from the modal data
-        var bookingSubId = $('#editModal').data('edited-booking-sub-id');
+    //    // Get the bookingSubId from the modal data
+    //    var bookingSubId = $('#editModal').data('edited-booking-sub-id');
 
-        // Update the main table with the edited data for the specific row
-        updateTableRow(editedData, bookingSubId);
+    //    // Update the main table with the edited data for the specific row
+    //    updateTableRow(editedData, bookingSubId);
 
-        // Initialize the select2 plugin for the hidden dropdown
-        $('#productId').select2();
+    //    // Initialize the select2 plugin for the hidden dropdown
+    //    $('#productId').select2();
 
-        // Show the hidden dropdown when the user starts typing
-        $('#editProductName').on('input', function () {
-            $('#productId').removeClass('d-none');
-        });
+    //    // Show the hidden dropdown when the user starts typing
+    //    $('#editProductName').on('input', function () {
+    //        $('#productId').removeClass('d-none');
+    //    });
 
-        // When the user selects a product, set the value in the input field
-        $('#productId').on('change', function () {
-            var selectedProductName = $(this).find('option:selected').text();
-            $('#editProductName').val(selectedProductName);
-        });
+    //    // When the user selects a product, set the value in the input field
+    //    $('#productId').on('change', function () {
+    //        var selectedProductName = $(this).find('option:selected').text();
+    //        $('#editProductName').val(selectedProductName);
+    //    });
 
-        // When the user clears the input field, hide the dropdown again
-        $('#editProductName').on('blur', function () {
-            if ($(this).val() === '') {
-                $('#productId').addClass('d-none');
-            }
-        });
+    //    // When the user clears the input field, hide the dropdown again
+    //    $('#editProductName').on('blur', function () {
+    //        if ($(this).val() === '') {
+    //            $('#productId').addClass('d-none');
+    //        }
+    //    });
 
-        // Get the row serial number from the modal data
-        var rowSerial = $('#editModal').data('edited-row-serial');
+    //    // Get the row serial number from the modal data
+    //    var rowSerial = $('#editModal').data('edited-row-serial');
 
-        // Update the main table with the edited data for the specific row
-        updateTableRow(editedData, rowSerial);
+    //    // Update the main table with the edited data for the specific row
+    //    updateTableRow(editedData, rowSerial);
 
-        // Hide the modal
-        $('#editModal').modal('hide');
-    });
-    // Handle the modal shown event to populate data from data attributes
-    $('#editModal').on('shown.bs.modal', function () {
-        // Get the data from data attributes and set it in the modal inputs
-        $('#editModal #editProductName').val($('#editModal').data('edit-product-name'));
-        $('#editModal #editBookingQty').val($('#editModal').data('edit-booking-qty'));
-        $('#editModal #editQtyInKG').val($('#editModal').data('edit-qty-in-kg'));
-        $('#editModal #editVal2').val($('#editModal').data('edit-val2'));
-        // Set other data in the modal
-    });
-   
+    //    // Hide the modal
+    //    $('#editModal').modal('hide');
+    //});
+    //// Handle the modal shown event to populate data from data attributes
+    //$('#editModal').on('shown.bs.modal', function () {
+    //    // Get the data from data attributes and set it in the modal inputs
+    //    $('#editModal #editProductName').val($('#editModal').data('edit-product-name'));
+    //    $('#editModal #editBookingQty').val($('#editModal').data('edit-booking-qty'));
+    //    $('#editModal #editQtyInKG').val($('#editModal').data('edit-qty-in-kg'));
+    //    $('#editModal #editVal2').val($('#editModal').data('edit-val2'));
+    //    // Set other data in the modal
+    //});
+
+    //$(".edit-row-button").click(function () {
+    //    var rowNumber = $(this).data("row-number"); // Retrieve rowNumber
+    //    var rowData = $('[data-row-id="' + rowNumber + '"]');
+
+    //    var apiNumber = rowData.find('.api-number').text();
+    //    var bookingSubId = rowData.find('.booking-sub-id').text();
+    //    var productId = rowData.find('.product-id').text();
+    //    // Retrieve other data using similar approach
+
+    //    // Update the modal's form action
+    //    var editForm = $("#editModal form");
+    //    editForm.attr("action", "/Bonds/EditProduct");
+
+    //    // Populate the modal's input fields with the row data
+    //     editForm.find('[name="RowNumber"]').val(rowNumber); // Store rowNumber
+    //    editForm.find('[name="ApiNumber"]').val(apiNumber);
+    //    editForm.find('[name="BookingSubId"]').val(bookingSubId);
+    //    editForm.find('[name="ProductId"]').val(productId);
+    //    // Populate other fields using similar approach
+
+    //    // Show the modal
+    //    $('#editModal').modal('show');
+    //});
+
 
  @*let groupedData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
 

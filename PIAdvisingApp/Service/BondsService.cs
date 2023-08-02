@@ -171,7 +171,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database.SqlQuery<BondDataVm>(@"
-            EXEC GetApiMainBondData @ApiNumber",
+            EXEC GetApiMainBondDataRanked @ApiNumber",
                     new SqlParameter("ApiNumber", apiNumber)
                 ).ToList();
 

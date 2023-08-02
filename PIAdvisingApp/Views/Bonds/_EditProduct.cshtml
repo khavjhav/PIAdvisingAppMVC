@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model BondDataVm
 @using PIAdvisingApp.ViewModels
 
 @{
@@ -7,111 +7,35 @@
 
 <h2>Edit Product</h2>
 
-@using (Html.BeginForm("SaveProduct", "Bonds", FormMethod.Post))
-{
-    @Html.HiddenFor(model => model.BookingSubId) @* To retain the BookingSubId for saving the changes *@
-    <div class="card">
-        <div class="card-body">
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductName)
-                @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Product</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Measurement)
-                @Html.TextBoxFor(model => model.Measurement, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Length)
-                @Html.TextBoxFor(model => model.Length, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Width)
-                @Html.TextBoxFor(model => model.Width, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Height)
-                @Html.TextBoxFor(model => model.Height, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Thickness)
-                @Html.TextBoxFor(model => model.Thickness, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PONumber)
-                @Html.TextBoxFor(model => model.PONumber, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.StyleRef)
-                @Html.TextBoxFor(model => model.StyleRef, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Color)
-                @Html.TextBoxFor(model => model.Color, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.BreakDown1)
-                @Html.TextBoxFor(model => model.BreakDown1, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.BreakDown2)
-                @Html.TextBoxFor(model => model.BreakDown2, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Size)
-                @Html.TextBoxFor(model => model.Size, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Ply)
-                @Html.TextBoxFor(model => model.Ply, new { @class = "form-control" })
-            </div>
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.IsPerforated)
-                    @Html.CheckBoxFor(model => model.IsPerforated)
-                </div>*@
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.IsPrinted)
-                    @Html.CheckBoxFor(model => model.IsPrinted)
-                </div>*@
-            <div class="form-group">
-                @Html.LabelFor(model => model.ShadeNumber)
-                @Html.TextBoxFor(model => model.ShadeNumber, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.WashType)
-                @Html.TextBoxFor(model => model.WashType, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.QtyUnitId)
-                @Html.TextBoxFor(model => model.QtyUnitId, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.BookingQty)
-                @Html.TextBoxFor(model => model.BookingQty, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.UnitPrice)
-                @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.GSM)
-                @Html.TextBoxFor(model => model.GSM, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.QtyInKG)
-                @Html.TextBoxFor(model => model.QtyInKG, new { @class = "form-control" })
+            <div class="modal-body">
+                @using (Html.BeginForm("EditProduct", "Bonds", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.RowNumber) <!-- Add this line -->
+                    @Html.HiddenFor(m => m.ApiNumber)
+                    @Html.HiddenFor(m => m.BookingSubId)
+                    @Html.HiddenFor(m => m.ProductId)
+
+                    <!-- Add other fields for editing -->
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ProductName)
+                        @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Measurement)
+                        @Html.TextBoxFor(m => m.Measurement, new { @class = "form-control" })
+                    </div>
+                    <!-- Add other fields here -->
+
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                }
             </div>
         </div>
     </div>
-
-    <div class="card">
-        <div class="card-body">
-            <div class="form-group">
-                <label>Total Value:</label>
-                <span>@(Model.BookingQty * Model.UnitPrice)</span>
-            </div>
-        </div>
-    </div>
-
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-}
+</div>

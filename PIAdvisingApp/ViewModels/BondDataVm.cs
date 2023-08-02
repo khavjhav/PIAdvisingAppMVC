@@ -9,6 +9,7 @@ namespace PIAdvisingApp.ViewModels
     public class BondDataVm
     {
         public int RowId { get; set; }
+        public long RowNumber { get; set; }
         public string ApiNumber { get; set; }
         public decimal TotalValue { get; set; }
         public decimal TotalQty { get; set; }
