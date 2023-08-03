@@ -181,22 +181,22 @@
                         <div class="form-group">
                             <label for="editProductName">Product Name</label>
                             @if (ViewBag.ProductNameList != null)
-                            {
-                                <select class="form-control select2" id="productId" name="productId">
-                                    <option value="">Select Product</option>
-                                    @foreach (var item in ViewBag.ProductNameList)
-                                    {
-                                        <option value="@item.ProductId">@item.ProductName</option>
-                                    }
-                                </select>
-                            }
+    {
+                            <select class="form-control select2" id="productId" name="productId">
+                                <option value="">Select Product</option>
+                                @foreach (var item in ViewBag.ProductNameList)
+            {
+                                <option value="@item.ProductId">@item.ProductName</option>
+            }
+                            </select>
+    }
                         </div>
+
 
 
                         <div class="form-group">
                             <label for="editPly">No. of Ply</label>
                             <select class="form-control" id="editPly">
-                               
                             </select>
                         </div>
 
@@ -695,7 +695,101 @@
         });
 
         });
-        $('#productId').change(function () {
+
+
+    // Event handler for the "Save Changes" button in the modal
+    $(document).ready(function () {
+        $('#saveChangesBtn').click(function () {
+            // Get values from the modal inputs
+            var productName = $('#ProductName').val();
+            var noOfPly = $('#editPly').val();
+            var combination = $('#combinationId').val();
+            var measureUnit = $('#editMeasureUnit').val();
+            var length = $('#editLength').val();
+            var width = $('#editWidth').val();
+            var height = $('#editHeight').val();
+            var bookingQty = $('#editBookingQty').val();
+            var shadeNumber = $('#editShadeNumber').val();
+            var washType = $('#editWashType').val();
+            var printed = $('#editPrinted').val();
+            var perforated = $('#editPerforated').val();
+            var quantityUnit = $('#editQuantityUnit').val();
+            var unitPrice = $('#editUnitPrice').val();
+            var totalAmount = $('#editTotalAmount').val();
+            var qtyInKG = $('#editQtyInKG').val();
+            var gsm = $('#editGSM').val();
+            var poNumber = $('#editPONumber').val();
+            var styleRef = $('#editStyleRef').val();
+            var color = $('#editColor').val();
+            var size = $('#editSize').val();
+            var breakDown = $('#editBreakDown').val();
+            var weightInKG = $('#editWeightInKG').val();
+            var value = $('#editVal2').val();
+
+            // Create a new row HTML
+            var newRow = '<tr>' +
+                '<td class="text-center">' + productName + '</td>' +
+                '<td class="text-center">' + noOfPly + '</td>' +
+                '<td class="text-center">' + combination + '</td>' +
+                '<td class="text-center">' + measureUnit + '</td>' +
+                '<td class="text-center">' + length + '</td>' +
+                '<td class="text-center">' + width + '</td>' +
+                '<td class="text-center">' + height + '</td>' +
+                '<td class="text-center">' + bookingQty + '</td>' +
+                '<td class="text-center">' + shadeNumber + '</td>' +
+                '<td class="text-center">' + washType + '</td>' +
+                '<td class="text-center">' + printed + '</td>' +
+                '<td class="text-center">' + perforated + '</td>' +
+                '<td class="text-center">' + quantityUnit + '</td>' +
+                '<td class="text-center">' + unitPrice + '</td>' +
+                '<td class="text-center">' + totalAmount + '</td>' +
+                '<td class="text-center">' + qtyInKG + '</td>' +
+                '<td class="text-center">' + gsm + '</td>' +
+                '<td class="text-center">' + poNumber + '</td>' +
+                '<td class="text-center">' + styleRef + '</td>' +
+                '<td class="text-center">' + color + '</td>' +
+                '<td class="text-center">' + size + '</td>' +
+                '<td class="text-center">' + breakDown + '</td>' +
+                '<td class="text-center">' + weightInKG + '</td>' +
+                '<td class="text-center">' + value + '</td>' +
+                '</tr>';
+
+            // Append the new row to the table
+            $('table tbody').append(newRow);
+
+            // Recalculate totals (if needed)
+            updateTotals();
+
+            // Close the modal
+            $('#editModal').modal('hide');
+        });
+    });
+
+
+    // Function to update totals footer
+    function updateTotals() {
+        var totalBookingQty = 0;
+        var totalQtyInKG = 0;
+        var totalValue = 0;
+
+        // Loop through rows and calculate totals
+        $('table tbody tr').each(function () {
+            var bookingQty = parseInt($(this).find('.booking-qty').text());
+            var qtyInKG = parseInt($(this).find('.qty-in-kg').text());
+            var value = parseFloat($(this).find('.value').text());
+
+            totalBookingQty += bookingQty;
+            totalQtyInKG += qtyInKG;
+            totalValue += value;
+        });
+
+        // Update totals in footer
+        $('#totalBookingQtyValue').text(totalBookingQty);
+        $('#totalQtyInKGValue').text(totalQtyInKG);
+        $('#totalValueValue').text(totalValue);
+    }
+
+        @*$('#productId').change(function () {
             $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
                 // Handle success response
                 //console.log(response);
@@ -726,7 +820,63 @@
                 // Handle error response
                 console.error("Error saving master data:ply ", error);
             });
-        });
+        });*@
+    $('#productId').change(function () {
+    $.post("@Url.Action("GetCombination", "Bonds")", { productId: $(this).val() }, function (response) {
+        if (response) {
+            $('#combinationId').empty();
+            let options = '<option value ="">Select</option>';
+
+            let uniqueCombinations = new Set();
+
+            // Storing unique combinations in the Set
+            $(response).each(function () {
+                uniqueCombinations.add(this.CombinationDetails);
+            });
+
+            // Converting Set to an array, sorting it, and creating option elements
+            Array.from(uniqueCombinations)
+                .sort() // Sorting the array in ascending order
+                .forEach(function (combination) {
+                    options += '<option value ="' + combination + '">' + combination + '</option>';
+                });
+
+            $('#combinationId').append(options);
+        }
+    }).fail(function (error) {
+        console.error("Error getting combination data: ", error);
+    });
+
+    $.post(
+        "@Url.Action("GetPlyDropdownList", "Bonds")", { productId: $(this).val() }, function (res) {
+            if (res) {
+                $('#editPly').empty();
+                let options = '<option value ="">Select</option>';
+
+                let uniquePlys = new Set();
+
+                // Storing unique plys in the Set
+                $(res).each(function () {
+                    uniquePlys.add(this.Ply);
+                });
+
+                // Converting Set to an array, sorting it, and creating option elements
+                Array.from(uniquePlys)
+                    .sort() // Sorting the array in ascending order
+                    .forEach(function (ply) {
+                        options += '<option value ="' + ply + '">' + ply + '</option>';
+                    });
+
+                $('#editPly').append(options);
+            }
+    }).fail(function (error) {
+        console.error("Error getting ply data: ", error);
+    });
+});
+
+
+
+
     // Function to update the total values
     function updateTotals() {
         let totalBookingQty = 0;

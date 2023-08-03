@@ -97,7 +97,7 @@ namespace PIAdvisingApp.ViewModels
     public class PlyDropdownVm
     {
         
-        public Byte Ply { get; set; }
+        public Byte? Ply { get; set; }
     }
 
     public class WeightDropdownVm
