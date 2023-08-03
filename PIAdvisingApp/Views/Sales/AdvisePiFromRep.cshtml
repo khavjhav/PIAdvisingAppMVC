@@ -1,0 +1,583 @@
+﻿
+@{
+    ViewBag.Title = "Advise PiUpdate 2";
+}
+
+
+@section Css {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+
+    @*<style>
+            .tbody, td, th {
+                padding: 2px !important;
+                font-size: 9px !important;
+            }
+
+            .modal-backdrop {
+                z-index: 10 !important
+            }
+
+        </style>*@
+    <style>
+        .tbody,
+        td,
+        th {
+            padding: 2px !important;
+            font-size: 9px !important;
+        }
+
+        .modal-backdrop {
+            z-index: 10 !important;
+        }
+
+        /* Add CSS styles for tree view */
+        #tree-view {
+            margin-top: 10px;
+        }
+
+        .tree-view-header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f2f2f2;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .tree-view-node {
+            margin-left: 20px;
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .tree-view-details {
+            margin-left: 20px;
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            display: none; /* Hide details by default */
+        }
+
+        .tree-view-node.active .tree-view-details {
+            display: block; /* Show details when the node is active (expanded) */
+        }
+
+        .tree-view-total {
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+
+}
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div>
+                Advise PI
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-1">
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Customer</td>
+                                <td class="text-center">
+                                    <select id="CustomerId" class="form-control-sm form-control">
+                                        <option value="0">Please select</option>
+                                        @foreach (var item in ViewBag.CustomerByReps)
+                                        {
+                                            <option value="@item.CustomerId">@item.CustomerName</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="text-center"><button id="show-btn" class="btn btn-primary">Show</button></td>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-lg-4 text-right" id="advised-list-div">*@
+    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">*@
+
+    <div class="col-lg-6 col-xl-4 ml-auto d-none" id="advised-list-controls-div">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-1">
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Customer:</td>
+                                <td class="text-center" style="font-size:12px !important" id="customer-name"></td>
+                                <td class="text-center" style="font-size:12px !important">
+                                    Total : <span id="total">0.00</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Remarks:</td>
+                                <td colspan="2" class="text-center p-0">
+                                    <textarea class="form-control mb-0" id="remarks" style="font-size:9px;" placeholder="Enter your remarks here.." rows="1"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
+                                <td class="text-center p-0">
+                                    <select id="retailer-field" class="form-control form-control-sm">
+                                        <option selected disabled>Select Prime Beneficiary</option>
+                                    </select>
+                                </td>
+
+
+                                <td colspan="6" class="text-right">
+                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 text-right ml-auto d-none" id="advised-list-div">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Table View)</h5>
+                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Company Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-lg-4 text-right d-none" id="advised-list-controls-div">*@
+
+</div>
+
+<!--<div class="row">
+
+    <div class="col-lg-12 col-xl-4   ml-auto d-none" id="advised-list-div">
+        <div class="main-card mb-1 card p-1">
+
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List</h5>
+                <div class="table-responsive">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Company Name</th>
+                            </tr>
+
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
+                                </td>
+
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>-->
+@* div with loading image in center *@
+<!--<div class="col-lg-12 col-xl-12 text-center align-center">
+    <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;"><img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." /></div>
+    <div id="advise-pi-from-rep-details-div"></div>-->
+@*this is where the partial view loads*@
+<!--</div>
+</div>-->
+<!--<div class="row">-->
+@*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Tree View)</h5>
+                <div class="table-responsive">
+                    <div id="tree-view">
+                        <div class="tree-view-header">
+                            <span class="tree-view-header-title">Company Name</span>
+                            <span class="tree-view-header-value">Total Booking Value</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Table View)</h5>
+                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                    <table class="mb-0 table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Booking No</th>
+                                <th class="text-center">Category Name</th>
+                                <th class="text-center">Booking Qty</th>
+                                <th class="text-center">Booking Value</th>
+                                <th class="text-center">Company Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<!--</div>-->
+<!-- div with loading image in center -->
+<div class="col-lg-12 col-xl-12 text-center align-center">
+    <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;">
+        <img style="height:50px" src="~/Content/assets/images/loader1.gif" alt="Loading please wait.." />
+    </div>
+    <div id="advise-pi-from-rep-details-div"></div>
+    <!-- this is where the partial view loads -->
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        $(document).ready(function () {
+            $('#show-btn').click(function () {
+                let customerId = $('#CustomerId').val();
+                let employeeId = '@ViewBag.EmployeeId';
+                let loadingSpinner = $('#loading-spinner');
+                clearForms();
+                if (customerId == 0) {
+                    $('#advise-pi-from-rep-details-div').empty();
+                    Swal.fire(
+                        'Error!',
+                        'Please select a customer!',
+                        'danger');
+                    return;
+                } else {
+                    //loadingSpinner d-flex
+                    loadingSpinner.removeClass('d-none');
+                    $.post("@Url.Action("AdvisePiFromRepDetailsPartial", "Sales")", { customerId: customerId, employeeId: employeeId }, function (result) {
+                        $('#advise-pi-from-rep-details-div').empty();
+                        $('#advise-pi-from-rep-details-div').html(result);
+                        loadingSpinner.addClass('d-none');
+                        $('#advised-list-div').removeClass('d-none');
+                        $('#advised-list-controls-div').removeClass('d-none');
+
+                        //// Initialize the DataTable and filter options after loading the partial view
+                        //$('#booking-list-table').DataTable({
+                        //    "initComplete": function () {
+                        //        // Initialize the product type filter
+                        //        $('#product-type-filter').on('change', function () {
+                        //            var categoryFilter = $(this).val();
+                        //            $('#booking-list-table').DataTable().column(14).search(categoryFilter).draw();
+                        //        });
+
+                        //        // Initialize the retailer filter
+                        //        $('#retailer-filter').on('change', function () {
+                        //            var retailerFilter = $(this).val();
+                        //            $('#booking-list-table').DataTable().column(12).search(retailerFilter).draw();
+                        //        });
+                        //    }
+                        //});
+
+                    }); /*--x*/
+                }
+            });
+            // Clear All button click event handler
+            $('#clear-all-btn').click(function () {
+                $('#booking-list-table .selected-item').prop('checked', false).trigger('change');
+                $('#booking-list-table .select-all').prop('checked', false);
+            });
+
+
+
+            $('#save-btn').click(function () {
+                let customerId = $('#CustomerId').val();
+                let retailerId = $('#retailer-field').val();
+                let remarks = $('#remarks').val();
+                let employeeId = '@ViewBag.EmployeeId';
+                let loadingSpinner = $('#loading-spinner');
+                let bookingList = [];
+                $('.SelectedRows').each(function () {
+                    bookingList.push({
+                        bookingId: $(this).find('.BookingIdSelected').val(),
+                        bookingNo: $(this).find('.BookingNoSelected').text(),
+                        bookingQty: $(this).find('.BookingQtySelected').text().replace(/,/g, ''),
+                        bookingValue: $(this).find('.BookingValueSelected').text().replace(/,/g, ''),
+                        customerId,
+                        retailerId,
+                        remarks,
+                        employeeId
+                    });
+                });
+
+                if (bookingList.length == 0) {
+                    Swal.fire(
+                        'Error!',
+                        'Please select atleast one booking!',
+                        'danger');
+                    return;
+                } else {
+                    //loadingSpinner d-flex
+                    loadingSpinner.removeClass('d-none');
+                    /*console.log(bookingList);*/
+                    $.post("@Url.Action("SaveAdvisePiFromRep", "Sales")", { request: bookingList }, function (result) {
+                        loadingSpinner.addClass('d-none');
+                        //alert on clicking ok reload page
+                        if (result >=1) {
+                            Swal.fire(
+                                'Success!',
+                                'Save Successful',
+                                'success'
+                            );
+                            clearForms();
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Failed to save!',
+                                'danger');
+                        }
+                    });
+                }
+            });
+
+
+            // Event delegation to handle the click events for tree view nodes
+            $(document).on('click', '.tree-view-node', function () {
+                // Toggle the expansion of the clicked node
+                $(this).toggleClass('expanded');
+
+                // If the node is expanded, show the inner details; otherwise, hide them
+                if ($(this).hasClass('expanded')) {
+                    $(this).find('.tree-view-details').show();
+                } else {
+                    $(this).find('.tree-view-details').hide();
+                }
+            });
+            // Add an event handler for row selection in the booking list table
+            $(document).on('change', '.selected-item', function () {
+                // Clear the tree view
+                $('#tree-view').empty();
+
+                // Calculate the total booking value
+                var totalBookingValue = 0;
+
+                // Loop through the selected rows in the table
+                $('.selected-item:checked').each(function () {
+                    // Get the values for each row
+                    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                    var categoryName = $(this).closest('tr').find('.CategoryName').text();
+                    var bookingQty = $(this).closest('tr').find('.BookingQty').text();
+                    var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
+                    var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
+
+                    // Add the booking value to the total
+                    totalBookingValue += bookingValue;
+
+                    // Check if the company name already exists in the tree view
+                    var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
+                    if (companyNode.length === 0) {
+                        // If the company name doesn't exist, create a new node for it
+                        var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
+                            '<span class="tree-view-node-title">' + companyName + '</span>' +
+                            '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
+                            '</div>';
+                        $('#tree-view').append(companyRow);
+                    } else {
+                        // If the company name already exists, update the total booking value
+                        var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
+                        companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
+                    }
+
+                    // Add the row details as a child node under the company name
+                    var rowDetails = '<div class="tree-view-details">' +
+                        '<span>Booking No: ' + bookingNo + '</span>' +
+                        '<span>Category Name: ' + categoryName + '</span>' +
+                        '<span>Booking Qty: ' + bookingQty + '</span>' +
+                        '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
+                        '</div>';
+                    companyNode.append(rowDetails);
+                });
+
+                // Add the total booking value at the end of the tree view
+                var totalRow = '<div class="tree-view-total">' +
+                    '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
+                    '</div>';
+                $('#tree-view').append(totalRow);
+            });
+
+
+            $(document).on('change', '.selected-item', function () {
+                var bookingId = $(this).val();
+                var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                var BookingQty = $(this).closest('tr').find('.BookingQty').text();
+                var CategoryName = $(this).closest('tr').find('.CategoryName').text();
+                var BookingValue = $(this).closest('tr').find('.BookingValue').text();
+                var RetailerName = $(this).closest('tr').find('.CompanyName').text();
+                let RetailerId = $(this).closest('tr').data('retailer-id');
+                if ($(this).is(':checked')) {
+                    // Add the row to the right table
+                    $('#advise-pi-from-rep-selected').append(
+                        '<tr class="SelectedRows">' +
+                        '<input type="hidden" class="BookingIdSelected" value="' + bookingId +'"/>'+
+                        '<td class="BookingNoSelected">' + bookingNo + '</td>' +
+                        '<td>' + CategoryName + '</td>' +
+                        '<td class="BookingQtySelected">' + BookingQty + '</td>' +
+                        '<td class="BookingValueSelected">' + BookingValue + '</td>' +
+                        '<td>' + RetailerName + '</td>' +
+                        '</tr>');
+
+                    // Populate customer and retailer names
+                    var customerName = $('.CustomerName').first().text();
+                    var retailerName = RetailerName;
+
+                    $('#customer-name').text(customerName);
+
+                    // Add retailer name to the dropdown if it doesn't already exist
+                    if ($('#retailer-field option[value="' + RetailerId + '"]').length === 0) {
+                        $('#retailer-field').append('<option value="' + RetailerId + '">' + retailerName + '</option>');
+                    }
+
+                    // Set the selected retailer if it's the first retailer selected
+                    if ($('#retailer-field option:selected').length === 0) {
+                        $('#retailer-field').val(retailerName).trigger('change');
+                    }
+                } else {
+                    // Remove the row from the right table
+                    $('#advise-pi-from-rep-selected').find('tr').each(function () {
+                        if ($(this).find('td:first').text() === bookingNo) {
+                            $(this).remove();
+                            return false; // exit the loop
+                        }
+                    });
+
+                    // Check if there are any selected items remaining
+                    var selectedItemsCount = $('.selected-item:checked').length;
+                    if (selectedItemsCount === 0) {
+                        // Clear customer and retailer names
+                        $('#customer-name').val('');
+                        $('#retailer-field').val(null).trigger('change');
+                    }
+                }
+
+                updateTotal();
+            });
+
+
+            function clearForms() {
+                $('#advise-pi-from-rep-details-div').empty();
+                $('#advise-pi-from-rep-selected').empty();
+                $('#total').text('0.00');
+                $('#customer-name').text('');
+                $('#retailer-field').empty();
+                $('#retailer-field').append('<option value="">Select Prime Beneficiary</option>');
+                $('#advised-list-div').addClass('d-none');
+                $('#advised-list-controls-div').addClass('d-none');
+            }
+
+            function updateTotal() {
+                var total = 0;
+                $('.BookingValueSelected').each(function () {
+                    var value = $(this).text().replace(/,/g, '');
+                    total += parseFloat(value);
+                });
+                $('#total').text(total.toFixed(2)); // Display the total with 2 decimal places
+            }
+
+            var table = $('#booking-table').DataTable({
+                lengthMenu: [25],
+                language: {
+                    lengthMenu: 'Show _MENU_ entries',
+                    info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                    search: '<strong>Filter:</strong> ',
+                    paginate: {
+                        first: 'First',
+                        last: 'Last',
+                        next: '&rarr;',
+                        previous: '&larr;'
+                    }
+                }
+            });
+
+            var table = $('#booking-list-table').DataTable({
+                "search": {
+                    "smart": true
+                }
+            });
+
+            //// Initialize the product type filter
+            //$('#product-type-filter').on('change', function () {
+            //    var categoryFilter = $(this).val();
+            //    table.column(14).search(categoryFilter).draw();
+            //});
+
+            //// Initialize the retailer filter
+            //$('#retailer-filter').on('change', function () {
+            //    var retailerFilter = $(this).val();
+            //    table.column(11).search(retailerFilter).draw();
+            //});
+
+        });
+    </script>
+
+}

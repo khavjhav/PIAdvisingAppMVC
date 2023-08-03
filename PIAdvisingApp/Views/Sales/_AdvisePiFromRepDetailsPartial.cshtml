@@ -1,0 +1,51 @@
+﻿@model IEnumerable<string>
+<style>
+    .modal-backdrop {
+        z-index: 10 !important
+    }
+</style>
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">@ViewBag.AdviseNumber</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="col-lg-12">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <h5 class="card-title">Table bordered</h5>
+                <table class="mb-0 table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Booking No</th>
+                            <th>Product</th>
+                            <th>Value</th>
+                            <th>Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int rowNo = 0;}
+                        @foreach (var booking in Model)
+                        {
+                            <tr>
+                                <th scope="row">@(++rowNo)</th>
+                                <td>@booking</td>
+                                <td>General Packaging</td>
+                                <td>100</td>
+                                <td>NA</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
