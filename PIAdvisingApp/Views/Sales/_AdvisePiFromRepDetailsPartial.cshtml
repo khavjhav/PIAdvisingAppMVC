@@ -15,93 +15,162 @@
     }
 </style>
 
-<!-- Add the filter dropdowns -->
+ @*Add the filter dropdowns*@ 
 <div class="row">
     <div class="col-lg-4">
         <div class="main-card mb-4 card">
             <div class="card-body p-4">
-                <!-- Product Type Filter -->
-                <div class="row mb-2">
-                    <div class="col-md-2">
-                        <label for="product-type-filter" class="mb-1" style="font-size: 10px;">Product Type:</label>
-                    </div>
-                    <div class="col-md-10">
-                        <select id="product-type-filter" class="form-control form-control-sm">
-                            <option value="">All</option>
-                            @foreach (var category in ViewBag.ProductTypes)
-                            {
-                                <option value="@category">@category</option>
-                            }
-                        </select>
-                    </div>
+ @*Product Type Filter*@ 
+<div class="row mb-2">
+    <div class="col-md-2">
+        <label for="product-type-filter" class="mb-1" style="font-size: 10px;">Product Type:</label>
+    </div>
+    <div class="col-md-10">
+        <select id="product-type-filter" class="form-control form-control-sm">
+            <option value="">All</option>
+            @foreach (var category in ViewBag.ProductTypes)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+</div>
+ @*Retailer Filter*@ 
+<div class="row mb-2">
+    <div class="col-md-2">
+        <label for="retailer-filter" class="mb-1" style="font-size: 10px;">Retailer:</label>
+    </div>
+    <div class="col-md-10">
+        <select id="retailer-filter" class="form-control form-control-sm">
+            <option value="All">All</option>
+            @foreach (var retailer in ViewBag.Retailers)
+            {
+                <option value="@retailer">@retailer</option>
+            }
+        </select>
+    </div>
+</div>
+ @*Beneficiary Filter*@ 
+<div class="row mb-2">
+    <div class="col-md-2">
+        <label for="company-filter" class="mb-1" style="font-size: 10px;">Beneficiary:</label>
+    </div>
+    <div class="col-md-10">
+        <select id="company-filter" class="form-control form-control-sm">
+            <option value="All">All</option>
+            @foreach (var company in ViewBag.CompanyNames)
+            {
+                <option value="@company">@company</option>
+            }
+        </select>
+    </div>
+</div>
+ @*Contact Person Filter*@ 
+<div class="row mb-2">
+                <div class="col-md-2">
+                    <label for="contact-filter" class="mb-1" style="font-size: 10px;">Contact Person:</label>
                 </div>
-                <!-- Retailer Filter -->
-                <div class="row mb-2">
-                    <div class="col-md-2">
-                        <label for="retailer-filter" class="mb-1" style="font-size: 10px;">Retailer:</label>
-                    </div>
-                    <div class="col-md-10">
-                        <select id="retailer-filter" class="form-control form-control-sm">
-                            <option value="All">All</option>
-                            @foreach (var retailer in ViewBag.Retailers)
-                            {
-                                <option value="@retailer">@retailer</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <!-- Beneficiary Filter -->
-                <div class="row mb-2">
-                    <div class="col-md-2">
-                        <label for="company-filter" class="mb-1" style="font-size: 10px;">Beneficiary:</label>
-                    </div>
-                    <div class="col-md-10">
-                        <select id="company-filter" class="form-control form-control-sm">
-                            <option value="All">All</option>
-                            @foreach (var company in ViewBag.CompanyNames)
-                            {
-                                <option value="@company">@company</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <!-- Contact Person Filter -->
-                <div class="row mb-2">
-                    <div class="col-md-2">
-                        <label for="contact-filter" class="mb-1" style="font-size: 10px;">Contact Person:</label>
-                    </div>
-                    <div class="col-md-10">
-                        <select id="contact-filter" class="form-control form-control-sm">
-                            <option value="">All</option>
-                            @foreach (var contact in ViewBag.ContactPersons)
-                            {
-                                <option value="@contact">@contact</option>
-                            }
-                        </select>
-                    </div>
+                <div class="col-md-10">
+                    <select id="contact-filter" class="form-control form-control-sm">
+                        <option value="">All</option>
+                        @foreach (var contact in ViewBag.ContactPersons)
+                        {
+                            <option value="@contact">@contact</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>
     </div>
-
-    @*<div class="col-lg-2">
-                <div class="main-card mb-2 card">
-
+</div>
+    </div>
+@*<div class="row">
+    <div class="col-lg-2">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-2">
+                <div class="form-group">
+                    <label for="product-type-filter" class="mb-1" style="font-size: 10px;">Product Type:</label>
+                    <select id="product-type-filter" class="form-control form-control-sm">
+                        <option value="">All</option>
+                        @foreach (var category in ViewBag.ProductTypes)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="main-card mb-2 card">
-
+    </div>
+    <div class="col-lg-2">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-2">
+                <div class="form-group">
+                    <label for="retailer-filter" class="mb-1" style="font-size: 10px;">Retailer:</label>
+                    <select id="retailer-filter" class="form-control form-control-sm">
+                        <option value="All">All</option>
+                        @foreach (var retailer in ViewBag.Retailers)
+                        {
+                            <option value="@retailer">@retailer</option>
+                        }
+                    </select>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <div class="main-card mb-2 card">
-
-                </div>
-            </div>*@
+        </div>
+    </div>
 </div>
+<div class="row">
+    <div class="col-lg-2">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-2">
+                <div class="form-group">
+                    <label for="company-filter" class="mb-1" style="font-size: 10px;">Beneficiary:</label>
+                    <select id="company-filter" class="form-control form-control-sm">
+                        <option value="All">All</option>
+                        @foreach (var company in ViewBag.CompanyNames)
+                        {
+                            <option value="@company">@company</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="main-card mb-2 card">
+            <div class="card-body p-2">
+                <div class="form-group">
+                    <label for="contact-filter" class="mb-1" style="font-size: 10px;">Contact Person:</label>
+                    <select id="contact-filter" class="form-control form-control-sm">
+                        <option value="">All</option>
+                        @foreach (var contact in ViewBag.ContactPersons)
+                        {
+                            <option value="@contact">@contact</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@*<div class="col-lg-2">
+            <div class="main-card mb-2 card">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="main-card mb-2 card">
+
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="main-card mb-2 card">
+
+            </div>
+        </div>*@
+
 
 
 
@@ -130,7 +199,7 @@
                         <th class="text-center">Category Name</th>
                         <th class="text-center">Company Name</th>
                         <th class="text-center d-none">Company Name</th>
-                        <th class="text-center">Representative ID</th>
+                        @*<th class="text-center d-none">Representative ID</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -146,14 +215,16 @@
                             <td class="text-center d-none CustomerName">@item.CustomerName</td>
                             <td class="text-center d-none RepresentativeName">@item.RepresentativeName</td>
                             <td class="text-center d-none ShortName">@item.ShortName</td>
-                            <td class="text-center BookingQty">@item.BookingQty</td>
+                            @*<td class="text-center BookingQty">@item.BookingQty</td>*@
+                            @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green BookingQty")
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green BookingValue")
                             <td class="text-center RetailerName">@item.RetailerName</td>
                             <td class="text-center ContactName">@item.ContactName</td>
-                            <td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>
+                            @*<td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>  *@
+                            @MyHelpers.FinancialNumberRoundedTd(item.DeliveryPercentage, "td-green DeliveryPercentage")
                             <td class="text-center CategoryName">@item.CategoryName</td>
                             <td class="text-center CompanyName">@item.CompanyName</td>
-                            <td class="text-center RepresentativeId">@item.RepresentativeId</td>
+                            <td class="text-center d-none RepresentativeId">@item.RepresentativeId</td>
 
                         </tr>
                         rowNo++;
@@ -173,8 +244,6 @@
         // Initialize the DataTable
         //var table = $('#booking-list-table').DataTable();
         var table = $('#booking-list-table').DataTable({
-            "paging": false, // Disable pagination
-            "scrollY": "400px",
             "columnDefs": [{
                 "targets": [0, 2, 3, 6, 7, 8], // Add the column indices that you don't want to be searchable
                 "searchable": false

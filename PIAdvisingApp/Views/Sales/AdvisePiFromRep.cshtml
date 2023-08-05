@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Advise PiUpdate 2";
 }
 
@@ -155,8 +154,8 @@
 
 
                                 <td colspan="6" class="text-right">
-                                    <button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>
-                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
+                                    @*<button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>*@
+                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear</button>
                                 </td>
                             </tr>
                         </thead>
@@ -183,15 +182,22 @@
                             </tr>
                         </thead>
                         <tbody id="advise-pi-from-rep-selected"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right">
+                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </tfoot>
 
                     </table>
 
 
                 </div>
                 <div>
-                    <td colspan="6" class="text-right">
-                        <button id="save-btn" class="btn btn-sm btn-primary" disabled>Save</button>
-                    </td>
+                    @*<td colspan="6" class="text-right">
+                        <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                    </td>*@
 
 
                 </div>
@@ -321,6 +327,7 @@
             $('#show-btn').click(function () {
                 let customerId = $('#CustomerId').val();
                 let employeeId = '@ViewBag.EmployeeId';
+                let representativeId = '@ViewBag.RepresentativeId';
                 let loadingSpinner = $('#loading-spinner');
                 clearForms();
                 if (customerId == 0) {
@@ -373,19 +380,21 @@
                 let retailerId = $('#retailer-field').val();
                 let companyId = $('#company-field').val();
                 let remarks = $('#remarks').val();
+                let representativeId = '@ViewBag.RepresentativeId';
                 let employeeId = '@ViewBag.EmployeeId';
                 let loadingSpinner = $('#loading-spinner');
-                console.log(companyId)
+                //console.log(companyId)
                 let bookingList = [];
                 $('.SelectedRows').each(function () {
                     bookingList.push({
                         bookingId: $(this).find('.BookingIdSelected').val(),
-                        representativeId: $(this).find('.RepresentativeIdSelected').val(),
+                        //representativeId: $(this).find('.RepresentativeIdSelected').val(),
                         bookingNo: $(this).find('.BookingNoSelected').text(),
                         bookingQty: $(this).find('.BookingQtySelected').text().replace(/,/g, ''),
                         bookingValue: $(this).find('.BookingValueSelected').text().replace(/,/g, ''),
                         customerId,
                         retailerId,
+                        representativeId,
                         companyId,
                         remarks,
                         employeeId
@@ -423,75 +432,76 @@
             });
 
 
-            // Event delegation to handle the click events for tree view nodes
-            $(document).on('click', '.tree-view-node', function () {
-                // Toggle the expansion of the clicked node
-                $(this).toggleClass('expanded');
+            //// Event delegation to handle the click events for tree view nodes
+            //$(document).on('click', '.tree-view-node', function () {
+            //    // Toggle the expansion of the clicked node
+            //    $(this).toggleClass('expanded');
 
-                // If the node is expanded, show the inner details; otherwise, hide them
-                if ($(this).hasClass('expanded')) {
-                    $(this).find('.tree-view-details').show();
-                } else {
-                    $(this).find('.tree-view-details').hide();
-                }
-            });
+            //    // If the node is expanded, show the inner details; otherwise, hide them
+            //    if ($(this).hasClass('expanded')) {
+            //        $(this).find('.tree-view-details').show();
+            //    } else {
+            //        $(this).find('.tree-view-details').hide();
+            //    }
+            //});
 
-          
-            // Add an event handler for row selection in the booking list table
-            $(document).on('change', '.selected-item', function () {
-                // Clear the tree view
-                $('#tree-view').empty();
 
-                // Calculate the total booking value
-                var totalBookingValue = 0;
+            //// Add an event handler for row selection in the booking list table
+            //$(document).on('change', '.selected-item', function () {
+            //    // Clear the tree view
+            //    $('#tree-view').empty();
 
-                // Loop through the selected rows in the table
-                $('.selected-item:checked').each(function () {
-                    // Get the values for each row
-                    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
-                    var categoryName = $(this).closest('tr').find('.CategoryName').text();
-                    var bookingQty = $(this).closest('tr').find('.BookingQty').text();
-                    var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
-                    var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
+            //    // Calculate the total booking value
+            //    var totalBookingValue = 0;
 
-                    // Add the booking value to the total
-                    totalBookingValue += bookingValue;
+            //    // Loop through the selected rows in the table
+            //    $('.selected-item:checked').each(function () {
+            //        // Get the values for each row
+            //        var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+            //        var categoryName = $(this).closest('tr').find('.CategoryName').text();
+            //        var bookingQty = $(this).closest('tr').find('.BookingQty').text();
+            //        var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
+            //        var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
 
-                    // Check if the company name already exists in the tree view
-                    var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
-                    if (companyNode.length === 0) {
-                        // If the company name doesn't exist, create a new node for it
-                        var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
-                            '<span class="tree-view-node-title">' + companyName + '</span>' +
-                            '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
-                            '</div>';
-                        $('#tree-view').append(companyRow);
-                    } else {
-                        // If the company name already exists, update the total booking value
-                        var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
-                        companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
-                    }
+            //        // Add the booking value to the total
+            //        totalBookingValue += bookingValue;
 
-                    // Add the row details as a child node under the company name
-                    var rowDetails = '<div class="tree-view-details">' +
-                        '<span>Booking No: ' + bookingNo + '</span>' +
-                        '<span>Category Name: ' + categoryName + '</span>' +
-                        '<span>Booking Qty: ' + bookingQty + '</span>' +
-                        '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
-                        '</div>';
-                    companyNode.append(rowDetails);
-                });
+            //        // Check if the company name already exists in the tree view
+            //        var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
+            //        if (companyNode.length === 0) {
+            //            // If the company name doesn't exist, create a new node for it
+            //            var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
+            //                '<span class="tree-view-node-title">' + companyName + '</span>' +
+            //                '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
+            //                '</div>';
+            //            $('#tree-view').append(companyRow);
+            //        } else {
+            //            // If the company name already exists, update the total booking value
+            //            var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
+            //            companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
+            //        }
 
-                // Add the total booking value at the end of the tree view
-                var totalRow = '<div class="tree-view-total">' +
-                    '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
-                    '</div>';
-                $('#tree-view').append(totalRow);
-            });
+            //        // Add the row details as a child node under the company name
+            //        var rowDetails = '<div class="tree-view-details">' +
+            //            '<span>Booking No: ' + bookingNo + '</span>' +
+            //            '<span>Category Name: ' + categoryName + '</span>' +
+            //            '<span>Booking Qty: ' + bookingQty + '</span>' +
+            //            '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
+            //            '</div>';
+            //        companyNode.append(rowDetails);
+            //    });
+
+            //    // Add the total booking value at the end of the tree view
+            //    var totalRow = '<div class="tree-view-total">' +
+            //        '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
+            //        '</div>';
+            //    $('#tree-view').append(totalRow);
+            //});
 
 
             $(document).on('change', '.selected-item', function () {
                 var bookingId = $(this).val();
+                //var representativeId = $(this).val();
                 var bookingNo = $(this).closest('tr').find('.BookingNo').text();
                 var BookingQty = $(this).closest('tr').find('.BookingQty').text();
                 var CategoryName = $(this).closest('tr').find('.CategoryName').text();
@@ -602,9 +612,9 @@
             //    var retailerFilter = $(this).val();
             //    table.column(11).search(retailerFilter).draw();
             //});
-     
-               
-          
+
+
+
 
         });
     </script>

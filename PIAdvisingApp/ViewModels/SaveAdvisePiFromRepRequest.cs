@@ -14,6 +14,7 @@ namespace PIAdvisingApp.ViewModels
         public decimal BookingValue { get; set; }
         public int CustomerId { get; set; }
         public int RetailerId { get; set; }
+        public int RepresentativeId { get; set; }
         public int? CompanyId { get; set; }
         public string Remarks { get; set; }
         public int EmployeeId { get; set; }

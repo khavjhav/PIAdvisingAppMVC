@@ -64,7 +64,7 @@ namespace PIAdvisingApp.Service
         }
 
 
-        
+
 
         public List<PrcRptLcNotReceived> AdvisePI()
         {
@@ -361,7 +361,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var @EmployeeId = new SqlParameter("EmployeeId", employeeId);
-                var query = @"SELECT CAST(cgi.CustomerId AS INT) AS CustomerId, cgi.CustomerName FROM dbo.CustomerGenInfo AS cgi INNER JOIN dbo.Representative AS r ON r.RepresentativeId = cgi.RepresentativeId WHERE r.EmployeeId = @EmployeeId";
+                var query = @"SELECT CAST(cgi.CustomerId AS INT) AS CustomerId,CAST(r.RepresentativeId AS INT) AS RepresentativeId, cgi.CustomerName FROM dbo.CustomerGenInfo AS cgi INNER JOIN dbo.Representative AS r ON r.RepresentativeId = cgi.RepresentativeId WHERE r.EmployeeId = @EmployeeId";
                 var result = ctx.Database.SqlQuery<CustomerByRepVm>(query, @EmployeeId).ToList();
                 return result;
             }
@@ -389,7 +389,7 @@ namespace PIAdvisingApp.Service
                   .ToList();
 
                 return result;
-                
+
             }
         }
 
@@ -399,16 +399,19 @@ namespace PIAdvisingApp.Service
             {
                 int rowsAffected = 0;
                 var apiNumber = GenerateUniqueNumber(requests.Select(x => x.EmployeeId).FirstOrDefault());
+                var apiNo = GenerateSerialNumber(requests.Select(x => x.EmployeeId).FirstOrDefault());
+
                 var datetime = DateTime.Now;
                 foreach (var item in requests)
                 {
                     var command = "INSERT INTO [dbo].[ApiMainBond]" +
            "([ApiNumber]" +
-           //",[ApiNo]" +
+           ",[ApiNo]" +
            ",[BookingId]" +
            ",[BookingNo]" +
            ",[CustomerId]" +
            ",[RetailerId]" +
+           ",[RepresentativeId]" +
            ",[BookingQty]" +
            ",[BookingValue]" +
            ",[Remarks]" +
@@ -417,11 +420,12 @@ namespace PIAdvisingApp.Service
            ",[EntryTime]" +
            ",[IpAddress])" +
      "VALUES (@ApiNumber" +
-           //",@ApiNo" +
+           ",@ApiNo" +
            ",@BookingId" +
            ",@BookingNo" +
            ",@CustomerId" +
            ",@RetailerId" +
+           ",@RepresentativeId" +
            ",@BookingQty" +
            ",@BookingValue" +
            ",@Remarks" +
@@ -433,14 +437,15 @@ namespace PIAdvisingApp.Service
                     rowsAffected += ctx.Database.ExecuteSqlCommand(
                         command,
                         new SqlParameter("ApiNumber", apiNumber),
-                        //new SqlParameter("ApiNo", apiNo),
+                        new SqlParameter("ApiNo", apiNo),
                         new SqlParameter("BookingId", item.BookingId),
                         new SqlParameter("BookingNo", item.BookingNo),
                         new SqlParameter("CustomerId", item.CustomerId),
                         new SqlParameter("RetailerId", item.RetailerId),
+                        new SqlParameter("RepresentativeId", item.RepresentativeId),
                         new SqlParameter("BookingQty", item.BookingQty),
                         new SqlParameter("BookingValue", item.BookingValue),
-                       new SqlParameter("Remarks", (object)item.Remarks ?? DBNull.Value), 
+                        new SqlParameter("Remarks", (object)item.Remarks ?? DBNull.Value),
                         new SqlParameter("EmployeeId", item.EmployeeId),
                         new SqlParameter("CompanyId", item.CompanyId),
                         new SqlParameter("EntryTime", datetime),
@@ -457,6 +462,16 @@ namespace PIAdvisingApp.Service
                 return apiNumber.ToString();
             }
         }
+        public int GenerateSerialNumber(int employeeId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                int apiNo = ctx.Database.SqlQuery<Int32>("EXEC GetSerialNumber @EmployeeId", new SqlParameter("EmployeeId", employeeId)).FirstOrDefault();
+                return apiNo;
+            }
+        }
+
+
         //public (string apiNumber, int apiId) GenerateUniqueNumberAndId(int employeeId)
         //{
         //    using (var ctx = new ApplicationDbContext())

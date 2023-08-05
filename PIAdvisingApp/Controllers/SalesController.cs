@@ -96,13 +96,17 @@ namespace PIAdvisingApp.Controllers
         }
         public ActionResult AdvisePiFromRep()
         {
-            int employeeId = 18843;
-            ViewBag.CustomerByReps = _salesService.GetCustomerByRepId(employeeId);
-            ViewBag.EmployeeId = 18843;
+            string employeeId = Request.Cookies["EmployeeId"].Value.ToString();
+            var customer = _salesService.GetCustomerByRepId(Convert.ToInt32(employeeId));
+            ViewBag.CustomerByReps = customer;
+            ViewBag.EmployeeId = employeeId;
+            //int representativeId = ViewBag.CustomerByReps.FirstOrDefault()?.RepresentativeId ?? 0;
+            ViewBag.RepresentativeId = customer.FirstOrDefault()?.RepresentativeId;
             //var advicePi = _salesService.AdvisePI();
             List<AdvisePiFromRepResult> result = new List<AdvisePiFromRepResult>();
             return View(result);
         }
+
 
         //[HttpPost]
         //public ActionResult AdvisePiFromRepDetailsPartial(int customerId ,int employeeId)
