@@ -17,7 +17,8 @@ namespace PIAdvisingApp.ViewModels
 
 
         public string RepresentativeName { get; set; }
-
+        public short RepresentativeId { get; set; }
+     
         public string ShortName { get; set; }
 
         public decimal BookingQty { get; set; }

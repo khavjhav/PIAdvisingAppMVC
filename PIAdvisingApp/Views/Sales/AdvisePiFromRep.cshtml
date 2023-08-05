@@ -139,13 +139,23 @@
                             <tr>
                                 <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
                                 <td class="text-center p-0">
-                                    <select id="retailer-field" class="form-control form-control-sm">
-                                        <option selected disabled>Select Prime Beneficiary</option>
+                                    @*<select id="retailer-field" class="form-control form-control-sm">
+            <option selected disabled>Select Prime Beneficiary</option>
+        </select>*@
+                                    <select class="form-control" id="company-field" name="companyName">
+                                        <option value="">Choose Company</option>
+                                        <option value="1">KDS Accessories Ltd.</option>
+                                        <option value="2">KDS Thread Ltd.</option>
+                                        <option value="3">KDS Poly Industries Ltd.</option>
+                                        @*<option value="4">Dominox IM</option>*@
+                                        <option value="5">KDS Accessories Ltd. (Unit 2)</option>
+                                        <option value="6">KDS Thread Ltd. (Unit 2)</option>
                                     </select>
                                 </td>
 
 
                                 <td colspan="6" class="text-right">
+                                    <button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>
                                     <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear All</button>
                                 </td>
                             </tr>
@@ -173,17 +183,21 @@
                             </tr>
                         </thead>
                         <tbody id="advise-pi-from-rep-selected"></tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6" class="text-right">
-                                    <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
-                                </td>
-                            </tr>
-                        </tfoot>
+
                     </table>
+
+
+                </div>
+                <div>
+                    <td colspan="6" class="text-right">
+                        <button id="save-btn" class="btn btn-sm btn-primary" disabled>Save</button>
+                    </td>
+
+
                 </div>
             </div>
         </div>
+        
     </div>
     @*<div class="col-lg-4 text-right d-none" id="advised-list-controls-div">*@
 
@@ -288,6 +302,7 @@
     </div>
     <div id="advise-pi-from-rep-details-div"></div>
     <!-- this is where the partial view loads -->
+
 </div>
 
 
@@ -356,18 +371,22 @@
             $('#save-btn').click(function () {
                 let customerId = $('#CustomerId').val();
                 let retailerId = $('#retailer-field').val();
+                let companyId = $('#company-field').val();
                 let remarks = $('#remarks').val();
                 let employeeId = '@ViewBag.EmployeeId';
                 let loadingSpinner = $('#loading-spinner');
+                console.log(companyId)
                 let bookingList = [];
                 $('.SelectedRows').each(function () {
                     bookingList.push({
                         bookingId: $(this).find('.BookingIdSelected').val(),
+                        representativeId: $(this).find('.RepresentativeIdSelected').val(),
                         bookingNo: $(this).find('.BookingNoSelected').text(),
                         bookingQty: $(this).find('.BookingQtySelected').text().replace(/,/g, ''),
                         bookingValue: $(this).find('.BookingValueSelected').text().replace(/,/g, ''),
                         customerId,
                         retailerId,
+                        companyId,
                         remarks,
                         employeeId
                     });
@@ -382,7 +401,7 @@
                 } else {
                     //loadingSpinner d-flex
                     loadingSpinner.removeClass('d-none');
-                    /*console.log(bookingList);*/
+                    console.log(bookingList);
                     $.post("@Url.Action("SaveAdvisePiFromRep", "Sales")", { request: bookingList }, function (result) {
                         loadingSpinner.addClass('d-none');
                         //alert on clicking ok reload page
@@ -416,6 +435,8 @@
                     $(this).find('.tree-view-details').hide();
                 }
             });
+
+          
             // Add an event handler for row selection in the booking list table
             $(document).on('change', '.selected-item', function () {
                 // Clear the tree view
@@ -497,7 +518,10 @@
 
                     // Add retailer name to the dropdown if it doesn't already exist
                     if ($('#retailer-field option[value="' + RetailerId + '"]').length === 0) {
-                        $('#retailer-field').append('<option value="' + RetailerId + '">' + retailerName + '</option>');
+                        if (!$('#retailer-field option:contains("' + retailerName + '")').length) {
+                            $('#retailer-field').append('<option value="' + RetailerId + '">' + retailerName + '</option>');
+                        }
+
                     }
 
                     // Set the selected retailer if it's the first retailer selected
@@ -578,6 +602,9 @@
             //    var retailerFilter = $(this).val();
             //    table.column(11).search(retailerFilter).draw();
             //});
+     
+               
+          
 
         });
     </script>

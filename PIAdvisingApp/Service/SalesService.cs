@@ -389,6 +389,7 @@ namespace PIAdvisingApp.Service
                   .ToList();
 
                 return result;
+                
             }
         }
 
@@ -403,6 +404,7 @@ namespace PIAdvisingApp.Service
                 {
                     var command = "INSERT INTO [dbo].[ApiMainBond]" +
            "([ApiNumber]" +
+           //",[ApiNo]" +
            ",[BookingId]" +
            ",[BookingNo]" +
            ",[CustomerId]" +
@@ -411,9 +413,11 @@ namespace PIAdvisingApp.Service
            ",[BookingValue]" +
            ",[Remarks]" +
            ",[EmployeeId]" +
+           ",[CompanyId]" +
            ",[EntryTime]" +
            ",[IpAddress])" +
      "VALUES (@ApiNumber" +
+           //",@ApiNo" +
            ",@BookingId" +
            ",@BookingNo" +
            ",@CustomerId" +
@@ -422,20 +426,23 @@ namespace PIAdvisingApp.Service
            ",@BookingValue" +
            ",@Remarks" +
            ",@EmployeeId" +
+           ",@CompanyId" +
            ",@EntryTime" +
            ",@IpAddress)";
 
                     rowsAffected += ctx.Database.ExecuteSqlCommand(
                         command,
                         new SqlParameter("ApiNumber", apiNumber),
+                        //new SqlParameter("ApiNo", apiNo),
                         new SqlParameter("BookingId", item.BookingId),
                         new SqlParameter("BookingNo", item.BookingNo),
                         new SqlParameter("CustomerId", item.CustomerId),
                         new SqlParameter("RetailerId", item.RetailerId),
                         new SqlParameter("BookingQty", item.BookingQty),
                         new SqlParameter("BookingValue", item.BookingValue),
-                        new SqlParameter("Remarks", item.Remarks),
+                       new SqlParameter("Remarks", (object)item.Remarks ?? DBNull.Value), 
                         new SqlParameter("EmployeeId", item.EmployeeId),
+                        new SqlParameter("CompanyId", item.CompanyId),
                         new SqlParameter("EntryTime", datetime),
                         new SqlParameter("IpAddress", item.IPAddress));
                 }
@@ -450,6 +457,15 @@ namespace PIAdvisingApp.Service
                 return apiNumber.ToString();
             }
         }
+        //public (string apiNumber, int apiId) GenerateUniqueNumberAndId(int employeeId)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var result = ctx.Database.SqlQuery<(string apiNumber, int apiId)>("EXEC GetApiNumberAndId @EmployeeId", new SqlParameter("EmployeeId", employeeId)).FirstOrDefault();
+        //        return result;
+        //    }
+        //}
+
 
     }
 }
