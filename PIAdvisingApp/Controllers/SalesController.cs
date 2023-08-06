@@ -135,6 +135,7 @@ namespace PIAdvisingApp.Controllers
             ViewBag.Retailers = result.Select(x => x.RetailerName).Distinct().ToList();
             ViewBag.ContactPersons = result.Select(x => x.ContactName).Distinct().ToList();
             ViewBag.CompanyNames = result.Select(x => x.CompanyName).Distinct().ToList();
+            ViewBag.AdviseStatus = result.Select(x => x.AdviseStatus).Distinct().ToList();
 
 
             return PartialView("_AdvisePiFromRepDetailsPartial", result);

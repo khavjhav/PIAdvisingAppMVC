@@ -50,6 +50,21 @@
         </select>
     </div>
 </div>
+    @*Advise Status Filter*@ 
+<div class="row mb-2">
+    <div class="col-md-2">
+        <label for="status-filter" class="mb-1" style="font-size: 10px;">Advise Status:</label>
+    </div>
+    <div class="col-md-10">
+        <select id="status-filter" class="form-control form-control-sm">
+            <option value="All">All</option>
+            @foreach (var status in ViewBag.AdviseStatus)
+            {
+                <option value="@status">@status</option>
+            }
+        </select>
+    </div>
+</div>
  @*Beneficiary Filter*@ 
 <div class="row mb-2">
     <div class="col-md-2">
@@ -83,94 +98,9 @@
         </div>
     </div>
 </div>
-    </div>
-@*<div class="row">
-    <div class="col-lg-2">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-2">
-                <div class="form-group">
-                    <label for="product-type-filter" class="mb-1" style="font-size: 10px;">Product Type:</label>
-                    <select id="product-type-filter" class="form-control form-control-sm">
-                        <option value="">All</option>
-                        @foreach (var category in ViewBag.ProductTypes)
-                        {
-                            <option value="@category">@category</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-2">
-                <div class="form-group">
-                    <label for="retailer-filter" class="mb-1" style="font-size: 10px;">Retailer:</label>
-                    <select id="retailer-filter" class="form-control form-control-sm">
-                        <option value="All">All</option>
-                        @foreach (var retailer in ViewBag.Retailers)
-                        {
-                            <option value="@retailer">@retailer</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-2">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-2">
-                <div class="form-group">
-                    <label for="company-filter" class="mb-1" style="font-size: 10px;">Beneficiary:</label>
-                    <select id="company-filter" class="form-control form-control-sm">
-                        <option value="All">All</option>
-                        @foreach (var company in ViewBag.CompanyNames)
-                        {
-                            <option value="@company">@company</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-2">
-                <div class="form-group">
-                    <label for="contact-filter" class="mb-1" style="font-size: 10px;">Contact Person:</label>
-                    <select id="contact-filter" class="form-control form-control-sm">
-                        <option value="">All</option>
-                        @foreach (var contact in ViewBag.ContactPersons)
-                        {
-                            <option value="@contact">@contact</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
 
-@*<div class="col-lg-2">
-            <div class="main-card mb-2 card">
 
-            </div>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="main-card mb-2 card">
-
-            </div>
-        </div>
-        <div class="col-lg-2">
-            <div class="main-card mb-2 card">
-
-            </div>
-        </div>*@
-
 
 
 
@@ -188,15 +118,17 @@
                         <th class="text-center d-none">Booking Id</th>
                         <th class="text-center">Booking Date</th>
                         <th class="text-center">PI Status</th>
+                        <th class="text-center">Advise Status</th>
                         <th class="text-center d-none">Customer Name</th>
                         <th class="text-center d-none">Representative Name</th>
                         <th class="text-center d-none">Short Name</th>
                         <th class="text-center">Booking Qty</th>
                         <th class="text-center">Booking Value</th>
+                        <th class="text-center">LC Balance</th>
                         <th class="text-center">Retailer Name</th>
                         <th class="text-center">Contact Person</th>
                         <th class="text-center">Delivery (%)</th>
-                        <th class="text-center">Category Name</th>
+                        <th class="text-center d-none">Category Name</th>
                         <th class="text-center d-none">Company Name</th>
                         <th class="text-center d-none">Company Name</th>
                         @*<th class="text-center d-none">Representative ID</th>*@
@@ -209,20 +141,23 @@
                             <td class="text-center d-none">@rowNo </td>
                             <td class="text-center"><input class="selected-item" type="checkbox" name="selectedItems" value="@item.BookingId" /></td>
                             <td class="text-center BookingNo">@item.BookingNo</td>
+
                             <td class="text-center BookingId  d-none">@item.BookingId</td>
                             <td class="text-center BookingDate">@item.BookingDate.ToString("dd-MMM-yy")</td>
                             <td class="text-center PIStatus">@item.PIStatus</td>
+                            <td class="text-center AdviseStatus">@item.AdviseStatus</td>
                             <td class="text-center d-none CustomerName">@item.CustomerName</td>
                             <td class="text-center d-none RepresentativeName">@item.RepresentativeName</td>
                             <td class="text-center d-none ShortName">@item.ShortName</td>
                             @*<td class="text-center BookingQty">@item.BookingQty</td>*@
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green text-center BookingQty")
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green text-center BookingValue")
+                            @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green text-center LCBalance")
                             <td class="text-center RetailerName">@item.RetailerName</td>
                             <td class="text-center ContactName">@item.ContactName</td>
                             @*<td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>  *@
                             @MyHelpers.FinancialNumberRoundedTd(item.DeliveryPercentage, "td-green text-center DeliveryPercentage")
-                            <td class="text-center CategoryName">@item.CategoryName</td>
+                            <td class="text-center d-none CategoryName">@item.CategoryName</td>
                             <td class="text-center d-none CompanyName">@item.CompanyName</td>
                             <td class="text-center d-none RepresentativeId">@item.RepresentativeId</td>
 
@@ -255,38 +190,23 @@
         $('#product-type-filter').on('change', function () {
             var categoryFilter = $(this).val();
             console.log('Product Type Filter Value:', categoryFilter);
-            table.column(14).search(categoryFilter).draw();
+            table.column(16).search(categoryFilter).draw();
+        });
+        // Filter event handler for status type
+        $('#status-filter').on('change', function () {
+            var statusFilter = $(this).val();
+            console.log('Advise Status Filter Value:', statusFilter);
+            table.column(6).search(statusFilter).draw();
         });
 
-        //// Filter event handler for retailer
-        //$('#retailer-filter').on('change', function () {
-        //    var retailerFilter = $(this).val();
-        //    console.log('Retailer Filter Value:', retailerFilter);
-        //    table.column(11).search(retailerFilter).draw();
-        //});
-        // Filter event handler for retailer
-        //$('#retailer-filter').on('change', function () {
-        //    var retailerFilter = $(this).val();
-        //    console.log('Retailer Filter Value:', retailerFilter);
-
-        //    // Check if the selected value is "All" and update the search accordingly
-        //    if (retailerFilter === "All") {
-        //        table.column(11).search("").draw();
-        //    } else {
-        //        // Use custom filtering function for case-insensitive match
-        //        table.column(11).search(
-        //            '^' + retailerFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
-        //            true, false
-        //        ).draw();
-        //    }
-        //});
+      
         // Custom filtering function for retailer
         function filterRetailer(retailerFilter) {
             if (retailerFilter === "All") {
-                table.column(11).search("").draw(); // Show all data for "Retailer Name" column
+                table.column(13).search("").draw(); // Show all data for "Retailer Name" column
             } else {
                 // Use custom filtering function for case-insensitive match
-                table.column(11).search(
+                table.column(13).search(
                     '^' + retailerFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
                     true, false
                 ).draw();
@@ -304,23 +224,17 @@
         $('#contact-filter').on('change', function () {
             var contactFilter = $(this).val();
             console.log('Contact Filter Value:', contactFilter);
-            table.column(12).search(contactFilter).draw();
+            table.column(14).search(contactFilter).draw();
         });
 
-        //// Filter event handler for company
-        //$('#company-filter').on('change', function () {
-        //    var companyFilter = $(this).val();
-        //    console.log('Company Filter Value:', companyFilter);
-        //    table.column(15).search(companyFilter).draw();
-        //});
-        // Filter event handler for company
+
         // Custom filtering function for company
         function filterCompany(companyFilter) {
             if (companyFilter === "All") {
-                table.column(15).search("").draw(); // Show all data for "Company Name" column
+                table.column(17).search("").draw(); // Show all data for "Company Name" column
             } else {
                 // Use custom filtering function for case-insensitive match
-                table.column(15).search(
+                table.column(17).search(
                     '^' + companyFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
                     true, false
                 ).draw();
