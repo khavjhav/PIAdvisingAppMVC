@@ -197,7 +197,7 @@
                         <th class="text-center">Contact Person</th>
                         <th class="text-center">Delivery (%)</th>
                         <th class="text-center">Category Name</th>
-                        <th class="text-center">Company Name</th>
+                        <th class="text-center d-none">Company Name</th>
                         <th class="text-center d-none">Company Name</th>
                         @*<th class="text-center d-none">Representative ID</th>*@
                     </tr>
@@ -216,14 +216,14 @@
                             <td class="text-center d-none RepresentativeName">@item.RepresentativeName</td>
                             <td class="text-center d-none ShortName">@item.ShortName</td>
                             @*<td class="text-center BookingQty">@item.BookingQty</td>*@
-                            @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green BookingQty")
-                            @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green BookingValue")
+                            @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green text-center BookingQty")
+                            @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green text-center BookingValue")
                             <td class="text-center RetailerName">@item.RetailerName</td>
                             <td class="text-center ContactName">@item.ContactName</td>
                             @*<td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>  *@
-                            @MyHelpers.FinancialNumberRoundedTd(item.DeliveryPercentage, "td-green DeliveryPercentage")
+                            @MyHelpers.FinancialNumberRoundedTd(item.DeliveryPercentage, "td-green text-center DeliveryPercentage")
                             <td class="text-center CategoryName">@item.CategoryName</td>
-                            <td class="text-center CompanyName">@item.CompanyName</td>
+                            <td class="text-center d-none CompanyName">@item.CompanyName</td>
                             <td class="text-center d-none RepresentativeId">@item.RepresentativeId</td>
 
                         </tr>

@@ -104,7 +104,9 @@
                                         }
                                     </select>
                                 </td>
-                                <td class="text-center"><button id="show-btn" class="btn btn-primary">Show</button></td>
+                                <td class="text-center">
+                                 <button id="show-btn" class="btn btn-primary">Show</button>
+                                </td>
                             </tr>
                         </thead>
                         
@@ -332,6 +334,7 @@
                 let representativeId = '@ViewBag.RepresentativeId';
                 let loadingSpinner = $('#loading-spinner');
                 clearForms();
+                clearRemarksTextarea();
                 if (customerId == 0) {
                     $('#advise-pi-from-rep-details-div').empty();
                     Swal.fire(
@@ -369,6 +372,8 @@
                     }); /*--x*/
                 }
             });
+           
+
             // Clear All button click event handler
             $('#clear-all-btn').click(function () {
                 $('#booking-list-table .selected-item').prop('checked', false).trigger('change');
@@ -573,6 +578,10 @@
                 $('#advised-list-controls-div').addClass('d-none');
             }
 
+            function clearRemarksTextarea() {
+                $('#remarks').val("");
+            }
+
             function updateTotal() {
                 var total = 0;
                 $('.BookingValueSelected').each(function () {
@@ -616,7 +625,17 @@
             //});
 
 
+            document.addEventListener("DOMContentLoaded", function () {
+                // Get references to the elements
+                var showButton = document.getElementById("show-btn");
+                var remarksTextarea = document.getElementById("remarks");
 
+                // Add a click event listener to the "Show" button
+                showButton.addEventListener("click", function () {
+                    // Clear the value of the remarks textarea
+                    remarksTextarea.value = "";
+                });
+            });
 
         });
     </script>
