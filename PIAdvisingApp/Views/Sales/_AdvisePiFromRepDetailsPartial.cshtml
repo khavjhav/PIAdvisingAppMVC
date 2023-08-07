@@ -149,10 +149,12 @@
                             <td class="text-center d-none CustomerName">@item.CustomerName</td>
                             <td class="text-center d-none RepresentativeName">@item.RepresentativeName</td>
                             <td class="text-center d-none ShortName">@item.ShortName</td>
+                            
                             @*<td class="text-center BookingQty">@item.BookingQty</td>*@
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green text-center BookingQty")
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green text-center BookingValue")
-                            @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green text-center LCBalance")
+                         
+                            <td class="text-center  LCBalance">@item.LCBalance</td>
                             <td class="text-center RetailerName d-none">@item.RetailerName</td>
                             <td class="text-center ContactName d-none">@item.ContactName</td>
                             @*<td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>  *@
