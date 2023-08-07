@@ -125,8 +125,8 @@
                         <th class="text-center">Booking Qty</th>
                         <th class="text-center">Booking Value</th>
                         <th class="text-center">LC Balance</th>
-                        <th class="text-center">Retailer Name</th>
-                        <th class="text-center">Contact Person</th>
+                        <th class="text-center d-none">Retailer Name</th>
+                        <th class="text-center d-none">Contact Person</th>
                         <th class="text-center">Delivery (%)</th>
                         <th class="text-center d-none">Category Name</th>
                         <th class="text-center d-none">Company Name</th>
@@ -153,8 +153,8 @@
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingQty, "td-green text-center BookingQty")
                             @MyHelpers.FinancialNumberRoundedTd(item.BookingValue, "td-green text-center BookingValue")
                             @MyHelpers.FinancialNumberRoundedTd(item.LCBalance, "td-green text-center LCBalance")
-                            <td class="text-center RetailerName">@item.RetailerName</td>
-                            <td class="text-center ContactName">@item.ContactName</td>
+                            <td class="text-center RetailerName d-none">@item.RetailerName</td>
+                            <td class="text-center ContactName d-none">@item.ContactName</td>
                             @*<td class="text-center DeliveryPercentage">@item.DeliveryPercentage</td>  *@
                             @MyHelpers.FinancialNumberRoundedTd(item.DeliveryPercentage, "td-green text-center DeliveryPercentage")
                             <td class="text-center d-none CategoryName">@item.CategoryName</td>
@@ -193,12 +193,31 @@
             table.column(16).search(categoryFilter).draw();
         });
         // Filter event handler for status type
+        //$('#status-filter').on('change', function () {
+        //    var statusFilter = $(this).val();
+        //    console.log('Advise Status Filter Value:', statusFilter);
+        //    table.column(6).search(statusFilter).draw();
+        //});
+
+        // Custom filtering function for status
+        function filterStatus(statusFilter) {
+            if (statusFilter === "All") {
+                table.column(6).search("").draw(); // Show all data for "status Name" column
+            } else {
+                // Use custom filtering function for case-insensitive match
+                table.column(6).search(
+                    '^' + statusFilter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$',
+                    true, false
+                ).draw();
+            }
+        }
+
+        // Filter event handler for status
         $('#status-filter').on('change', function () {
             var statusFilter = $(this).val();
-            console.log('Advise Status Filter Value:', statusFilter);
-            table.column(6).search(statusFilter).draw();
+            console.log('Status Filter Value:', statusFilter);
+            filterStatus(statusFilter);
         });
-
       
         // Custom filtering function for retailer
         function filterRetailer(retailerFilter) {
