@@ -80,7 +80,7 @@
     <div class="page-title-wrapper">
         <div class="page-title-heading">
             <div>
-                Advise PI 
+                Advise PI
             </div>
         </div>
     </div>
@@ -88,91 +88,92 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-1">
-                <div class="table-responsive">
-                    <table class="mb-0 table table-sm table-bordered">
-                        <thead>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Customer</td>
-                                <td class="text-center">
-                                    <select id="CustomerId" class="form-control-sm form-control">
-                                        <option value="0">Please select</option>
-                                        @foreach (var item in ViewBag.CustomerByReps)
-                                        {
-                                            <option value="@item.CustomerId">@item.CustomerName</option>
-                                        }
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                 <button id="show-btn" class="btn btn-primary">Show</button>
-                                </td>
-                            </tr>
-                        </thead>
-                        
-                    </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-card mb-2 card">
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="mb-0 table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td class="text-center" style="font-size:12px !important">Customer</td>
+                                        <td class="text-center">
+                                            <select id="CustomerId" class="form-control-sm form-control">
+                                                <option value="0">Please select</option>
+                                                @foreach (var item in ViewBag.CustomerByReps)
+                                                {
+                                                    <option value="@item.CustomerId">@item.CustomerName</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <button id="show-btn" class="btn btn-primary">Show</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 ml-auto d-none" id="advised-list-controls-div">
+                <div class="main-card mb-2 card">
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="mb-0 table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td class="text-center" style="font-size:12px !important">Customer:</td>
+                                        <td class="text-center" style="font-size:12px !important" id="customer-name"></td>
+                                        <td class="text-center" style="font-size:12px !important">
+                                            Total : <span id="total">0.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" style="font-size:12px !important">Remarks:</td>
+                                        <td colspan="2" class="text-center p-0">
+                                            <textarea class="form-control mb-0" id="remarks" style="font-size:9px;" placeholder="Enter your remarks here.." rows="1"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
+                                        <td class="text-center p-0">
+                                            @*<select id="retailer-field" class="form-control form-control-sm">
+                                                    <option selected disabled>Select Prime Beneficiary</option>
+                                                </select>*@
+                                            <select class="form-control" id="company-field" name="companyName">
+                                                <option value="">Choose Prime Beneficiary</option>
+                                                <option value="1">KDS Accessories Ltd.</option>
+                                                <option value="2">KDS Thread Ltd.</option>
+                                                <option value="3">KDS Poly Industries Ltd.</option>
+                                                @*<option value="4">Dominox IM</option>*@
+                                                <option value="5">KDS Accessories Ltd. (Unit 2)</option>
+                                                <option value="6">KDS Thread Ltd. (Unit 2)</option>
+                                            </select>
+                                        </td>
+
+
+                                        <td colspan="6" class="text-right">
+                                            @*<button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>*@
+                                            <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    @*<div class="col-lg-4 text-right" id="advised-list-div">*@
-    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">*@
 
-    <div class="col-lg-6 col-xl-4 ml-auto d-none" id="advised-list-controls-div">
-        <div class="main-card mb-2 card">
-            <div class="card-body p-1">
-                <div class="table-responsive">
-                    <table class="mb-0 table table-sm table-bordered">
-                        <thead>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Customer:</td>
-                                <td class="text-center" style="font-size:12px !important" id="customer-name"></td>
-                                <td class="text-center" style="font-size:12px !important">
-                                    Total : <span id="total">0.00</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Remarks:</td>
-                                <td colspan="2" class="text-center p-0">
-                                    <textarea class="form-control mb-0" id="remarks" style="font-size:9px;" placeholder="Enter your remarks here.." rows="1"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="font-size:12px !important">Beneficiary:</td>
-                                <td class="text-center p-0">
-                                    @*<select id="retailer-field" class="form-control form-control-sm">
-            <option selected disabled>Select Prime Beneficiary</option>
-        </select>*@
-                                    <select class="form-control" id="company-field" name="companyName">
-                                        <option value="">Choose Prime Beneficiary</option>
-                                        <option value="1">KDS Accessories Ltd.</option>
-                                        <option value="2">KDS Thread Ltd.</option>
-                                        <option value="3">KDS Poly Industries Ltd.</option>
-                                        @*<option value="4">Dominox IM</option>*@
-                                        <option value="5">KDS Accessories Ltd. (Unit 2)</option>
-                                        <option value="6">KDS Thread Ltd. (Unit 2)</option>
-                                    </select>
-                                </td>
-
-
-                                <td colspan="6" class="text-right">
-                                    @*<button class="btn btn-primary" id="setCompanyButton" disabled>Set</button>*@
-                                    <button id="clear-all-btn" class="btn btn-sm btn-danger">Clear</button>
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 text-right ml-auto d-none" id="advised-list-div">
+    <div class="col-lg-8 text-right ml-auto d-none" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title" style="text-align: center">Advised List </h5>
 
-                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                <div class="table-responsive" style="height: 350px !important; overflow-y: auto;">
 
                     <table class="mb-0 table table-sm table-bordered">
                         <thead>
@@ -186,12 +187,12 @@
                         </thead>
                         <tbody id="advise-pi-from-rep-selected"></tbody>
                         @*<tfoot>
-                    <tr>
-                        <td colspan="6" class="text-right">
-                            <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
-                        </td>
-                    </tr>
-                </tfoot>*@
+                                <tr>
+                                    <td colspan="6" class="text-right">
+                                        <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                                    </td>
+                                </tr>
+                            </tfoot>*@
 
                     </table>
 
@@ -200,16 +201,15 @@
 
                 <div>
                     @*<td colspan="6" class="text-right">
-                <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
-            </td>*@
+                            <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
+                        </td>*@
                     <button id="save-btn" class="btn btn-sm btn-primary">Save</button>
 
                 </div>
             </div>
         </div>
-        
+
     </div>
-    @*<div class="col-lg-4 text-right d-none" id="advised-list-controls-div">*@
 
 </div>
 
@@ -257,7 +257,7 @@
 <!--</div>
 </div>-->
 <!--<div class="row">-->
-    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+@*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Advised List (Tree View)</h5>
@@ -273,7 +273,7 @@
         </div>
     </div>*@
 
-    @*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
+@*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Advised List (Table View)</h5>
@@ -303,8 +303,6 @@
     </div>*@
 
 <!--</div>-->
-
-
 <!-- div with loading image in center -->
 <div class="col-lg-12 col-xl-12 text-center align-center">
     <div class="d-none" id="loading-spinner" style="display:flex;justify-content:center;align-items:center;height:100%;">
@@ -372,7 +370,7 @@
                     }); /*--x*/
                 }
             });
-           
+
 
             // Clear All button click event handler
             $('#clear-all-btn').click(function () {
@@ -520,11 +518,11 @@
                     $('#advise-pi-from-rep-selected').append(
                         '<tr class="SelectedRows">' +
                         '<input type="hidden" class="BookingIdSelected" value="' + bookingId +'"/>'+
-                        '<td class="BookingNoSelected">' + bookingNo + '</td>' +
-                        '<td>' + CategoryName + '</td>' +
-                        '<td class="BookingQtySelected">' + BookingQty + '</td>' +
-                        '<td class="BookingValueSelected">' + BookingValue + '</td>' +
-                        '<td>' + RetailerName + '</td>' +
+                        '<td class="text-center BookingNoSelected">' + bookingNo + '</td>' +
+                        '<td class="text-center CategorySelected">' + CategoryName + '</td>' +
+                        '<td class="text-center BookingQtySelected">' + BookingQty + '</td>' +
+                        '<td class="text-center BookingValueSelected">' + BookingValue + '</td>' +
+                        '<td class="text-center RetailerSelected">' + RetailerName + '</td>' +
                         '</tr>');
 
                     // Populate customer and retailer names
