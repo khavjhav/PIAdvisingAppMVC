@@ -94,13 +94,30 @@
                     <div class="card-body p-1">
                         <div class="table-responsive">
                             <table class="mb-0 table table-sm table-bordered">
+                                @*<thead>
+                                        <tr>
+                                            <td class="text-center" style="font-size:12px !important">Customer</td>
+                                            <td class="text-center">
+                                                <select id="CustomerId" class="form-control-sm form-control">
+                                                    <option value="0">Please select</option>
+                                                    @foreach (var item in ViewBag.CustomerByReps)
+                                                    {
+                                                        <option value="@item.CustomerId">@item.CustomerName</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <button id="show-btn" class="btn btn-primary">Show</button>
+                                            </td>
+                                        </tr>
+                                    </thead>*@
                                 <thead>
                                     <tr>
                                         <td class="text-center" style="font-size:12px !important">Customer</td>
                                         <td class="text-center">
                                             <select id="CustomerId" class="form-control-sm form-control">
                                                 <option value="0">Please select</option>
-                                                @foreach (var item in ViewBag.CustomerByReps)
+                                                @foreach (var item in ((IEnumerable<PIAdvisingApp.ViewModels.CustomerByRepVm>)ViewBag.CustomerByReps).OrderBy(c => c.CustomerName))
                                                 {
                                                     <option value="@item.CustomerId">@item.CustomerName</option>
                                                 }
@@ -111,6 +128,7 @@
                                         </td>
                                     </tr>
                                 </thead>
+
 
                             </table>
                         </div>
@@ -212,6 +230,23 @@
     </div>
 
 </div>
+
+<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+        <div class="main-card mb-1 card p-1">
+            <div class="card-body p-1">
+                <h5 class="card-title">Advised List (Tree View)</h5>
+                <div class="table-responsive">
+                    <div id="tree-view">
+                        <div class="tree-view-header">
+                            <span class="tree-view-header-title">Company Name</span>
+                            <span class="tree-view-header-value">Total Booking Value</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <!--<div class="row">
 
@@ -405,7 +440,15 @@
                         employeeId
                     });
                 });
-
+                // Check if a beneficiary is selected
+                if (companyId === "") {
+                    Swal.fire(
+                        'Error!',
+                        'Please select a beneficiary!',
+                        'error'
+                    );
+                    return;
+                }
                 if (bookingList.length == 0) {
                     Swal.fire(
                         'Error!',
@@ -437,71 +480,71 @@
             });
 
 
-            //// Event delegation to handle the click events for tree view nodes
-            //$(document).on('click', '.tree-view-node', function () {
-            //    // Toggle the expansion of the clicked node
-            //    $(this).toggleClass('expanded');
+            // Event delegation to handle the click events for tree view nodes
+            $(document).on('click', '.tree-view-node', function () {
+                // Toggle the expansion of the clicked node
+                $(this).toggleClass('expanded');
 
-            //    // If the node is expanded, show the inner details; otherwise, hide them
-            //    if ($(this).hasClass('expanded')) {
-            //        $(this).find('.tree-view-details').show();
-            //    } else {
-            //        $(this).find('.tree-view-details').hide();
-            //    }
-            //});
+                // If the node is expanded, show the inner details; otherwise, hide them
+                if ($(this).hasClass('expanded')) {
+                    $(this).find('.tree-view-details').show();
+                } else {
+                    $(this).find('.tree-view-details').hide();
+                }
+            });
 
 
-            //// Add an event handler for row selection in the booking list table
-            //$(document).on('change', '.selected-item', function () {
-            //    // Clear the tree view
-            //    $('#tree-view').empty();
+            // Add an event handler for row selection in the booking list table
+            $(document).on('change', '.selected-item', function () {
+                // Clear the tree view
+                $('#tree-view').empty();
 
-            //    // Calculate the total booking value
-            //    var totalBookingValue = 0;
+                // Calculate the total booking value
+                var totalBookingValue = 0;
 
-            //    // Loop through the selected rows in the table
-            //    $('.selected-item:checked').each(function () {
-            //        // Get the values for each row
-            //        var bookingNo = $(this).closest('tr').find('.BookingNo').text();
-            //        var categoryName = $(this).closest('tr').find('.CategoryName').text();
-            //        var bookingQty = $(this).closest('tr').find('.BookingQty').text();
-            //        var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
-            //        var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
+                // Loop through the selected rows in the table
+                $('.selected-item:checked').each(function () {
+                    // Get the values for each row
+                    var bookingNo = $(this).closest('tr').find('.BookingNo').text();
+                    var categoryName = $(this).closest('tr').find('.CategoryName').text();
+                    var bookingQty = $(this).closest('tr').find('.BookingQty').text();
+                    var bookingValue = parseFloat($(this).closest('tr').find('.BookingValue').text());
+                    var companyName = $(this).closest('tr').find('.CompanyName').text(); // Assuming the 4th column is Company Name
 
-            //        // Add the booking value to the total
-            //        totalBookingValue += bookingValue;
+                    // Add the booking value to the total
+                    totalBookingValue += bookingValue;
 
-            //        // Check if the company name already exists in the tree view
-            //        var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
-            //        if (companyNode.length === 0) {
-            //            // If the company name doesn't exist, create a new node for it
-            //            var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
-            //                '<span class="tree-view-node-title">' + companyName + '</span>' +
-            //                '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
-            //                '</div>';
-            //            $('#tree-view').append(companyRow);
-            //        } else {
-            //            // If the company name already exists, update the total booking value
-            //            var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
-            //            companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
-            //        }
+                    // Check if the company name already exists in the tree view
+                    var companyNode = $('#tree-view').find('[data-company="' + companyName + '"]');
+                    if (companyNode.length === 0) {
+                        // If the company name doesn't exist, create a new node for it
+                        var companyRow = '<div class="tree-view-node" data-company="' + companyName + '">' +
+                            '<span class="tree-view-node-title">' + companyName + '</span>' +
+                            '<span class="tree-view-node-value">' + bookingValue.toFixed(2) + '</span>' +
+                            '</div>';
+                        $('#tree-view').append(companyRow);
+                    } else {
+                        // If the company name already exists, update the total booking value
+                        var currentTotal = parseFloat(companyNode.find('.tree-view-node-value').text());
+                        companyNode.find('.tree-view-node-value').text((currentTotal + bookingValue).toFixed(2));
+                    }
 
-            //        // Add the row details as a child node under the company name
-            //        var rowDetails = '<div class="tree-view-details">' +
-            //            '<span>Booking No: ' + bookingNo + '</span>' +
-            //            '<span>Category Name: ' + categoryName + '</span>' +
-            //            '<span>Booking Qty: ' + bookingQty + '</span>' +
-            //            '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
-            //            '</div>';
-            //        companyNode.append(rowDetails);
-            //    });
+                    // Add the row details as a child node under the company name
+                    var rowDetails = '<div class="tree-view-details">' +
+                        '<span>Booking No: ' + bookingNo + '</span>' +
+                        '<span>Category Name: ' + categoryName + '</span>' +
+                        '<span>Booking Qty: ' + bookingQty + '</span>' +
+                        '<span>Booking Value: ' + bookingValue.toFixed(2) + '</span>' +
+                        '</div>';
+                    companyNode.append(rowDetails);
+                });
 
-            //    // Add the total booking value at the end of the tree view
-            //    var totalRow = '<div class="tree-view-total">' +
-            //        '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
-            //        '</div>';
-            //    $('#tree-view').append(totalRow);
-            //});
+                // Add the total booking value at the end of the tree view
+                var totalRow = '<div class="tree-view-total">' +
+                    '<span>Total Booking Value: ' + totalBookingValue.toFixed(2) + '</span>' +
+                    '</div>';
+                $('#tree-view').append(totalRow);
+            });
 
 
             $(document).on('change', '.selected-item', function () {
