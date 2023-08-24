@@ -235,6 +235,7 @@
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\BondsController.cs" />
     <Compile Include="Controllers\CmController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DataGridController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -300,6 +301,7 @@
     </Compile>
     <Compile Include="Service\BondsService.cs" />
     <Compile Include="Service\CmService.cs" />
+    <Compile Include="Service\DashboardService.cs" />
     <Compile Include="Service\SalesService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="UserMenuPermission.cs">
@@ -372,6 +374,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdvisePiFromRepResult.cs" />
+    <Compile Include="ViewModels\DashboardVm.cs" />
     <Compile Include="ViewModels\Reports.cs" />
     <Compile Include="ViewModels\BondDataVm.cs" />
     <Compile Include="ViewModels\CmApprovalModalVm.cs" />

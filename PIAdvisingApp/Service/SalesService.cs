@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace PIAdvisingApp.Service
@@ -15,6 +16,19 @@ namespace PIAdvisingApp.Service
     public class SalesService
     {
 
+        public List<DashboardViewModel> GetDashboardForRep(int repId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database
+                    .SqlQuery<DashboardViewModel>($"EXEC PrdGetDashboardForRep @RepId = {repId}")
+                    .ToList();
+
+                return result;
+            }
+        }
+
+    
         //public List<string> GetAssetNameList(string assetGroupId, string costCenterId)
         //{
         //    using (var ctx = new BudgetCubeEntities())
@@ -392,7 +406,7 @@ namespace PIAdvisingApp.Service
 
             }
         }
-
+       
         public int SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> requests)
         {
             using (var ctx = new ApplicationDbContext())

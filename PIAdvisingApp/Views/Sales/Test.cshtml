@@ -1,43 +1,53 @@
-﻿@model List<PIAdvisingApp.ViewModels.PiAdvisingBond>
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.DashboardViewModel>
 
 @{
-    ViewBag.Title = "PiAdvisingBond List";
+    ViewBag.Title = "Dashboard";
 }
 
-<h2>PiAdvisingBond List</h2>
+<div class="jumbotron">
+    <h1>Dashboard</h1>
+</div>
+@{
+    // Call the Test action method from the SalesController with repId set to 37
+    var testActionUrl = Url.Action("Test", "Sales", new { repId = 37 });
+}
 
-<table id="pi-advising-bond-table" class="table table-striped">
-    <thead>
-        <tr>
-            <th>ApiNumber</th>
-            <th>Val</th>
-            <th>Qty</th>
-            <th>EntryDate</th>
-            <th>BookingNos</th>
-            <th>Remarks</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<a href="@testActionUrl">Click here to test with repId = 37</a>
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+else
+{
+    <table>
+        <thead>
             <tr>
-                <td>@item.ApiNumber</td>
-                <td>@item.Val</td>
-                <td>@item.Qty</td>
-                <td>@item.EntryDate.ToShortDateString()</td>
-                <td>@item.BookingNos</td>
-                <td>@item.Remarks</td>
+                <th>Representative Name</th>
+                <th>Customer Name</th>
+                <th>Category Name</th>
+                <th>Total Booking Value</th>
+                <th>Total Cancel Value</th>
+                <th>Total Delivered Value</th>
+                <th>Total LC Received Value</th>
+                <th>Total LC Balance</th>
+                <th>Avg Delivery Percentage</th>
             </tr>
-        }
-    </tbody>
-</table>
-
-@section Scripts {
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#pi-advising-bond-table').DataTable();
-        });
-    </script>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.RepresentativeName</td>
+                    <td>@item.CustomerName</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.TotalBookingVal</td>
+                    <td>@item.TotalCancelValue</td>
+                    <td>@item.TotalDeliveredlValue</td>
+                    <td>@item.TotalLCrcvValue</td>
+                    <td>@item.Totallcbalance</td>
+                    <td>@item.Avgdlvper</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

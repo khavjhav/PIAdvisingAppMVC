@@ -26,6 +26,22 @@ namespace PIAdvisingApp.Controllers
         // GET: Sales
 
         [HttpGet]
+        public ActionResult Test()
+        {
+            int repId = 37; // Set the repId value manually
+            var dashboardData = _salesService.GetDashboardForRep(repId);
+
+
+            //if (dashboardData == null || dashboardData.Count == 0)
+            //{
+            //    ViewBag.Message = "No data available for this user.";
+            //    return View(new List<DashboardViewModel>()); // Return an empty list to the view
+            //}
+
+            return View(dashboardData);
+        }
+
+        [HttpGet]
         public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate)
         {
             if (!fromDate.HasValue)
@@ -106,6 +122,8 @@ namespace PIAdvisingApp.Controllers
             List<AdvisePiFromRepResult> result = new List<AdvisePiFromRepResult>();
             return View(result);
         }
+
+
 
 
         //[HttpPost]
