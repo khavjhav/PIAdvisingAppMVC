@@ -25,21 +25,82 @@ namespace PIAdvisingApp.Controllers
         }
         // GET: Sales
 
+        //[HttpGet]
+        //public ActionResult Test()
+        //{
+        //    int repId = 37; // Set the repId value manually
+        //    var dashboardData = _salesService.GetDashboardForRep(repId);
+
+
+        //    //if (dashboardData == null || dashboardData.Count == 0)
+        //    //{
+        //    //    ViewBag.Message = "No data available for this user.";
+        //    //    return View(new List<DashboardViewModel>()); // Return an empty list to the view
+        //    //}
+
+        //    return View(dashboardData);
+        //}
+        public static class ChartColors
+        {
+            private static Random _random = new Random();
+
+            public static List<string> GetRandomColors(int count)
+            {
+                var colors = new List<string>();
+
+                for (int i = 0; i < count; i++)
+                {
+                    colors.Add($"rgba({_random.Next(0, 256)}, {_random.Next(0, 256)}, {_random.Next(0, 256)}, 0.8)");
+                }
+
+                return colors;
+            }
+        }
+
         [HttpGet]
         public ActionResult Test()
         {
             int repId = 37; // Set the repId value manually
             var dashboardData = _salesService.GetDashboardForRep(repId);
 
+            // Grouping data by CategoryName and summing the TotalBookingVal for each category
+            var categoryChartData = dashboardData
+                .GroupBy(item => item.CategoryName)
+                .Select(group => new
+                {
+                    CategoryName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal)
+                })
+                .ToList();
 
-            //if (dashboardData == null || dashboardData.Count == 0)
-            //{
-            //    ViewBag.Message = "No data available for this user.";
-            //    return View(new List<DashboardViewModel>()); // Return an empty list to the view
-            //}
+            // Grouping data by CustomerName and summing the TotalBookingVal for each customer
+            var customerChartData = dashboardData
+                .GroupBy(item => item.CustomerName)
+                .Select(group => new
+                {
+                    CustomerName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal)
+                })
+                .ToList();
+            // Grouping data by CustomerName and summing the TotalBookingVal and TotalLCBalance for each customer
+            var customerLcData = dashboardData
+                .GroupBy(item => item.CustomerName)
+                .Select(group => new
+                {
+                    CustomerName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal),
+                    Totallcbalance = group.Sum(item => item.Totallcbalance)
+                })
+                .ToList();
+
+            ViewBag.CustomerLcData = customerLcData;
+            ViewBag.CategoryChartData = categoryChartData;
+            ViewBag.CustomerChartData = customerChartData;
 
             return View(dashboardData);
         }
+
+
 
         [HttpGet]
         public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate)
@@ -163,8 +224,9 @@ namespace PIAdvisingApp.Controllers
         public ActionResult SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> request)
         {
             //get user ip address 
-            int rowsAffected = _salesService.SaveAdvisePiFromRep(request);
-            return Json(rowsAffected);
+            string apiNumber = _salesService.SaveAdvisePiFromRep(request);
+            //return Json(rowsAffected);
+            return Json(apiNumber);
         }
         //public ActionResult CmApproval()
         //{

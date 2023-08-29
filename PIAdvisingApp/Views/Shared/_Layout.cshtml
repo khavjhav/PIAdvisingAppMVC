@@ -183,38 +183,38 @@
                     <div class="app-header-left">
                         <ul class="header-menu nav">
                             <li class="btn-group nav-item">
-                                <a href="@Url.Action("Index", "Home")" class="nav-link">
+                                <a href="@Url.Action("Test", "Sales")" class="nav-link">
                                     <i class="nav-link-icon fa fa-home"></i> Dashboard
                                 </a>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            <!--<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="nav-link-icon fa fa-edit"></i> Advise PI
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>
+                                    <a class="dropdown-item" href="@Url.Action("LcNotReceived", "Sales")">LC Not Received</a>-->
                                     @*<a class="dropdown-item" href="@Url.Action("AdvisePi", "Sales")">Advise PI</a>*@
-                                    <a class="dropdown-item" href="@Url.Action("AdvisePiFromRep", "Sales")">Advise PI </a>
+                                    <!--<a class="dropdown-item" href="@Url.Action("AdvisePiFromRep", "Sales")">Advise PI </a>
                                 </div>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("AdvisePiFromRep", "Sales")">
                                     <i class="nav-link-icon fa fa-edit"></i> Advise PI
                                 </a>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            <!--<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="nav-link-icon fa fa-edit"></i> Reports
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
                                     @*<a class="dropdown-item" href="@Url.Action("BondApprovedPi", "Sales")">PI Approval</a>*@
                                     @*<a class="dropdown-item" href="@Url.Action("PiAdvisingBond", "Bonds")">Pending PI for Bond Review</a>*@
-                                    <a class="dropdown-item" href="@Url.Action("ApprovedPiFromBond", "Bonds")">Approved Api</a>
+                                    <!--<a class="dropdown-item" href="@Url.Action("ApprovedPiFromBond", "Bonds")">Approved Api</a>
                                     <a class="dropdown-item" href="#">Report</a>
                                 </div>
-                            </li>
+                            </li>-->
                             @*<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="nav-link-icon fa fa-edit"></i> CM
@@ -331,7 +331,7 @@
                     e.preventDefault();
                     if ($(this).next('.submenu').length) {
                         $(this).next('.submenu').toggle();
-                    }
+                    }   
                     $('.dropdown').on('hide.bs.dropdown', function () {
                         $(this).find('.submenu').hide();
                     })

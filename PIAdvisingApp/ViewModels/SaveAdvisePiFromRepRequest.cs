@@ -12,6 +12,7 @@ namespace PIAdvisingApp.ViewModels
         public string BookingNo { get; set; }
         public decimal BookingQty { get; set; }
         public decimal BookingValue { get; set; }
+        //public decimal LCBalance { get; set; }
         public int CustomerId { get; set; }
         public int RetailerId { get; set; }
         public int RepresentativeId { get; set; }

@@ -22,19 +22,25 @@ namespace PIAdvisingApp.Controllers
             _dashboardService = new DashboardService();
         }
         // GET: Dashboard
-        //[HttpGet]
-        //public ActionResult Test(int repId)
-        //{
-        //    var dashboardData = _dashboardService.GetDashboardForRep(repId);
+        [HttpGet]
+        public ActionResult Index()
+        {
+            int repId = 37; // Set the repId value manually
+            var dashboardData = _dashboardService.GetDashboard(repId);
 
-        //    //if (dashboardData == null || dashboardData.Count == 0)
-        //    //{
-        //    //    ViewBag.Message = "No data available for this user.";
-        //    //    return View(new List<DashboardViewModel>()); // Return an empty list to the view
-        //    //}
+            var customerLcData = dashboardData
+                .GroupBy(item => item.CustomerName)
+                .Select(group => new
+                {
+                    CustomerName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal),
+                    Totallcbalance = group.Sum(item => item.Totallcbalance)
+                })
+                .ToList();
 
-        //    return View(dashboardData);
-        //}
+            ViewBag.customerLcData = customerLcData;
+            return View(dashboardData);
+        }
 
 
     }

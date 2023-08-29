@@ -407,7 +407,7 @@ namespace PIAdvisingApp.Service
             }
         }
        
-        public int SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> requests)
+        public string SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> requests)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -465,7 +465,7 @@ namespace PIAdvisingApp.Service
                         new SqlParameter("EntryTime", datetime),
                         new SqlParameter("IpAddress", item.IPAddress));
                 }
-                return rowsAffected;
+                return apiNumber;
             }
         }
         public string GenerateUniqueNumber(int employeeId)

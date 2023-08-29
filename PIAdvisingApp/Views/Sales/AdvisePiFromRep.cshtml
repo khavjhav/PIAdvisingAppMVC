@@ -200,6 +200,7 @@
                                 <th class="text-center">Category Name</th>
                                 <th class="text-center">Booking Qty</th>
                                 <th class="text-center">Booking Value</th>
+                                <th class="text-center">LC Balance</th>
                                 <th class="text-center">Company Name</th>
                             </tr>
                         </thead>
@@ -231,7 +232,7 @@
 
 </div>
 
-<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
+@*<div class="col-lg-6 col-xl-4 ml-auto" id="advised-list-div-tree">
         <div class="main-card mb-1 card p-1">
             <div class="card-body p-1">
                 <h5 class="card-title">Advised List (Tree View)</h5>
@@ -245,7 +246,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
 
 <!--<div class="row">
@@ -432,6 +433,7 @@
                         bookingNo: $(this).find('.BookingNoSelected').text(),
                         bookingQty: $(this).find('.BookingQtySelected').text().replace(/,/g, ''),
                         bookingValue: $(this).find('.BookingValueSelected').text().replace(/,/g, ''),
+                        //lcBalance: $(this).find('.LCBalanceSelected').text().replace(/,/g, ''),
                         customerId,
                         retailerId,
                         representativeId,
@@ -462,10 +464,10 @@
                     $.post("@Url.Action("SaveAdvisePiFromRep", "Sales")", { request: bookingList }, function (result) {
                         loadingSpinner.addClass('d-none');
                         //alert on clicking ok reload page
-                        if (result >=1) {
+                        if (result) {
                             Swal.fire(
                                 'Success!',
-                                'Save Successful',
+                                'Save Successful as API No: ' + result,
                                 'success'
                             );
                             clearForms();
@@ -554,6 +556,7 @@
                 var BookingQty = $(this).closest('tr').find('.BookingQty').text();
                 var CategoryName = $(this).closest('tr').find('.CategoryName').text();
                 var BookingValue = $(this).closest('tr').find('.BookingValue').text();
+                var LCBalance = $(this).closest('tr').find('.LCBalance').text();
                 var RetailerName = $(this).closest('tr').find('.CompanyName').text();
                 let RetailerId = $(this).closest('tr').data('retailer-id');
                 if ($(this).is(':checked')) {
@@ -565,6 +568,7 @@
                         '<td class="text-center CategorySelected">' + CategoryName + '</td>' +
                         '<td class="text-center BookingQtySelected">' + BookingQty + '</td>' +
                         '<td class="text-center BookingValueSelected">' + BookingValue + '</td>' +
+                        '<td class="text-center LCBalanceSelected">' + LCBalance + '</td>' +
                         '<td class="text-center RetailerSelected">' + RetailerName + '</td>' +
                         '</tr>');
 
@@ -625,7 +629,12 @@
 
             function updateTotal() {
                 var total = 0;
-                $('.BookingValueSelected').each(function () {
+                //$('.BookingValueSelected').each(function () {
+                //    var value = $(this).text().replace(/,/g, '');
+                //    total += parseFloat(value);
+                //});
+                //$('#total').text(total.toFixed(2)); // Display the total with 2 decimal places
+                $('.LCBalanceSelected').each(function () {
                     var value = $(this).text().replace(/,/g, '');
                     total += parseFloat(value);
                 });

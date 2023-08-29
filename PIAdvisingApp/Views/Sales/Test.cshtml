@@ -4,50 +4,308 @@
     ViewBag.Title = "Dashboard";
 }
 
-<div class="jumbotron">
+<!-- Add the Chart.js script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<style>
+    .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .dashboard-row {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .dashboard-column {
+        flex: 1;
+        max-width: 640px; /* Limit the column width */
+    }
+
+    .chart-container {
+        width: 640px; /* Set the width of the chart container */
+        height: 480px; /* Set the height of the chart container */
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Adjust the height and other styles as needed */
+    /* Style for the square mobile button */
+    .mobile-square-button {
+        display: inline-block;
+        background-color: #007bff; /* Button background color */
+        color: #fff; /* Button text color */
+        padding: 10px; /* Adjust padding as needed */
+        border-radius: 5px; /* Rounded corners */
+        text-decoration: none;
+        margin: 10px; /* Add margin for spacing */
+    }
+
+    /* Style for the button text and icon */
+    .button-text {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px; /* Add spacing between icon and text */
+    }
+
+    /* Style for when the square button is hovered */
+    .mobile-square-button:hover {
+        background-color: #0056b3; /* Button background color on hover */
+        text-decoration: none;
+        color: #fff; /* Button text color on hover */
+    }
+</style>
+
+
+
+<!--<div class="jumbotron">
     <h1>Dashboard</h1>
 </div>
-@{
-    // Call the Test action method from the SalesController with repId set to 37
-    var testActionUrl = Url.Action("Test", "Sales", new { repId = 37 });
-}
 
-<a href="@testActionUrl">Click here to test with repId = 37</a>
-@if (ViewBag.Message != null)
-{
-    <p>@ViewBag.Message</p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Representative Name</th>
-                <th>Customer Name</th>
-                <th>Category Name</th>
-                <th>Total Booking Value</th>
-                <th>Total Cancel Value</th>
-                <th>Total Delivered Value</th>
-                <th>Total LC Received Value</th>
-                <th>Total LC Balance</th>
-                <th>Avg Delivery Percentage</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.RepresentativeName</td>
-                    <td>@item.CustomerName</td>
-                    <td>@item.CategoryName</td>
-                    <td>@item.TotalBookingVal</td>
-                    <td>@item.TotalCancelValue</td>
-                    <td>@item.TotalDeliveredlValue</td>
-                    <td>@item.TotalLCrcvValue</td>
-                    <td>@item.Totallcbalance</td>
-                    <td>@item.Avgdlvper</td>
-                </tr>
+<div style="display: flex; flex-wrap: wrap;">
+    <div style="flex: 1; width: 50%; height: 300px;">-->
+<!-- Render the bar chart for Category Wise Sales -->
+<!--<h2>Category Wise Sales</h2>
+    <canvas id="categorySalesChart"></canvas>
+</div>
+
+<div style="flex: 1; width: 50%; height: 300px;">-->
+<!-- Render the pie chart for Category Wise Booking -->
+<!--<h2>Category Wise Booking</h2>
+    <canvas id="categoryChart"></canvas>
+</div>
+
+<div style="flex: 1; width: 50%; height: 300px;">-->
+<!-- Render the bar chart for Customer Wise Sales -->
+<!--<h2>Customer Wise Sales</h2>
+    <canvas id="customerSalesChart"></canvas>
+</div>
+
+<div style="flex: 1; width: 50%; height: 300px;">-->
+<!-- Render the pie chart for Customer Wise Booking -->
+<!--<h2>Customer Wise Booking</h2>
+    <canvas id="customerChart"></canvas>
+</div>
+
+<div style="flex: 1; width: 50%; height: 300px;">-->
+<!-- Render the bar chart for Customer Wise Booking and LC Balance -->
+<!--<h2>Customer Wise Booking and LC Balance</h2>
+        <canvas id="customerBookingLcChart"></canvas>
+    </div>
+</div>-->
+<!-- Place this button wherever you want it to appear -->
+<a href="@Url.Action("AdvisePiFromRep", "Sales")" class="mobile-square-button">
+    <span class="button-text">
+        <i class="nav-link-icon fa fa-edit"></i>
+        Advise PI
+    </span>
+</a>
+<div class="dashboard-container">
+    <div class="dashboard-row" style="display: none;">
+        <div class="dashboard-column">
+            <div class="chart-container chart-category-sales">
+                <h2>Category Wise Sales</h2>
+                <canvas id="categorySalesChart"></canvas>
+            </div>
+        </div>
+        <div class="dashboard-column">
+            <div class="chart-container chart-category-booking">
+                <h2>Category Wise Booking</h2>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+        <div class="dashboard-column">
+            <div class="chart-container chart-customer-sales">
+                <h2>Customer Wise Sales</h2>
+                <canvas id="customerSalesChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-row">
+        <div class="dashboard-column">
+            <div class="chart-container chart-customer-booking-lc">
+                <h2>Customer Wise Booking and LC Balance</h2>
+                <canvas id="customerBookingLcChart"></canvas>
+            </div>
+        </div>
+        <div class="dashboard-column">
+            <div class="chart-container chart-customer-booking">
+                <h2>Customer Wise Booking</h2>
+                <canvas id="customerChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<table>
+    <!-- Your existing table code here -->
+</table>
+
+<!-- JavaScript code to create and render the charts -->
+<!-- JavaScript code to create and render the charts -->
+<script>
+    function Random() { }
+
+    Random.prototype.next = function (min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
+
+    var ChartColors = {
+        _random: new Random(),
+
+        getRandomColors: function (count) {
+            var colors = [];
+
+            for (var i = 0; i < count; i++) {
+                colors.push('rgba(' + this._random.next(0, 256) + ', ' + this._random.next(0, 256) + ', ' + this._random.next(0, 256) + ', 0.8)');
             }
-        </tbody>
-    </table>
-}
+
+            return colors;
+        }
+    };
+
+    var categoryChartData = @Html.Raw(Json.Encode(ViewBag.CategoryChartData));
+    var customerChartData = @Html.Raw(Json.Encode(ViewBag.CustomerChartData));
+    var customerLcData = @Html.Raw(Json.Encode(ViewBag.customerLcData));
+
+
+
+    // Get the canvas elements for each chart
+    var categorySalesCtx = document.getElementById('categorySalesChart').getContext('2d');
+    var categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    var customerSalesCtx = document.getElementById('customerSalesChart').getContext('2d');
+    var customerCtx = document.getElementById('customerChart').getContext('2d');
+    var customerBookingLcCtx = document.getElementById('customerBookingLcChart').getContext('2d');
+
+    // Create and render the bar chart for Category Wise Sales
+    var categorySalesChart = new Chart(categorySalesCtx, {
+        type: 'bar',
+        data: {
+            labels: categoryChartData.map(item => item.CategoryName),
+            datasets: [{
+                label: 'Sales',
+                data: categoryChartData.map(item => item.TotalBookingVal),
+                backgroundColor: 'rgba(75, 192, 192, 0.8)', // Customize the color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+
+    var categoryChart = new Chart(categoryCtx, {
+        type: 'pie',
+        data: {
+            labels: categoryChartData.map(item => item.CategoryName),
+            datasets: [{
+                data: categoryChartData.map(item => item.TotalBookingVal),
+                backgroundColor: ChartColors.getRandomColors(categoryChartData.length)
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    color: '#fff', // Label text color
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value, context) {
+                        return context.chart.data.labels[context.dataIndex] + ': ' + value; // Display label and value
+                    }
+                }
+            }
+        }
+    });
+
+
+    // Create and render the combo bar chart for Customer Wise Booking and LC Balance
+    var customerBookingLcChart = new Chart(customerBookingLcCtx, {
+        type: 'bar',
+        data: {
+            labels: customerChartData.map(item => item.CustomerName),
+            datasets: [
+                {
+                    label: 'Booking Value',
+                    data: customerLcData.map(item => item.TotalBookingVal),
+                    //backgroundColor: 'rgba(54, 162, 235, 0.8)', // Bar color
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)', // Blue color
+                    borderWidth: 1
+                },
+                {
+                    label: 'LC Balance',
+                    data: customerLcData.map(item => item.Totallcbalance),
+                    //borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                    borderColor: 'rgba(255, 0, 0, 1)', // Red color
+                    backgroundColor: 'rgba(0, 0, 0, 0)', // Transparent background
+                    borderWidth: 2,
+                    type: 'line', // Use a line chart dataset
+                    yAxisID: 'lcAxis' // Use the secondary y-axis
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                lcAxis: {
+                    type: 'linear',
+                    position: 'right',
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Create and render the bar chart for Customer Wise Sales
+    var customerSalesChart = new Chart(customerSalesCtx, {
+        type: 'bar',
+        data: {
+            labels: customerChartData.map(item => item.CustomerName),
+            datasets: [{
+                label: 'Sales',
+                data: customerChartData.map(item => item.TotalBookingVal),
+                backgroundColor: 'rgba(54, 162, 235, 0.8)', // Customize the color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Create and render the pie chart for Customer Wise Booking
+    var customerChart = new Chart(customerCtx, {
+        type: 'pie',
+        data: {
+            labels: customerChartData.map(item => item.CustomerName),
+            datasets: [{
+                data: customerChartData.map(item => item.TotalBookingVal),
+                backgroundColor: ChartColors.getRandomColors(customerChartData.length)
+            }]
+        }
+    });
+
+    // Hide the charts you don't want initially
+    document.querySelector('.chart-category-sales').style.display = 'none';
+    document.querySelector('.chart-category-booking').style.display = 'none';
+    document.querySelector('.chart-customer-booking').style.display = 'none';
+    document.querySelector('.chart-customer-sales').style.display = 'none';
+
+    // Show the specific chart you want
+    document.querySelector('.chart-customer-booking-lc').style.display = 'block';
+</script>
+

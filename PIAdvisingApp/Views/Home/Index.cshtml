@@ -1,42 +1,66 @@
-﻿@{
+﻿@model IEnumerable<PIAdvisingApp.ViewModels.DashboardViewModel>
+@{
     ViewBag.Title = "Home Page";
 }
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<style>
+</style>
+
 
 <div class="jumbotron">
     <h1>PI Advising</h1>
     <p class="lead">Welcome to PI Advising Web App.</p>
-    <p>
-        @(Html.DevExtreme().ColorBox())
-    </p>
 
 </div>
-
-<div class="col-md-4">
-    <p>
-        @(Html.DevExtreme().ColorBox())
-    </p>
-
+<div>
+    <canvas id="customerChart"></canvas>
 </div>
 
+<script>
+    // Extract customer and data from ViewBag
+    var customerData = @Html.Raw(Json.Encode(ViewBag.CustomerData));
+    console.log(customerData); // Check the contents of customerData
 
-@*<div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </div>
-    </div>*@
+    // Extracting customer names for labels
+    var customerNames = customerData?.map(item => item.CustomerName);
+    console.log(customerNames); // Check the contents of customerData
+   
+    // Extracting booking values and LC balances for datasets
+    var bookingValues = customerData?.map(item => item.TotalBookingVal);
+    console.log(bookingValues); // Check the contents of customerData
+    var lcBalances = customerData?.map(item => item.Totallcbalance);
+    console.log(lcBalances); // Check the contents of customerData
+
+    var ctx = document.getElementById('customerChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: customerNames,
+            datasets: [
+                {
+                    label: 'Booking Value',
+                    backgroundColor: 'blue',
+                    data: bookingValues
+                },
+                {
+                    label: 'LC Balance',
+                    borderColor: 'red',
+                    data: lcBalances,
+                    type: 'line'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

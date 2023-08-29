@@ -12,20 +12,23 @@ namespace PIAdvisingApp.Service
     {
         private readonly ApplicationDbContext _context;
 
-      
 
-        //public List<DashboardViewModel> GetDashboardForRep(int repId)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var result = ctx.Database
-        //      .SqlQuery<DashboardViewModel>($"EXEC PrdGetDashboardForRep @RepId = {repId}")
-        //      .ToList();
 
-        //        return result;
-        //    }
-              
-        //}
-        
+ 
+
+        public List<DashboardViewModel> GetDashboard(int repId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var result = ctx.Database
+                    .SqlQuery<DashboardViewModel>($"EXEC PrdGetDashboardForRep @RepId = {repId}")
+                    .ToList();
+
+                return result;
+            }
+        }
+
+
+
     }
 }
