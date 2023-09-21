@@ -7,6 +7,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Controllers;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace PIAdvisingApp.Controllers
@@ -22,6 +24,83 @@ namespace PIAdvisingApp.Controllers
             _salesService = new SalesService();
         }
         // GET: Sales
+
+        //[HttpGet]
+        //public ActionResult Test()
+        //{
+        //    int repId = 37; // Set the repId value manually
+        //    var dashboardData = _salesService.GetDashboardForRep(repId);
+
+
+        //    //if (dashboardData == null || dashboardData.Count == 0)
+        //    //{
+        //    //    ViewBag.Message = "No data available for this user.";
+        //    //    return View(new List<DashboardViewModel>()); // Return an empty list to the view
+        //    //}
+
+        //    return View(dashboardData);
+        //}
+        public static class ChartColors
+        {
+            private static Random _random = new Random();
+
+            public static List<string> GetRandomColors(int count)
+            {
+                var colors = new List<string>();
+
+                for (int i = 0; i < count; i++)
+                {
+                    colors.Add($"rgba({_random.Next(0, 256)}, {_random.Next(0, 256)}, {_random.Next(0, 256)}, 0.8)");
+                }
+
+                return colors;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Test()
+        {
+            int repId = 37; // Set the repId value manually
+            var dashboardData = _salesService.GetDashboardForRep(repId);
+
+            // Grouping data by CategoryName and summing the TotalBookingVal for each category
+            var categoryChartData = dashboardData
+                .GroupBy(item => item.CategoryName)
+                .Select(group => new
+                {
+                    CategoryName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal)
+                })
+                .ToList();
+
+            // Grouping data by CustomerName and summing the TotalBookingVal for each customer
+            var customerChartData = dashboardData
+                .GroupBy(item => item.CustomerName)
+                .Select(group => new
+                {
+                    CustomerName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal)
+                })
+                .ToList();
+            // Grouping data by CustomerName and summing the TotalBookingVal and TotalLCBalance for each customer
+            var customerLcData = dashboardData
+                .GroupBy(item => item.CustomerName)
+                .Select(group => new
+                {
+                    CustomerName = group.Key,
+                    TotalBookingVal = group.Sum(item => item.TotalBookingVal),
+                    Totallcbalance = group.Sum(item => item.Totallcbalance)
+                })
+                .ToList();
+
+            ViewBag.CustomerLcData = customerLcData;
+            ViewBag.CategoryChartData = categoryChartData;
+            ViewBag.CustomerChartData = customerChartData;
+
+            return View(dashboardData);
+        }
+
+
 
         [HttpGet]
         public ActionResult LcNotReceived(DateTime? fromDate, DateTime? toDate)
@@ -92,13 +171,74 @@ namespace PIAdvisingApp.Controllers
             var advicePi = _salesService.AdvisePI();
             return View(advicePi);
         }
-
-
-        public ActionResult CmApproval()
+        public ActionResult AdvisePiFromRep()
         {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
+            string employeeId = Request.Cookies["EmployeeId"].Value.ToString();
+            var customer = _salesService.GetCustomerByRepId(Convert.ToInt32(employeeId));
+            ViewBag.CustomerByReps = customer;
+            ViewBag.EmployeeId = employeeId;
+            //int representativeId = ViewBag.CustomerByReps.FirstOrDefault()?.RepresentativeId ?? 0;
+            ViewBag.RepresentativeId = customer.FirstOrDefault()?.RepresentativeId;
+            //var advicePi = _salesService.AdvisePI();
+            List<AdvisePiFromRepResult> result = new List<AdvisePiFromRepResult>();
+            return View(result);
         }
+
+
+
+
+        //[HttpPost]
+        //public ActionResult AdvisePiFromRepDetailsPartial(int customerId ,int employeeId)
+        //{
+        //    //var advicePi = _salesService.AdvisePI();
+        //    DateTime fromDate = DateTime.Now.AddYears(-2);
+        //    DateTime toDate = DateTime.Now;
+        //    List<AdvisePiFromRepResult> result = _salesService.GetAdvisePiFromRepDetails(customerId, employeeId, fromDate, toDate);
+
+        //    // Populate ViewBag with the filter data
+        //    ViewBag.ProductTypes = result.Select(x => x.CategoryName).Distinct().ToList();
+        //    ViewBag.Retailers = result.Select(x => x.RetailerName).Distinct().ToList();
+
+        //    return PartialView("_AdvisePiFromRepDetailsPartial", result);
+        //}
+
+        [HttpPost]
+        public ActionResult AdvisePiFromRepDetailsPartial(int customerId, int employeeId)
+        {
+            DateTime fromDate = DateTime.Now.AddYears(-2);
+            DateTime toDate = DateTime.Now;
+            List<AdvisePiFromRepResult> result = _salesService.GetAdvisePiFromRepDetails(customerId, employeeId, fromDate, toDate);
+
+            // Populate ViewBag with the filter data
+            ViewBag.ProductTypes = result.Select(x => x.CategoryName).Distinct().ToList();
+            ViewBag.Retailers = result.Select(x => x.RetailerName).Distinct().ToList();
+            ViewBag.ContactPersons = result.Select(x => x.ContactName).Distinct().ToList();
+            ViewBag.CompanyNames = result.Select(x => x.CompanyName).Distinct().ToList();
+            ViewBag.AdviseStatus = result.Select(x => x.AdviseStatus).Distinct().ToList();
+
+
+            return PartialView("_AdvisePiFromRepDetailsPartial", result);
+        }
+
+        [HttpPost]
+        public ActionResult SaveAdvisePiFromRep(List<SaveAdvisePiFromRepRequest> request)
+        {
+            //get user ip address 
+            string apiNumber = _salesService.SaveAdvisePiFromRep(request);
+            //return Json(rowsAffected);
+            return Json(apiNumber);
+        }
+        //public ActionResult CmApproval()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+        //}
+
+        //public ActionResult Test()
+        //{
+        //    var clauseDetails = _salesService.GetAllClauseDetails();
+        //    return View(clauseDetails);
+        //}
 
         public ActionResult BondApprovedPiUpdate()
         {
@@ -107,23 +247,50 @@ namespace PIAdvisingApp.Controllers
 
         }
 
-        public ActionResult PiAdvisingBond()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-
-        }  
-        
-        public ActionResult GetPamModalBondPartial(string apiNumber)
-        {
-            var result = _salesService.GetPamModalBond(apiNumber);
-            return PartialView("_GetPamModalBondPartial", result);
-
-        }
+        //public ActionResult ClauseDetails()
+        //{
+        //    var clauseDetails = _salesService.GetAllClauseDetails();
+        //    return View(clauseDetails);
+        //}
 
 
+        //public ActionResult ShowClauseDetails(string searchTerm)
+        //{
+        //    var clauseDetails = _salesService.GetDistinctClauseNames(searchTerm);
+        //    return View(clauseDetails);
+        //}
 
-        //public ActionResult BondApprovedPiUpdate()
+
+        //public ActionResult PiAdvisingBond()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+
+        //}
+
+        //public ActionResult GetPamModalBondPartial(string apiNumber)
+        //{
+        //    var result = _salesService.GetPamModalBond(apiNumber);
+        //    return PartialView("_GetPamModalBondPartial", result);
+
+        //}
+
+        //public ActionResult GetPamModalCmPartial(string apiNumber)
+        //{
+        //    var result = _salesService.GetPamModalBond(apiNumber);
+        //    ViewBag.ClauseModels = _salesService.GetAllClauseDetails();
+        //    return PartialView("_GetPamModalCmPartial", result);
+
+        //}
+
+        [HttpPost]
+        //public JsonResult SaveCmApi(CmApprovalModalVm data)
+        //{
+        //    _salesService.SaveCmApi(data);
+        //    return Json("success");
+        //}
+
+        ////public ActionResult BondApprovedPiUpdate()
         //{
         //    var advicePi = _salesService.AdvisePI();
         //    List<ParentModel> parentList = new List<ParentModel>();
@@ -188,11 +355,11 @@ namespace PIAdvisingApp.Controllers
             return View(advicePi);
         }
 
-        public ActionResult PiAdvisingBondService()
-        {
-            var advicePi = _salesService.GetPiAdvisingBondData();
-            return View(advicePi);
-        }
+        //public ActionResult PiAdvisingBondService()
+        //{
+        //    var advicePi = _salesService.GetPiAdvisingBondData();
+        //    return View(advicePi);
+        //}
         [HttpPost]
         public ActionResult LoadPiAdvisingDataPartial(List<string> bookings)
         {
@@ -214,7 +381,7 @@ namespace PIAdvisingApp.Controllers
                 rowAffected += _salesService.SavePiAdvisingBondMain(apiData);
             }
 
-            return Json(true); 
+            return Json(true);
         }
 
 

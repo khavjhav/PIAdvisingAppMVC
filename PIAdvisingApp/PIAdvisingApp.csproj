@@ -296,6 +296,9 @@
     <Compile Include="Retailer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Service\BondsService.cs" />
+    <Compile Include="Service\CMService.cs" />
+    <Compile Include="Service\DashboardService.cs" />
     <Compile Include="Service\SalesService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="UserMenuPermission.cs">
@@ -367,6 +370,14 @@
     <Compile Include="viewMeasurementUnit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CategoryByRepVm.cs" />
+    <Compile Include="ViewModels\CompanyAccountVm.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\CustomerByRepVm.cs" />
+    <Compile Include="ViewModels\CmApprovalModalVm.cs" />
+    <Compile Include="ViewModels\PiAdvisingBond.cs" />
+    <Compile Include="ViewModels\SaveAdvisePiFromRepRequest.cs" />
+    <Compile Include="ViewModels\LoginViewModel - Copy.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\AdvisePiFromRepResults.cs" />
     <Compile Include="ViewModels\PrcRptLcNotReceived.cs" />
@@ -699,6 +710,9 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml.cshtml" />
     <Content Include="Views\Sales\AdvisePiFromRep.cshtml" />
     <Content Include="Views\Sales\_AdvisePiFromRepDetailsPartial.cshtml" />
+    <Content Include="Views\Sales\FileName.cshtml" />
+    <Content Include="Views\Sales\aefkjeawhfgijehagireig.cshtml" />
+    <Content Include="Views\Sales\Test.cshtml" />
     <None Include="Views\Shared\_Layout.1cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

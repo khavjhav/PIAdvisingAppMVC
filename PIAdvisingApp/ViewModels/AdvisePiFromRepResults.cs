@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace PIAdvisingApp.ViewModels
 {
@@ -14,6 +10,7 @@ namespace PIAdvisingApp.ViewModels
         public string BookingNo { get; set; }
         public DateTime BookingDate { get; set; }
         public string PIStatus { get; set; }
+        public string AdviseStatus { get; set; }
         public string CustomerName { get; set; }
         public string CompanyName { get; set; }
         public string LocationName { get; set; }
@@ -21,11 +18,13 @@ namespace PIAdvisingApp.ViewModels
 
 
         public string RepresentativeName { get; set; }
+        public short RepresentativeId { get; set; }
 
         public string ShortName { get; set; }
 
         public decimal BookingQty { get; set; }
         public decimal BookingValue { get; set; }
+        public decimal LCBalance { get; set; }
         public short RetailerId { get; set; } = 0;
         public string RetailerName { get; set; }
         public string ContactName { get; set; }

@@ -30,7 +30,7 @@ namespace PIAdvisingApp.Service
             using (var ctx = new ApplicationDbContext())
             {
                 var result = ctx.Database
-                    .SqlQuery<SysUser>("SELECT * FROM dbo.SysUserInfo WHERE UserName =@UserName and UserPWD = @Password",
+                    .SqlQuery<SysUser>("SELECT * FROM dbo.SysUserInfo WHERE UserName =@UserName and UserPWD =@Password",
                         new SqlParameter("UserName", userName),
                         new SqlParameter("Password", password)
                     )
